@@ -1,5 +1,5 @@
 # Py_Programs
-Some Random Python Programs I made, will be updating them over time because it is Fun.
+Some Random Python Programs I made out of necessity mostly, will be updating them over time because it is Fun.
 ___
 ### AUDIO.py
 ##### Simple Python tKinter Audio Player
