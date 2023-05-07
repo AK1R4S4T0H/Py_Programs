@@ -7,7 +7,7 @@ from tkinter import messagebox
 import os
 
 root = tk.Tk()
-root.title("Turtle Drawing")
+root.title("STAR")
 canvas = turtle.Screen()
 canvas.bgcolor("black")
 
