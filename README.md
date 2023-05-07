@@ -7,6 +7,9 @@ ___
 ### Calculator.py
 ##### Simple Plython tKinter Calculator, hase Sin, COs, etc. 
 ___
+### CHAT.py
+##### Attempt at making a chatbot with EleutherAI/gpt-neo-1.3B
+___
 ### IMAGE.py
 ##### Simple Python tKinter Image Viewer
 ___
@@ -25,6 +28,11 @@ ___
 ### PYTOEXE.py
 ##### As the name suggests, turns a python file into an exe
 ___
-
+### PATTERN_GEN.py
+##### Generates a Random BLack and white pattern on a square grid
+___
+### snake.py
+##### Beginnings of a Snake python clone using PyGame
+___
 #### Thank you for you Time! I appreciate any and all Feeback, and I hope you have a wonderful day!
 ___
