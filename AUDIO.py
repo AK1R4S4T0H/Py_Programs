@@ -34,11 +34,11 @@ class Audio:
         # self.skip_button = tk.Button(master, font=helv, borderwidth=2, text="Skip")
         # self.skip_button.grid(row=4, column=0, pady=5, sticky='w')
 
-        self.track_label = tk.Label(master, font=helv, borderwidth=2, text='Track:')
-        self.track_label.grid(row=3, column=3, pady=2, sticky='w')
+        # self.track_label = tk.Label(master, font=helv, borderwidth=2, text='Track:')
+        # self.track_label.grid(row=3, column=3, pady=2, sticky='w')
 
-        self.track_slider = tk.Scale(master, borderwidth=2, from_=0, to=100, orient=tk.HORIZONTAL, command=self.track)
-        self.track_slider.gri
+        # self.track_slider = tk.Scale(master, borderwidth=2, from_=0, to=100, orient=tk.HORIZONTAL, command=self.track)
+        # self.track_slider.gri
         
         # volume sd(row=4, column=3, pady=2, sticky='w')
         # volume slider
