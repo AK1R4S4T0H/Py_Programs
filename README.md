@@ -5,7 +5,7 @@ ___
 ##### Simple Python tKinter Audio Player
 ___
 ### Calculator.py
-##### Simple Plython tKinter Calculator, hase Sin, COs, etc. 
+##### Python tKinter Calculator, Colorful because not enough are, has some scientific function, will add more
 ___
 ### CHAT.py
 ##### Attempt at making a chatbot with EleutherAI/gpt-neo-1.3B
