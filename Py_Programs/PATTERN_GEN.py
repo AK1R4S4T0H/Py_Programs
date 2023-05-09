@@ -38,6 +38,10 @@ def main():
     canvas = tk.Canvas(root, width=WIDTH, height=HEIGHT)
     canvas.pack()
     pattern = generate_pattern()
+    button = tk.Button(root, width=40, height=3, text='Another', command=generate_pattern())
+    button.pack()
+    button1 = tk.Button(root, width=20, height=3, text="draw", command=draw_pattern(canvas, pattern))
+    button1.pack()
     draw_pattern(canvas, pattern)
     root.mainloop()
 
