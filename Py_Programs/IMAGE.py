@@ -10,7 +10,7 @@ class ImageViewer:
     def __init__(self, master):
         self.master = master
         self.master.title("Image Viewer")
-        self.master.geometry("800x800")
+        self.master.geometry("600x600")
         self.master.config(bg='#110011')
         self.images = []
         self.current_image = 0
