@@ -1,20 +1,14 @@
 # Python Audio Player using pygame, Work in progress
 # Track slider doesnt work, YET
 # Skip Buttons in progress, MADE BUT NO FUNCTION
-import tkinter as tk
-from tkinter import filedialog
-import pygame
-from tkinter import font as tkFont
-
+import tkinter as tk;from tkinter import filedialog
+from tkinter import font as tkFont;import pygame
 
 class Audio:
     def __init__(self, master):
-        self.master = master
-        master.title("Music")
-        master.geometry('333x230')
-        master.resizable(True, True)
-        master.config(bg='#7700EE') 
-        master.attributes('-alpha', 0.75)
+        self.master = master;master.title("Music")
+        master.resizable(True, True);master.config(bg='#7700EE')
+        master.attributes('-alpha', 0.75);master.geometry('333x230')
         helv36 = tkFont.Font(family='Helvetica', size=15, weight=tkFont.BOLD)
         helv = tkFont.Font(family='Helvetica', size=11, weight=tkFont.BOLD)
 
@@ -49,10 +43,8 @@ class Audio:
         self.volume_slider.grid(row=2, column=3, pady=2, sticky='w')
 
         # variables
-        self.file_path = None
-        self.freq = None
-        self.time = None # look into properly implementing
-
+        self.file_path = None;self.freq = None;self.time = None      
+        # look into properly implementing time
         # Initialize pygame mixer, dont forget about this again
         pygame.mixer.init()
 
@@ -62,9 +54,7 @@ class Audio:
         self.file_label.config(text=f"Song: " + name)
 
     def track(self, value):
-        self.value = Audio.time
-        value.value = self.value
-        
+        self.value = Audio.time;value.value = self.value
         return self.value
 
     def play(self):
@@ -80,7 +70,5 @@ class Audio:
     def skip(self):
         pass
 
-root = tk.Tk()
-app = Audio(root)
+root = tk.Tk();app = Audio(root)
 root.mainloop()
-

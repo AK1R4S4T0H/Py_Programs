@@ -37,9 +37,6 @@ ___
 ##### Generates a Random BLack and white pattern on a square grid
 ![alt text](https://github.com/AK1R4S4T0H/Py_Programs/blob/main/images/PATTERN_GEN.png?raw=true)
 ___
-### snake.py
-##### Beginnings of a Snake python clone using PyGame
-___
 ### STAR.py
 ##### Turtle Program that pops up extra dialog to start, stop or save the image generated, generates complex star turtle picture
 ![alt text](https://github.com/AK1R4S4T0H/Py_Programs/blob/main/Py_Programs/images/STAR.png?raw=true)

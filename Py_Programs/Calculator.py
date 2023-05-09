@@ -2,16 +2,13 @@
 # Prettier than normal calculators in my opinion
 # tried to add a graphing function
 # plan on adding more mathematical funcitons
-import tkinter as tk
-from tkinter import font as tkFont
+import tkinter as tk;from tkinter import font as tkFont
 import math
 
 
 root = tk.Tk()
-root.title('/Calc-ium/')
-root.config(bg='#8B00FF')
-root.geometry = (200, 840)
-root.resizable(True, True)
+root.title('/Calc-ium/');root.config(bg='#8B00FF')
+root.geometry = (200, 840);root.resizable(True, True)
 root.attributes('-alpha', 0.97)
 # fonts
 helv36 = tkFont.Font(family='Helvetica', size=15, weight=tkFont.BOLD)
