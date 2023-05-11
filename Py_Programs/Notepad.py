@@ -1,5 +1,5 @@
 # My Attempt at a Python Notepad clone, it is pretty much there
-# ISSUES: Title
+# ISSUES: Title and other things
 #
 import tkinter as tk
 from tkinter import filedialog
