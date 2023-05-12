@@ -38,10 +38,10 @@ class Audio:
         # volume sd(row=4, column=3, pady=2, sticky='w')
         # volume slider
         self.volume_label = tk.Label(master, font=helv, borderwidth=2, text='Volume:')
-        self.volume_label.grid(row=1, column=3, pady=2, sticky='w')
+        self.volume_label.grid(row=4, column=0, pady=2, sticky='w')
 
         self.volume_slider = tk.Scale(master, borderwidth=2, from_=0, to=100, orient=tk.HORIZONTAL, command=self.set_volume)
-        self.volume_slider.grid(row=2, column=3, pady=2, sticky='w')
+        self.volume_slider.grid(row=5, column=0, pady=2, sticky='w')
 
         # variables
         self.file_path = None;self.freq = None;self.time = None      

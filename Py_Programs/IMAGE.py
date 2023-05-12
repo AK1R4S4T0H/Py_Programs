@@ -15,7 +15,7 @@ class ImageViewer:
         self.images = []
         self.current_image = 0
 
-        self.canvas = tk.Canvas(self.master, bg='#220022', borderwidth=15, width=600, height=600)
+        self.canvas = tk.Canvas(self.master, bg='#220022', borderwidth=15, width=400, height=400)
         self.canvas.pack(side="top", fill="both", expand=True)
 
         self.previous_button = tk.Button(self.master, bg='grey', fg='white', text="Previous", command=self.show_previous_image)

@@ -1,15 +1,18 @@
 # My Attempt at a Python Notepad clone, it is pretty much there
 # ISSUES: Title and other things
-#
+# Attempting to add Tokenizer, to maybe eventually add syntax highlighting
 import tkinter as tk
 from tkinter import filedialog
 from tkinter import font
+import tkinter.colorchooser as colorchooser
+from nltk.tokenize import word_tokenize
+
 
 class Notes:
     def __init__(self):
         self.root = tk.Tk()
         self.root.title("Notepad")
-        self.root.geometry("800x500")
+        self.root.geometry("500x500")
         self.root.configure(bg='black')
         self.root.winfo_colormapfull()
         self.current_file = None
@@ -41,7 +44,7 @@ class Notes:
         self.file_menu.add_command(label="Exit", command=self.root.quit)
         self.menu_bar.add_cascade(label="File", menu=self.file_menu)
 
-        # create edit menu
+        # edit menu
         self.edit_menu = tk.Menu(self.menu_bar, tearoff=0, bg='black', fg='white', activebackground='white', activeforeground='black')
         self.edit_menu.add_command(label="Cut", accelerator="Ctrl+X", command=self.cut)
         self.edit_menu.add_command(label="Copy", accelerator="Ctrl+C", command=self.copy)
@@ -52,7 +55,7 @@ class Notes:
         self.edit_menu.add_command(label="Underline", accelerator="Ctrl+U", command=self.toggle_underline)
         self.menu_bar.add_cascade(label="Edit", menu=self.edit_menu)
 
-        # create format menu
+        # format menu
         self.format_menu = tk.Menu(self.menu_bar, tearoff=0, bg='black', fg='white', activebackground='white', activeforeground='black')
         self.font_family_menu = tk.Menu(self.format_menu, tearoff=0)
         fonts = list(font.families())
@@ -65,20 +68,20 @@ class Notes:
         self.menu_bar.add_cascade(label="Format", menu=self.format_menu)
 
         # status bar
-        self.status_bar = tk.Label(self.root, text="Ln 1, Col 1")
+        self.status_bar = tk.Label(self.root, text="Ln 1, Col 1", bg='black', fg='white')
         self.status_bar.pack(side='bottom', fill='x')
 
         # text area
-        self.text_area = tk.Text(self.frame, font=(self.font_family.get(), self.font_size.get()))
-        self.text_area.pack(fill='both', expand=True)
+        self.text_area = tk.Text(self.frame, font=(self.font_family.get(), self.font_size.get()), bg='#2c1c2c', fg='white', wrap=tk.WORD)
+        self.text_area.pack(fill='both', expand=True, padx=1)
         self.text_area.bind('<Any-KeyPress>', self.update)
 
         # scrollbar
-        self.scroll_bar = tk.Scrollbar(self.text_area)
+        self.scroll_bar = tk.Scrollbar(self.frame, bg='black')
         self.scroll_bar.pack(side='right', fill='y')
         self.scroll_bar.config(command=self.text_area.yview)
         self.text_area.config(yscrollcommand=self.scroll_bar.set)
-
+        
         # bind status bar to text area
         self.text_area.bind('<KeyRelease>', self.update_status_bar)
 
@@ -117,6 +120,15 @@ class Notes:
             with open(self.current_file, 'w') as file:
                 file.write(text)
             self.update_title()
+
+            # Tokenize and save tokens to 'tokens' directory
+            tokens = word_tokenize(text)
+            if not os.path.exists("tokens"):
+                os.makedirs("tokens")
+            tokens_file_path = os.path.join("tokens", os.path.basename(self.current_file) + "_tokens.txt")
+            with open(tokens_file_path, 'w') as tokens_file:
+                tokens_file.write("\n".join(tokens))
+
         else:
             self.save_file_as()
 
@@ -207,21 +219,6 @@ class Notes:
             with open(file_path, 'r') as file:
                 self.text_area.delete('1.0', tk.END)
                 self.text_area.insert('1.0', file.read())
-
-    def save_file(self):
-        if self.current_file:
-            with open(self.current_file, 'w') as file:
-                file.write(self.text_area.get('1.0', tk.END))
-        else:
-            self.save_file_as()
-
-    def save_file_as(self):
-        file_path = filedialog.asksaveasfilename(defaultextension=".txt")
-        if file_path:
-            self.current_file = file_path
-            self.root.title(f"{file_path} - Notes")
-            with open(file_path, 'w') as file:
-                file.write(self.text_area.get('1.0', tk.END))
 
     def run(self):
         self.root.mainloop()
