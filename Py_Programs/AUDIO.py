@@ -9,6 +9,7 @@ class Audio:
         self.master = master;master.title("Music")
         master.resizable(True, True);master.config(bg='#7700EE')
         master.attributes('-alpha', 0.75);master.geometry('333x230')
+        master.winfo_toplevel()
         helv36 = tkFont.Font(family='Helvetica', size=15, weight=tkFont.BOLD)
         helv = tkFont.Font(family='Helvetica', size=11, weight=tkFont.BOLD)
 
