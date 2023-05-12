@@ -68,6 +68,11 @@ class Notes:
         self.format_menu.add_command(label="Font Color", command=self.change_font_color)
         self.menu_bar.add_cascade(label="Format", menu=self.format_menu)
 
+        # about menu
+        self.about_menu = tk.Menu(self.menu_bar, tearoff=0, bg='black', fg='white', activebackground='white', activeforeground='black')
+        self.about_menu.add_command(label='About..')
+        self.menu_bar.add_cascade(label="About", menu=self.about_menu)
+
         # status bar
         self.status_bar = tk.Label(self.root, text="Ln 1, Col 1", bg='black', fg='white')
         self.status_bar.pack(side='bottom', fill='x')
