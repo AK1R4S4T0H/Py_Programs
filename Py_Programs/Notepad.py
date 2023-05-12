@@ -1,6 +1,7 @@
 # My Attempt at a Python Notepad clone, it is pretty much there
 # ISSUES: Title and other things
 # Attempting to add Tokenizer, to maybe eventually add syntax highlighting
+# Added right click menu with many features
 import tkinter as tk
 from tkinter import filedialog
 from tkinter import font
@@ -76,14 +77,34 @@ class Notes:
         self.text_area.pack(fill='both', expand=True, padx=1)
         self.text_area.bind('<Any-KeyPress>', self.update)
 
-        # scrollbar
-        self.scroll_bar = tk.Scrollbar(self.frame, bg='black')
-        self.scroll_bar.pack(side='right', fill='y')
-        self.scroll_bar.config(command=self.text_area.yview)
-        self.text_area.config(yscrollcommand=self.scroll_bar.set)
-        
         # bind status bar to text area
         self.text_area.bind('<KeyRelease>', self.update_status_bar)
+
+        # right-click menu
+        self.text_menu = tk.Menu(self.root, tearoff=0, bg='black', fg='white')
+        self.text_menu.add_command(label="New", accelerator="Ctrl+N", command=self.new_file)
+        self.text_menu.add_command(label="Open...", accelerator="Ctrl+O", command=self.open_file)
+        self.text_menu.add_command(label="Save", accelerator="Ctrl+S", command=self.save_file)
+        self.text_menu.add_command(label="Save As...", accelerator="Ctrl+Shift+S", command=self.save_file_as)
+        self.text_menu.add_separator()
+        self.text_menu.add_command(label="Cut", command=self.cut)
+        self.text_menu.add_command(label="Copy", command=self.copy)
+        self.text_menu.add_command(label="Paste", command=self.paste)
+        self.text_menu.add_separator()
+        self.text_menu.add_command(label="Bold", command=self.toggle_bold)
+        self.text_menu.add_command(label="Italic", command=self.toggle_italic)
+        self.text_menu.add_command(label="Underline", command=self.toggle_underline)
+        self.text_menu.add_separator()
+        self.text_menu.add_cascade(label="Font Family", menu=self.font_family_menu)
+        self.text_menu.add_command(label="Font Size", command=self.change_font_size)
+        self.text_menu.add_command(label="Font Color", command=self.change_font_color)
+        self.text_menu.add_separator()
+        self.text_menu.add_command(label="Exit", command=self.root.quit)
+        # Bind the right-click menu to the text area
+        self.text_area.bind("<Button-3>", self.show_text_menu)
+
+    def show_text_menu(self, event):
+        self.text_menu.tk_popup(event.x_root, event.y_root)
 
     def update(self, event=None):
         self.update_title()
