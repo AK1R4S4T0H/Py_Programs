@@ -39,7 +39,7 @@ ___
 ___
 ### STAR.py
 ##### Turtle Program that pops up extra dialog to start, stop or save the image generated, generates complex star turtle picture
-![alt text](https://github.com/AK1R4S4T0H/Py_Programs/blob/main/Py_Programs/images/STAR.png?raw=true)
+![alt text](https://github.com/AK1R4S4T0H/Py_Programs/blob/main/images/STAR.png?raw=true)
 ___
 #### Thank you for you Time! I appreciate any and all Feeback, and I hope you have a wonderful day!
 ___
