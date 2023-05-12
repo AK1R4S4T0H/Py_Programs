@@ -205,9 +205,9 @@ def display_phrase():
     root.after(10000, display_phrase) # 10 second timer
 
 button = tk.Button(root, text="Show me a phrase!", command=display_phrase)
-
+label = tk.Label(root, text='10 second timer on Button press')
 japanese_label.pack(expand=True, fill='both')
 button.pack()
-
+label.pack()
 
 root.mainloop()
