@@ -1,20 +1,16 @@
 import tkinter as tk
 import AUDIO
+import Calculator as Calc
 
 root = tk.Tk()
 root.title("STUFF")
 
-def AUD():
-    AUDIO.Audio()
 
 
-
-
-
-butt_1 = tk.Button(root, text="AUDIO PLAYER", command=AUD())
+butt_1 = tk.Button(root, text="AUDIO PLAYER", command=lambda: AUD())
 butt_1.pack()
 
-butt_2 = tk.Button(root, text="CALCULATOR")
+butt_2 = tk.Button(root, text="CALCULATOR", command=lambda: calu())
 butt_2.pack()
 
 butt_3 = tk.Button(root, text="CHATBOT")
@@ -41,6 +37,11 @@ butt_9.pack()
 butt_10 = tk.Button(root, text="STAR")
 butt_10.pack()
 
+def AUD():
+    root = AUDIO.Audio()
+
+def calu():
+    Calc()
 
 
 
