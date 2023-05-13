@@ -12,6 +12,9 @@ ___
 ### CHAT.py
 ##### Attempt at making a chatbot with EleutherAI/gpt-neo-1.3B
 ___
+### CSVPLOT.py
+#### Simple Tkinter Python program for graphing a CSV with matplotlib 
+___
 ### IMAGE.py
 ##### Simple Python tKinter Image Viewer
 ___
