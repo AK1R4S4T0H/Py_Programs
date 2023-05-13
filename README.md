@@ -37,6 +37,9 @@ ___
 ##### Generates a Random BLack and white pattern on a square grid
 ![alt text](https://github.com/AK1R4S4T0H/Py_Programs/blob/main/images/PATTERN_GEN.png?raw=true)
 ___
+### server.sh
+#### Simple  bash script that launches python http.server in port 8877(or any port you want just change it) and opens default web browser to the directory your terminal was in when you ran the command. I use this instead of Five-Server because http.server is built into Python and works just fine for development
+___
 ### STAR.py
 ##### Turtle Program that pops up extra dialog to start, stop or save the image generated, generates complex star turtle picture
 ![alt text](https://github.com/AK1R4S4T0H/Py_Programs/blob/main/images/STAR.png?raw=true)
