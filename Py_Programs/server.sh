@@ -3,6 +3,7 @@
 # in the current Directory, press ENTER to stop server
 # also auto opens your default web browser to he server
 # alternatively you could pu this as a function in your .bashrc
+# if you want to use a different port, change all instances of 8877
 # or as an alias with the path to the file
 # examples: alias server = "/path/to/script"
 # or 
