@@ -7,6 +7,7 @@
 # or as an alias with the path to the file
 # examples: alias server = "/path/to/script"
 # or 
+#
 # function server() {the code below between these and add the funciton to .bashrc}
 python3 -m http.server 8877 &
 DIR=$(pwd)

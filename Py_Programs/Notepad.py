@@ -56,7 +56,7 @@ class Notes:
         self.edit_menu.add_command(label="Underline", accelerator="Ctrl+U", command=self.toggle_underline)
         self.menu_bar.add_cascade(label="Edit", menu=self.edit_menu)
 
-        # format menu
+        # format menu #
         self.format_menu = tk.Menu(self.menu_bar, tearoff=0, bg='black', fg='white', activebackground='white', activeforeground='black')
         self.font_family_menu = tk.Menu(self.format_menu, tearoff=0)
         fonts = list(font.families())

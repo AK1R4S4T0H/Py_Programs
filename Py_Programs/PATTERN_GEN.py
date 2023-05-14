@@ -1,5 +1,6 @@
 # Python Programs that generates a random Pattern
 # made up of small squares
+#
 import tkinter as tk
 import random
 

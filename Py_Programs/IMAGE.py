@@ -1,6 +1,6 @@
 # Image viewer in python
 # need image to rezise to screen not the other way around
-
+#
 import tkinter as tk
 from tkinter import filedialog
 from PIL import Image, ImageTk
