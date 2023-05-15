@@ -12,11 +12,10 @@ class Master:
         self.root.geometry("400x450")
         self.root.configure(bg="#1c1c1c")
 
-        # Create label for title
         title = tk.Label(self.root, text="Py_Programs", font=("Helvetica", 20), fg="#FFFFFF", bg="#1c1c1c")
         title.pack(pady=20)
 
-        # Create button for each program
+        # button for each program
         programs = [
             ("AUDIO.py", "Py_Programs"),
             ("Calculator.py", "Py_Programs"),
