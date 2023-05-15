@@ -8,7 +8,6 @@ from PIL import Image, ImageTk
 class VideoPlayer:
     def __init__(self, root):
         self.root = root
-        self.title("Video Player")
         self.video_path = ""
         self.cap = None
 
