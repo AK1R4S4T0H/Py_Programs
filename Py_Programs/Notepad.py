@@ -125,20 +125,6 @@ class Notes:
         status_text = "Ln {}, Col {}".format(int(row), int(col) + 1)
         self.status_bar.config(text=status_text)
 
-    def new_file(self, event=None):
-        self.current_file = None
-        self.text_area.delete(1.0, 'end')
-        self.update_title()
-
-    def open_file(self, event=None):
-        file_path = filedialog.askopenfilename()
-        if file_path:
-            with open(file_path, 'r') as file:
-                text = file.read()
-            self.current_file = file_path
-            self.text_area.delete(1.0, 'end')
-            self.text_area.insert('end', text)
-            self.update_title()
 
     def save_file(self, event=None):
         if self.current_file:
@@ -166,15 +152,6 @@ class Notes:
                 file.write(text)
             self.current_file = file_path
             self.update_title()
-
-    def cut(self):
-        self.text_area.event_generate("<<Cut>>")
-
-    def copy(self):
-        self.text_area.event_generate("<<Copy>>")
-
-    def paste(self):
-        self.text_area.event_generate("<<Paste>>")
 
     def toggle_bold(self):
         if self.bold_on:
