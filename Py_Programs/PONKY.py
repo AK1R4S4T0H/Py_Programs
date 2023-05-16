@@ -1,3 +1,4 @@
+# Python Conky like program
 import psutil
 import platform
 import tkinter as tk
