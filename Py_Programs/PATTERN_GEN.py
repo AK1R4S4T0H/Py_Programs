@@ -1,13 +1,14 @@
 # Python Programs that generates a random Pattern
 # made up of small squares
-#
+# Updated to Ttk, and made buttons work
 import tkinter as tk
+import tkinter.ttk as ttk
 import random
 
 WIDTH = 500
 HEIGHT = 500
 
-def generate_pattern():
+def generate_and_draw(canvas):
     pattern = []
     for i in range(10):
         row = []
@@ -17,9 +18,10 @@ def generate_pattern():
             else:
                 row.append(1)
         pattern.append(row)
-    return pattern
+    draw_pattern(canvas, pattern)
 
 def draw_pattern(canvas, pattern):
+    canvas.delete("all")  # Clear the canvas
     cell_width = WIDTH // len(pattern[0])
     cell_height = HEIGHT // len(pattern)
     for i in range(len(pattern)):
@@ -36,17 +38,17 @@ def draw_pattern(canvas, pattern):
 def main():
     root = tk.Tk()
     root.title("Pattern Generator")
-    canvas = tk.Canvas(root, width=WIDTH, height=HEIGHT)
-    canvas.pack()
-    pattern = generate_pattern()
-    button = tk.Button(root, width=40, height=3, text='Another', command=generate_pattern())
-    button.pack()
-    button1 = tk.Button(root, width=20, height=3, text="draw", command=draw_pattern(canvas, pattern))
-    button1.pack()
-    draw_pattern(canvas, pattern)
+    
+    main_frame = ttk.Frame(root)
+    main_frame.pack(fill=tk.BOTH, expand=True)
+    
+    canvas = tk.Canvas(main_frame, width=WIDTH, height=HEIGHT)
+    canvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
+    
+    draw_button = ttk.Button(main_frame, text="Draw", command=lambda: generate_and_draw(canvas))
+    draw_button.pack(pady=10)
+    
     root.mainloop()
-
-
 
 if __name__ == "__main__":
     main()
