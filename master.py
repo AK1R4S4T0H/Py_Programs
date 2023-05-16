@@ -60,6 +60,7 @@ class Master:
             ("MIDIPLAYER.py", "Py_Programs", "Midi Player"),
             ("Notepad.py", "Py_Programs", "Notepad"),
             ("PATTERN_GEN.py", "Py_Programs", "Pattern Generator"),
+            ("PASS.py", "Py_Programs", "Pass Generator"),
             ("PYTOEXE.py", "Py_Programs", "Py to EXE"),
             ("STAR.py", "Py_Programs", "Turtle Star"),
             ("VIDEO.py", "Py_Programs", "Video Player")
