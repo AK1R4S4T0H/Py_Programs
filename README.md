@@ -45,6 +45,10 @@ ___
 ##### Notepad clone using tKinter with some customizations
 ![alt text](https://github.com/AK1R4S4T0H/Py_Programs/blob/main/images/Notepad.png?raw=true)
 ___
+___
+### PASS.py
+##### Python tKinter Password Generator with Password strength gauge and a button to reveal the made password
+![alt text](https://github.com/AK1R4S4T0H/Py_Programs/blob/main/images/PASS.png?raw=true)
 ### PICJUMBLE.py
 ##### Program to jumble a picture and save it,
 ___
