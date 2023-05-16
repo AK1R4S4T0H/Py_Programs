@@ -2,6 +2,8 @@ import psutil
 import platform
 import tkinter as tk
 from tkinter import ttk
+from tkinter import colorchooser
+from tkinter import font as tkfont
 
 BACKGROUND_COLOR = "#292a44"
 LABEL_COLOR = "#d1d1e0"
@@ -50,7 +52,11 @@ system_info.pack()
 system_details = []
 system_details.append(f"OS: {platform.system()} {platform.release()}")
 system_details.append(f"Processor: {platform.processor()}")
+system_details.append(f"Machine: {platform.machine()}")
+system_details.append(f"System Type: {platform.architecture()[0]}")
 system_details.append(f"Memory: {round(psutil.virtual_memory().total / (1024 ** 3))} GB")
+system_details.append(f"Hostname: {platform.node()}")
+system_details.append(f"Python Version: {platform.python_version()}")
 
 system_info.config(text="\n".join(system_details))
 
