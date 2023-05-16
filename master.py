@@ -48,7 +48,7 @@ class Master:
         programs_frame.grid(row=0, column=0, sticky="nsew")
         
         programs = [
-            ("ABC's.py", "Py_Programs", "ABC Flashcards"),
+            ("ABCs.py", "Py_Programs", "ABC Flashcards"),
             ("ANYTOMP4.py", "Py_Programs", "Any to Mp4"),
             ("AUDIO.py", "Py_Programs", "Audio Player"),
             ("Calculator.py", "Py_Programs", "Calculator"),
@@ -84,12 +84,12 @@ class Master:
         programs_tab.grid_rowconfigure(0, weight=1)
         programs_tab.grid_columnconfigure(0, weight=1)
 
-def open_program(self, program, button):
-    initial_directory = os.getcwd() 
-    os.chdir(program[1])
-    self.root.update()
-    os.system("python " + program[0])
-    os.chdir(initial_directory)  
+    def open_program(self, program, button):
+        initial_directory = os.getcwd() 
+        os.chdir(program[1])
+        self.root.update()
+        os.system("python " + program[0])
+        os.chdir(initial_directory)  
 
 if __name__ == "__main__":
     program_launcher = Master()
