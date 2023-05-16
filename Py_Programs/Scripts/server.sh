@@ -1,4 +1,5 @@
 #!/bin/bash
+# NOT WORKING PROPERLY
 # Simple bash script for launching a python http server
 # in the current Directory, press ENTER to stop server
 # also auto opens your default web browser to he server
