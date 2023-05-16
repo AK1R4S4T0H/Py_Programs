@@ -74,9 +74,11 @@ ___
 ___
 ### test.py
 ##### A lot of ttk variables in a window in working states, makes it very easy to learn.
+![alt text](https://github.com/AK1R4S4T0H/Py_Programs/blob/main/images/test.png?raw=true)
 ___
 ### test2.py
 ##### continuation of test.py, A lot of ttk variables in a window in working states, for viewing and testing purposes.
+![alt text](https://github.com/AK1R4S4T0H/Py_Programs/blob/main/images/test2.png?raw=true)
 ___
 ### VLADIMIR.py
 ##### ChatBot GUi, kinda works, should usae different model and tokenizer
