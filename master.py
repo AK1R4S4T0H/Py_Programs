@@ -89,7 +89,8 @@ ___(/_/)___
             ("test.py", "Py_Programs", "Ttk Test"),
             ("test2.py", "Py_Programs", "Ttk Test 2"),
             ("test3.py", "Py_Programs", "Print TTK"),
-            ("VIDEO.py", "Py_Programs", "Video Player")
+            ("VIDEO.py", "Py_Programs", "Video Player"),
+            ("WAVES.py", "Py_Programs", "Visualizer")
         ]
 
         # grid for the buttons

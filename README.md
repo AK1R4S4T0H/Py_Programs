@@ -89,3 +89,7 @@ ___
 ### VLADIMIR.py
 ##### ChatBot GUi, kinda works, should usae different model and tokenizer
 ___
+### WAVES.py
+##### pygame music visualizer
+![alt text](https://github.com/AK1R4S4T0H/Py_Programs/blob/main/images/WAVES.png?raw=true)
+___
