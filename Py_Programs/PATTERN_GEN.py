@@ -38,6 +38,14 @@ def draw_pattern(canvas, pattern):
 def main():
     root = tk.Tk()
     root.title("Pattern Generator")
+    style = ttk.Style()
+    style.theme_use('alt')
+    style.configure('TButton', background = '#5c335c', foreground = 'white', width = 25, borderwidth=1, focusthickness=3.5, focuscolor='none')
+    style.map('TButton', background=[('active','#7c007c')])
+    style.configure('TFrame', background = '#5c335c', foreground = 'white', width = 25, borderwidth=1, relief='flat', focusthickness=2.5, focuscolor='none')
+    style.map('TFrame', background=[('active','#7c007c')])
+    style.configure('TCanvas', background = '#5c335c', foreground = 'white', width = 25, borderwidth=1, relief='flat', focusthickness=3.5, focuscolor='white')
+    style.map('TCanvas')
     
     main_frame = ttk.Frame(root)
     main_frame.pack(fill=tk.BOTH, expand=True)
