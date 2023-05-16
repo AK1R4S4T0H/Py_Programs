@@ -8,8 +8,13 @@ def submit_form():
 
     if username and password:
         result_label.config(text="Form submitted successfully!")
+        with open('form.csv', 'a', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerow([username, password])
+    else:
+        result_label.config(text="Please fill in all fields.")
 
-oot = tk.Tk()
+root = tk.Tk()
 root.title("User Registration Form")
 
 notebook = ttk.Notebook(root)
@@ -38,9 +43,7 @@ submit_button.grid(row=2, columnspan=2)
 tab2 = ttk.Frame(notebook)
 notebook.add(tab2, text="Results")
 
-# display the form submission result
 result_label = ttk.Label(tab2, text="")
 result_label.pack()
 
-# Run the main event loop
 root.mainloop()
