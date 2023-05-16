@@ -51,18 +51,13 @@ class ImageViewer:
         canvas_height = self.canvas.winfo_height()
         image_width, image_height = image.size
 
-        # Calculate the aspect ratio
         width_ratio = canvas_width / image_width
         height_ratio = canvas_height / image_height
 
-        # Choose the smaller ratio to maintain the aspect ratio of the image
         ratio = min(width_ratio, height_ratio)
 
-        # Calculate the new size
         new_width = int(image_width * ratio)
         new_height = int(image_height * ratio)
-
-        # Resize the image
         return image.resize((new_width, new_height), Image.ANTIALIAS)
 
     def show_image(self):
