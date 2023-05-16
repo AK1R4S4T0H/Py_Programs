@@ -1,5 +1,11 @@
 # Py_Programs
-Some Random Python Programs I made out of necessity mostly, will be updating them over time because it is Fun.
+Some Random Python Programs I made out of necessity mostly. As well as a couple Bash Scripts
+___
+### weather.sh
+##### Terminal based weather, displays ascii art depending on how it is outside
+___
+### loadBar.sh
+##### Bash loading bar to 9001
 ___
 ### Master.py
 ##### TTK GUI Program Launcher for a Lot of my Py Programs
