@@ -12,7 +12,7 @@ ___
 ##### videos to Mp4
 ___
 ### AUDIO.py
-##### Simple Python tKinter Audio Player
+##### Simple Python Themed tKinter(Ttk) Audio Player
 ![alt text](https://github.com/AK1R4S4T0H/Py_Programs/blob/main/images/AUDIO.png?raw=true)
 ___
 ### Calculator.py
