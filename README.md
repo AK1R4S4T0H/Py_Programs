@@ -73,5 +73,6 @@ ___
 ### test2.py
 ##### continuation of test.py, A lot of ttk variables in a window in working states, for viewing and testing purposes.
 ___
-#### Thank you for you Time! I appreciate any and all Feeback, and I hope you have a wonderful day!
+### VLADIMIR.py
+##### ChatBot GUi, kinda works, should usae different model and tokenizer
 ___
