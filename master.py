@@ -88,6 +88,7 @@ ___(/_/)___
             ("STAR.py", "Py_Programs", "Turtle Star"),
             ("test.py", "Py_Programs", "Ttk Test"),
             ("test2.py", "Py_Programs", "Ttk Test 2"),
+            ("test3.py", "Py_Programs", "Print TTK"),
             ("VIDEO.py", "Py_Programs", "Video Player")
         ]
 
