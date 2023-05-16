@@ -27,6 +27,7 @@ ___
 ___
 ### DODGE.py
 ##### little game, Dodge the Dots
+![alt text](https://github.com/AK1R4S4T0H/Py_Programs/blob/main/images/DODGE.png?raw=true)
 ___
 ### IMAGE.py
 ##### Simple Python tKinter Image Viewer
