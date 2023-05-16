@@ -55,6 +55,7 @@ class Master:
             ("Calculator.py", "Py_Programs", "Calculator"),
             ("CSVPLOT.py", "Py_Programs", "CSV Plot"),
             ("DODGE.py", "Py_Programs", "Dodge the Dots"),
+            ("form.py", "Py_Programs", "Register Form"),
             ("IMAGE.py", "Py_Programs", "Image Viewer"),
             ("installer.py", "Py_Programs", "Fake Install"),
             ("JAP.py", "Py_Programs", "Japanese Flash"),
@@ -63,12 +64,13 @@ class Master:
             ("PATTERN_GEN.py", "Py_Programs", "Pattern Generator"),
             ("PASS.py", "Py_Programs", "Pass Generator"),
             ("PONKY.py", "Py_Programs", "Ponky"),
+            ("popup.py", "Py_Programs", "Popup Test"),
             ("PYTOEXE.py", "Py_Programs", "Py to EXE"),
             ("STAR.py", "Py_Programs", "Turtle Star"),
             ("VIDEO.py", "Py_Programs", "Video Player")
         ]
 
-        # Create a grid for the buttons
+        # grid for the buttons
         num_columns = 3
         for i, program in enumerate(programs):
             button = ttk.Button(programs_frame, text=program[2], command=lambda p=program, b=None: self.open_program(p, b))
