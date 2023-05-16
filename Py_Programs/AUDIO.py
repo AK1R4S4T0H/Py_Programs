@@ -2,62 +2,71 @@
 # Track slider doesnt work, YET
 # Skip Buttons in progress, MADE BUT NO FUNCTION
 #
-import tkinter as tk;from tkinter import filedialog
-from tkinter import font as tkFont;import pygame
+import tkinter as tk
+from tkinter import ttk
+from tkinter import filedialog
+import pygame
 
 class Audio:
     def __init__(self, master):
-        self.master = master;master.title("Music")
-        master.resizable(True, True);master.config(bg='#7700EE')
-        master.attributes('-alpha', 0.75);master.geometry('333x230')
+        self.master = master
+        master.title("Music")
+        master.resizable(True, True)
+        master.config(bg='#7733EE')
+        master.attributes('-alpha', 0.75)
+        master.geometry('333x230')
         master.winfo_toplevel()
-        helv36 = tkFont.Font(family='Helvetica', size=15, weight=tkFont.BOLD)
-        helv = tkFont.Font(family='Helvetica', size=11, weight=tkFont.BOLD)
 
-        # labels and buttons
-        self.file_label = tk.Label(master, font=helv36, borderwidth=2, text="Please shoose a song:")
+        style = ttk.Style()
+        style.configure('TButton', border=('#FFFFFF', 5) ,font=('Helvetica', 11, 'bold'), foreground='#FFFFFF', background='#7777EE')
+        style.map('TButton', foreground=[("hover", "white")], background=[("hover", "#DD33DD")])
+        style.configure('TLabel', font=('Helvetica', 15, 'bold'), foreground='#FFFFFF', background='#7733EE')
+        style.configure('TScale', foreground='#FFFFFF', background='#7777EE', troughcolor='#9955EE')
+        
+        # Labels and buttons
+        self.file_label = ttk.Label(master, text="Please choose a song:")
         self.file_label.grid(row=0, columnspan=1, pady=5, sticky="w")
 
-        self.file_button = tk.Button(master, font=helv, borderwidth=2,  text="Browse:", command=self.choose_file)
+        self.file_button = ttk.Button(master, text="Browse", command=self.choose_file)
         self.file_button.grid(row=1, columnspan=1, pady=2, sticky="w")
 
-        self.play_button = tk.Button(master, font=helv, borderwidth=2, text="Play", command=self.play)
+        self.play_button = ttk.Button(master, text="Play", command=self.play)
         self.play_button.grid(row=2, column=0, pady=2, sticky="w")
 
-        self.stop_button = tk.Button(master, font=helv, borderwidth=2, text="Stop", command=self.stop)
+        self.stop_button = ttk.Button(master, text="Stop", command=self.stop)
         self.stop_button.grid(row=3, column=0, pady=5, sticky='w')
 
-        # self.skip_button = tk.Button(master, font=helv, borderwidth=2, text="Skip")
+        # self.skip_button = ttk.Button(master, text="Skip", command=self.skip)
         # self.skip_button.grid(row=4, column=0, pady=5, sticky='w')
 
-        # self.track_label = tk.Label(master, font=helv, borderwidth=2, text='Track:')
+        # self.track_label = ttk.Label(master, text='Track:')
         # self.track_label.grid(row=3, column=3, pady=2, sticky='w')
 
-        # self.track_slider = tk.Scale(master, borderwidth=2, from_=0, to=100, orient=tk.HORIZONTAL, command=self.track)
-        # self.track_slider.gri
-        
-        # volume sd(row=4, column=3, pady=2, sticky='w')
-        # volume slider
-        self.volume_label = tk.Label(master, font=helv, borderwidth=2, text='Volume:')
-        self.volume_label.grid(row=4, column=0, pady=2, sticky='w')
+        # self.track_slider = ttk.Scale(master, from_=0, to=100, orient=tk.HORIZONTAL, command=self.track)
+        # self.track_slider.grid(row=4, column=3, pady=2, sticky='w')
 
-        self.volume_slider = tk.Scale(master, borderwidth=2, from_=0, to=100, orient=tk.HORIZONTAL, command=self.set_volume)
-        self.volume_slider.grid(row=5, column=0, pady=2, sticky='w')
+        self.volume_label = ttk.Label(master, text='Volume:')
+        self.volume_label.grid(row=5, column=0, pady=2, sticky='w')
 
-        # variables
-        self.file_path = None;self.freq = None;self.time = None      
-        # look into properly implementing time
-        # Initialize pygame mixer, dont forget about this again
+        self.volume_slider = ttk.Scale(master, from_=0, to=100, orient=tk.HORIZONTAL, command=self.set_volume)
+        self.volume_slider.grid(row=6, column=0, pady=2, sticky='w')
+
+        # Variables
+        self.file_path = None
+        self.freq = None
+        self.time = None
+
+        # Init pygame mixer
         pygame.mixer.init()
 
     def choose_file(self):
         self.file_path = filedialog.askopenfilename(filetypes=[("Audio files", "*.mp3")])
-        name = self.file_path[15-0:] # so the name isnt too long and makes the window larger
-        self.file_label.config(text=f"Song: " + name)
+        name = self.file_path[15-0:]  # avoid enlarging the window
+        self.file_label.config(text="Song: " + name)
 
     def track(self, value):
-        self.value = Audio.time;value.value = self.value
-        return self.value
+        # track functionality
+        pass
 
     def play(self):
         pygame.mixer.music.load(self.file_path)
@@ -70,7 +79,9 @@ class Audio:
         pygame.mixer.music.set_volume(float(value) / 100)
 
     def skip(self):
+        # skip functionality
         pass
 
-root = tk.Tk();app = Audio(root)
+root = tk.Tk()
+app = Audio(root)
 root.mainloop()
