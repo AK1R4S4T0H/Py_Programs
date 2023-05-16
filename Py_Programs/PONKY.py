@@ -6,9 +6,9 @@ from tkinter import ttk
 from tkinter import colorchooser
 from tkinter import font as tkfont
 
-BACKGROUND_COLOR = "#292a44"
+BACKGROUND_COLOR = "#492a44"
 LABEL_COLOR = "#d1d1e0"
-METER_COLOR = "#8a85ff"
+METER_COLOR = "#daaaff"
 
 def update_meter():
     cpu_percent = psutil.cpu_percent()
