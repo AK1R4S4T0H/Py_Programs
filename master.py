@@ -38,7 +38,26 @@ class Master:
         # Home tab
         home_tab = ttk.Frame(self.notebook)
         self.notebook.add(home_tab, text="Home")
-        home_label = ttk.Label(home_tab, text="Welcome to Py_Programs! \n   Collection of Various \n   Python Programs!!", font=("Helvetica", 20))
+        home_label = ttk.Label(home_tab, text="""
+     Welcome to Py_Programs! 
+          Collection of Various 
+             Python Programs 
+        ____
+       / ^*_*^\\
+     ( (; - ;) )          
+      \ (|  |)/          
+       (|  |)           
+      (/  /)           
+___(/_/)___       
+(|_|_|__||__|)
+(||___||__|_|)
+(|_|___|___|)
+        ____________
+        __(_(*) (*)_)__  
+        ___(_| |_)_____    
+                   
+        
+        """, font=("Helvetica", 20))
         home_label.grid(row=0, column=0, sticky="nsew")
         
         # Program tab
@@ -67,6 +86,8 @@ class Master:
             ("popup.py", "Py_Programs", "Popup Test"),
             ("PYTOEXE.py", "Py_Programs", "Py to EXE"),
             ("STAR.py", "Py_Programs", "Turtle Star"),
+            ("test.py", "Py_Programs", "Ttk Test"),
+            ("test2.py", "Py_Programs", "Ttk Test 2"),
             ("VIDEO.py", "Py_Programs", "Video Player")
         ]
 
@@ -81,9 +102,9 @@ class Master:
         # About tab
         about_tab = ttk.Frame(self.notebook)
         self.notebook.add(about_tab, text="About")
-        about_label = ttk.Label(about_tab, text=" Py_Programs is a collection of small \n Python programs. They were made for \n Fun, and Practice, \n Feel Free to use them for \n the same and edit them to your \n liking, but Remember,\n With Great Power \n Comes Great Responsibility \n Free Software should always be Free.\n \n Thank you,\n \n AK1R4", font=("Helvetica", 16))
+        about_label = ttk.Label(about_tab, text=" Py_Programs is a collection of small \n Python programs. They were made for \n Fun, and Practice, \n Feel Free to use them for \n the same and edit them to your \n liking, but Remember,\n With Great Power \n Comes Great Responsibility \n Free Software should always be Free.\n \n Thank you,\n \n AK1R4S4T0H", font=("Helvetica", 16))
         about_label.grid(row=0, column=0, sticky="nsew")
-            # Configure grid weights
+        # grid weights
         self.root.grid_rowconfigure(0, weight=1)
         self.root.grid_columnconfigure(0, weight=1)
         programs_tab.grid_rowconfigure(0, weight=1)
