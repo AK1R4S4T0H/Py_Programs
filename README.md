@@ -60,7 +60,7 @@ ___
 ##### popup window with Ttk
 ___
 ### PONKY.py
-##### Simple Ttk Python Conky, Picture is from a VM but it works the same anywhere
+##### Simple Ttk Python Conky, Picture is from a VM but it works the same anywhere, contains more than shown in picture now.
 ![alt text](https://github.com/AK1R4S4T0H/Py_Programs/blob/main/images/PONKY.png?raw=true)
 ___
 ### STAR.py
