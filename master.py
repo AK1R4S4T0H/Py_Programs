@@ -48,10 +48,13 @@ class Master:
         programs_frame.grid(row=0, column=0, sticky="nsew")
         
         programs = [
+            ("ABC's.py", "Py_Programs", "ABC Flashcards"),
             ("AUDIO.py", "Py_Programs", "Audio Player"),
             ("Calculator.py", "Py_Programs", "Calculator"),
+            ("CSVPLOT.py", "Py_Programs", "CSV Plot"),
             ("DODGE.py", "Py_Programs", "Dodge the Dots"),
             ("IMAGE.py", "Py_Programs", "Image Viewer"),
+            ("installer.py", "Py_Programs", "Fake Install"),
             ("JAP.py", "Py_Programs", "Japanese Flash"),
             ("MIDIPLAYER.py", "Py_Programs", "Midi Player"),
             ("Notepad.py", "Py_Programs", "Notepad"),
