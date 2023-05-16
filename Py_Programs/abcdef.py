@@ -9,7 +9,7 @@ root = tk.Tk()
 root.title("ABC's")
 root.geometry("400x400")
 
-label = tk.Label(root, font=("Sans", 50), bg="black", fg="white")
+label = tk.Label(root, font=("Sans", 150), bg="black", fg="white")
 
 def display_phrase():
     phrase = random.choice(list(phrases))
