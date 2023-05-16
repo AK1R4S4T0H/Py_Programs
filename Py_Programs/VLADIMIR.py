@@ -1,4 +1,7 @@
 # VLADIMIR
+# chatbot
+# you can use a much better model an tokenizer from transformers
+# this was just attempt
 import tkinter as tk
 from transformers import GPT2Tokenizer, TFGPT2LMHeadModel
 from transformers import AdamW
