@@ -1,15 +1,19 @@
 import tkinter as tk
 from tkinter.scrolledtext import ScrolledText
+from tkinter import ttk
+import asyncio
 import nmap
 import subprocess
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import StandardScaler
 
-def ai_agent(target):
+async def ai_agent(target):
     nm = nmap.PortScanner()
     scan_options = "-Pn -sV -O -p-"
-    nm.scan(target, arguments=scan_options)
-    scan_results = nm[target]
+    await asyncio.sleep(0)  # Allow other async tasks to run
+
+    loop = asyncio.get_event_loop()
+    scan_results = await loop.run_in_executor(None, nm.scan, target, scan_options)
 
     open_ports = []
     operating_system = ""
@@ -39,7 +43,8 @@ def ai_agent(target):
     data = [[len(open_ports)]]
     scaler = StandardScaler()
     data = scaler.fit_transform(data)
-    prediction = model.predict(data)
+    loop = asyncio.get_event_loop()
+    prediction = await loop.run_in_executor(None, model.predict, data)
     analysis['Prediction'] = prediction[0]
 
     return analysis
@@ -61,18 +66,25 @@ def scan_button_click():
 
 window = tk.Tk()
 window.title("Nmap AI Agent")
-window.geometry("400x400")
+window.geometry("450x450")
 
-ip_label = tk.Label(window, text="Enter IP Address:")
+
+style = ttk.Style()
+style.theme_use('clam')  
+style.configure('TLabel', foreground='white', background='black')
+style.configure('TEntry', foreground='white', background='black')
+style.configure('TButton', foreground='white', background='gray')
+
+ip_label = ttk.Label(window, text="Enter IP Address:")
 ip_label.pack()
 
-ip_entry = tk.Entry(window)
+ip_entry = ttk.Entry(window, style='TEntry')
 ip_entry.pack()
 
 output_text = ScrolledText(window, height=20, width=50)
 output_text.pack()
 
-scan_button = tk.Button(window, text="Scan", command=scan_button_click, height=10)
-scan_button.pack()
+scan_button = ttk.Button(window, text="Scan", command=scan_button_click, style='TButton')
+scan_button.pack(fill=tk.BOTH, expand=True)
 
 window.mainloop()
