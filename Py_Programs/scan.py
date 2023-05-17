@@ -40,7 +40,7 @@ style = ttk.Style()
 style.theme_use('clam')
 style.configure('TLabel', foreground='white', background='black')
 style.configure('TEntry', foreground='black', background='black')
-style.configure('TButton', foreground='white', background='#c1c1c1')
+style.configure('TButton', foreground='white', background='#1c1c1c')
 
 ip_label = ttk.Label(window, text="Enter IP Address:")
 ip_label.pack()

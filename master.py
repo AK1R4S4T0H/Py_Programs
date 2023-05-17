@@ -85,6 +85,7 @@ ___(/_/)___
             ("PONKY.py", "Py_Programs", "Ponky"),
             ("popup.py", "Py_Programs", "Popup Test"),
             ("PYTOEXE.py", "Py_Programs", "Py to EXE"),
+            ("scan.py", "Py_Programs", "Nmap GUI"),
             ("STAR.py", "Py_Programs", "Turtle Star"),
             ("test.py", "Py_Programs", "Ttk Test"),
             ("test2.py", "Py_Programs", "Ttk Test 2"),
