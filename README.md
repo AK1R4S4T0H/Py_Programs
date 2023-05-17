@@ -74,8 +74,9 @@ ___
 ##### Simple Ttk Python Conky, Picture is from a VM but it works the same anywhere, contains more than shown in picture now.
 ![alt text](https://github.com/AK1R4S4T0H/Py_Programs/blob/main/images/PONKY.png?raw=true)
 ___
-### scanAI.py
-##### AI agent Nmap scanning, with sudop privledges
+### scan.py
+##### Nmap GUI
+![alt text](https://github.com/AK1R4S4T0H/Py_Programs/blob/main/images/scan.png?raw=true)
 ___
 ### STAR.py
 ##### Turtle Program that pops up extra dialog to start, stop or save the image generated, generates complex star turtle picture
