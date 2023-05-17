@@ -1,3 +1,4 @@
+# check your terminal for SUDO login, cant nmap without sudo
 import tkinter as tk
 from tkinter.scrolledtext import ScrolledText
 from tkinter import ttk
