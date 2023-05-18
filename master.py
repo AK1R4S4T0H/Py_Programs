@@ -46,10 +46,10 @@ class Master:
                      /.:lodxxc,'',;..\\         
                    /.':loddxl,''........\\      
       ......;;:;:coxxdoc:'.      ..... \\       
-            ..:'     .c,        'xNOkox'          
-              (      .X          '\033\033\033\033\033\033\033         
+            ..:'     .c.        'xNOkox'          
+              (      .X.         '\033\033\033\033\033\033\033         
                :     'WO.    .xN00Kd,          
-                ::lOUlKOXXO0NNKk,          
+                ::lOUlKOXXO0NNk,          
                 .:;..,oNWWN0NKK             
                  ':..;dxkOkOXK0d'             
                  .''..;lok0kkdcdk.            
