@@ -42,20 +42,21 @@ class Master:
      Welcome to Py_Programs! 
           Collection of Various 
              Python Programs 
-        ____
-       / ^*_*^\\
-     ( (; - ;) )          
-      \ (|  |)/          
-       (|  |)           
-      (/  /)           
-___(/_/)___       
-(|_|_|__||__|)
-(||___||__|_|)
-(|_|___|___|)
-        ____________
-        __(_(*) (*)_)__  
-        ___(_| |_)_____    
-                   
+                      _________
+                     /.:lodxxc,'',;..\\         
+                   /.':loddxl,''........\\      
+      ......;;:;:coxxdoc:'.      ..... \\       
+            ..:'     .c,        'xNOkox'          
+              (      .X          '\033\033\033\033\033\033\033         
+               :     'WO.    .xN00Kd,          
+                ::lOUlKOXXO0NNKk,          
+                .:;..,oNWWN0NKK             
+                 ':..;dxkOkOXK0d'             
+                 .''..;lok0kkdcdk.            
+               ..:  ,coOK00x;;kXO .'.         
+             '.  .;;..;:clc:d0Oo,    ''. .  .    
+          .'.      ,:incognitoDdXo ..   .',....
+
         
         """, font=("Helvetica", 20))
         home_label.grid(row=0, column=0, sticky="nsew")
