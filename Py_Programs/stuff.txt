@@ -1,0 +1,44 @@
+"Calendar.py" - Calendar Application
+"ContactBook.py" - Contact Book Management
+"EmailClient.py" - Email Client
+"FileExplorer.py" - File Explorer
+"WeatherApp.py" - Weather Application
+"TaskManager.py" - Task Manager
+"CurrencyConverter.py" - Currency Converter
+"QuizGame.py" - Quiz Game
+"PasswordManager.py" - Password Manager
+"ToDoList.py" - To-Do List Manager
+"ChatApp.py" - Chat Application
+"RSSReader.py" - RSS Reader
+"VideoDownloader.py" - Video Downloader
+"CodeEditor.py" - Code Editor
+"MusicPlayer.py" - Music Player
+"DictionaryApp.py" - Dictionary Application
+"URLShortener.py" - URL Shortener
+"ExpenseTracker.py" - Expense Tracker
+"ReminderApp.py" - Reminder Application
+"RandomQuoteGenerator.py" - Random Quote Generator
+"RecipeManager.py" - Recipe Manager
+"StockTracker.py" - Stock Tracker and Portfolio Manager
+"RecipeGenerator.py" - Recipe Generator based on Ingredients
+"ExpenseAnalyzer.py" - Expense Analyzer and Budget Planner
+"LanguageTranslator.py" - Language Translator
+"MusicRecommendation.py" - Music Recommendation Engine
+"NewsReader.py" - News Reader and Aggregator
+"MovieRecommendation.py" - Movie Recommendation System
+"HealthTracker.py" - Health Tracker and Fitness Log
+"CodeSnippetManager.py" - Code Snippet Manager
+"FileBackupUtility.py" - File Backup Utility
+"UnitConverter.py" - Unit Converter
+"ImageRecognition.py" - Image Recognition and Object Detection
+"SudokuSolver.py" - Sudoku Solver
+"VirtualAssistant.py" - Virtual Assistant with Voice Recognition
+"URLChecker.py" - URL Checker and Validator
+"DataAnalyzer.py" - Data Analyzer and Visualization Tool
+"BirthdayReminder.py" - Birthday Reminder and Notifier
+"TextEditor.py" - Text Editor with Syntax Highlighting
+"EncryptionTool.py" - Encryption and Decryption Tool
+"SocialMediaAnalyzer.py" - Social Media Analyzer and Insights Generator
+"CodeVersionControl.py" - Code Version Control System
+"DocumentScanner.py" - Document Scanner and PDF Creator
+"GraphPlotter.py" - Graph Plotter and Data Visualization

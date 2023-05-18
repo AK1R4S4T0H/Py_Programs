@@ -95,6 +95,7 @@ class Master:
             ("HIDE.py", "Py_Programs", "Steg Hide"),
             ("SEEK.py", "Py_Programs", "Steg Seek"),
             ("META.py", "Py_Programs", "Image Metadata"),
+            ("PORT.py", "Py_Programs", "Py_PortScanner"),
             ("WAVES.py", "Py_Programs", "Visualizer")
         ]
 
