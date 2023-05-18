@@ -32,7 +32,7 @@ common_port_ranges = {
 }
 
 if not port_range:
-    port_range = "common"  # Set default to "common"
+    port_range = "common" 
 
 if port_range in common_port_ranges:
     ports = common_port_ranges[port_range]
@@ -69,22 +69,21 @@ def get_service_name(port):
     except socket.error:
         pass
     
-    # If service detection fails or encounters an error, use common ports dictionary
+    
     for key, value in common_port_ranges.items():
         for port_range in value:
             if port in range(port_range[0], port_range[1] + 1):
                 return key.capitalize()
     
-    # If port doesn't match any common ports, return "Unknown"
+
     return "Unknown"
     
 def extract_service_name(service_info):
-    # Example 1: Extract service name from bracketed text
+
     match = re.search(r'\[(.*?)\]', service_info)
     if match:
         return match.group(1)
     
-    # Example 2: Extract service name from specific keywords or patterns
     if "HTTP" in service_info:
         return "HTTP"
     if "HTTPS" in service_info:
@@ -99,25 +98,20 @@ def extract_service_name(service_info):
         return "DNS"
     if "MySQL" in service_info:
         return "MySQL"
-    # Add more specific keyword checks as needed
-    
-    # Example 3: Extract service name based on port number
+
     if service_info.startswith("Port "):
         port_number = int(service_info.split()[1])
         if port_number == 80:
             return "HTTP"
         elif port_number == 443:
             return "HTTPS"
-        # Add more port-based service name checks as needed
-    
-    # Example 4: Check if the service matches any common port ranges
+
     for key, value in common_port_ranges.items():
         for port_range in value:
             start_port, end_port = port_range
             if port_number in range(start_port, end_port + 1):
                 return key.capitalize()
     
-    # Example 5: Default fallback for unknown service names
     return "Unknown"
 
 

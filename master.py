@@ -96,6 +96,7 @@ class Master:
             ("SEEK.py", "Py_Programs", "Steg Seek"),
             ("META.py", "Py_Programs", "Image Metadata"),
             ("PORT.py", "Py_Programs", "Py_PortScanner"),
+            ("SCRap.py", "Py_Programs", "Web Scraper"),
             ("WAVES.py", "Py_Programs", "Visualizer")
         ]
 
