@@ -1,18 +1,30 @@
 #!/bin/bash
-# NOT WORKING PROPERLY
+
 # Simple bash script for launching a python http server
 # in the current Directory, press ENTER to stop server
 # also auto opens your default web browser to he server
-# alternatively you could pu this as a function in your .bashrc
-# if you want to use a different port, change all instances of 8877
+# alternatively you could put this as a function in your .bashrc
 # or as an alias with the path to the file
 # examples: alias server = "/path/to/script"
-# or 
-#
-# function server() {the code below between these and add the funciton to .bashrc}
-python3 -m http.server 8877 &
+
+read -rp "Enter the port number (default: 8877): " port
+port=${port:-8877}
+
+start_server() {
+  python3 -m http.server "$port" --bind 127.0.0.1 --directory "$DIR" >/dev/null 2>&1
+}
+
 DIR=$(pwd)
-echo "Server is running at: http://localhost:8877"
-python3 -m webbrowser -t "http://localhost:8877"
-read -rp "Press Enter to stop the server" </dev/tty
-kill $(lsof -t -i:8877)
+
+start_server &
+server_pid=$!
+server_url="http://localhost:$port"
+echo "Server is running at: $server_url"
+
+python3 -m webbrowser -t "$server_url"
+
+echo "Press Enter to stop the server"
+read -r
+
+kill "$server_pid" 2>/dev/null
+
