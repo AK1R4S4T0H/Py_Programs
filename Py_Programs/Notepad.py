@@ -1,5 +1,4 @@
 # My Attempt at a Python Notepad clone, it is pretty much there
-# ISSUES: Title and other things
 # Attempting to add Tokenizer, to maybe eventually add syntax highlighting
 # Added right click menu with many features
 """ Created by: AK1R4S4T0H
