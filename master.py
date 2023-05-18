@@ -92,6 +92,9 @@ class Master:
             ("test2.py", "Py_Programs", "Ttk Test 2"),
             ("test3.py", "Py_Programs", "Print TTK"),
             ("VIDEO.py", "Py_Programs", "Video Player"),
+            ("HIDE.py", "Py_Programs", "Steg Hide"),
+            ("SEEK.py", "Py_Programs", "Steg Seek"),
+            ("META.py", "Py_Programs", "Image Metadata"),
             ("WAVES.py", "Py_Programs", "Visualizer")
         ]
 
