@@ -1,5 +1,7 @@
 # very bad chatbot
 # 
+""" Created by: AK1R4S4T0H
+"""
 import sys
 import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM

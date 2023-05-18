@@ -1,6 +1,8 @@
 # Japanese Learning Program, I made it as a way to help me with learning japanese
 # pretty simple program, want to put all phrases in a csv so the main file is less bloaty and applies to ZEN more
 # contains Hiragana and Katakana
+""" Created by: AK1R4S4T0H
+"""
 import random
 import tkinter as tk
 

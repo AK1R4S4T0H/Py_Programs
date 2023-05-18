@@ -1,4 +1,6 @@
 # ttk attributes
+""" Created by: AK1R4S4T0H
+"""
 import tkinter as tk
 from tkinter import ttk
 

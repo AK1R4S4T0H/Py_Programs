@@ -1,5 +1,7 @@
 # mp4 video player using cv2 and tkinter
 #
+""" Created by: AK1R4S4T0H
+"""
 import tkinter as tk
 from tkinter import ttk, filedialog
 import cv2

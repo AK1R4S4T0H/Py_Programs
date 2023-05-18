@@ -1,6 +1,8 @@
 # Genreate a matplotlib graph based on whatever CSV file you
 # Open with it
 #
+""" Created by: AK1R4S4T0H
+"""
 import tkinter as tk
 from tkinter import filedialog
 import matplotlib.pyplot as plt

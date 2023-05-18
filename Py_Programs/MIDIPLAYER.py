@@ -1,5 +1,7 @@
 # MIDI Player, Needs work
 #
+""" Created by: AK1R4S4T0H
+"""
 import mido
 import rtmidi
 import pyaudio

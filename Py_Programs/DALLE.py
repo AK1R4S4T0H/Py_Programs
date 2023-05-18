@@ -1,4 +1,6 @@
 # Tried to make a DALLE Image Generator tkinter GUI
+""" Created by: AK1R4S4T0H
+"""
 import tkinter as tk
 import pytorch as torch
 from transformers import DALLEForImageGeneration, DALLETokenizer

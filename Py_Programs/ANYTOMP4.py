@@ -1,6 +1,8 @@
 # for converting any video format to mp4
 # doesnt work right
 #
+""" Created by: AK1R4S4T0H
+"""
 import tkinter as tk
 from tkinter import filedialog
 from moviepy.editor import VideoFileClip

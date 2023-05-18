@@ -3,6 +3,8 @@
 # tried to add a graphing function
 # plan on adding more mathematical funcitons
 #
+""" Created by: AK1R4S4T0H
+"""
 import tkinter as tk;from tkinter import font as tkFont
 import math
 

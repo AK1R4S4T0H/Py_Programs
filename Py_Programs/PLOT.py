@@ -1,3 +1,6 @@
+""" Created by: AK1R4S4T0H
+"""
+
 import tkinter as tk
 from tkinter import filedialog
 import matplotlib.pyplot as plt

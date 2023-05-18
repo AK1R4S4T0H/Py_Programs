@@ -1,6 +1,8 @@
 # uses tkhtmlview to make a basic window for a html file
 # could be handy for about pages, or readmes for programs
 # easy enough to make a popup
+""" Created by: AK1R4S4T0H
+"""
 import tkinter as tk
 from tkinter import ttk
 from tkhtmlview import HTMLLabel

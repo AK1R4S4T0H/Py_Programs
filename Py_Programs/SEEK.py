@@ -1,3 +1,9 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Wednesday March 17 2023
+
+@author: AK1R4S4T0H
+"""
 import random
 import tkinter as tk
 from tkinter import ttk

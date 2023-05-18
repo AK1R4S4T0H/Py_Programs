@@ -1,3 +1,5 @@
+""" Created by: AK1R4S4T0H
+"""
 import random
 import tkinter as tk
 

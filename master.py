@@ -1,7 +1,10 @@
+""" Created by: AK1R4S4T0H
+"""
 # master launcher for the Py_Programs
 import os
 import tkinter as tk
 from tkinter import ttk
+import subprocess
 
 class Master:
     def __init__(self):
@@ -11,15 +14,16 @@ class Master:
 
         style = ttk.Style()
         style.theme_use('clam')
-        bg_color = "#1c1c1c"  
-        fg_color = "white"    
-        btn_color = "#5c335c" 
-        hover_color = "#7e489a" 
+        bg_color = "#1c1c1c"
+        fg_color = "white"
+        btn_color = "#5c335c"
+        hover_color = "#7e489a"
 
         style.configure(".", background=bg_color, foreground=fg_color)
         style.configure("TNotebook", tabposition="n", background=bg_color)
-        style.configure("TNotebook.Tab",font=("Helvetica", 15), background=bg_color, foreground=fg_color, padding=[10, 10], width=20)
-        style.map("TNotebook.Tab", background=[("selected", btn_color)],padding=[("selected", 7)])
+        style.configure("TNotebook.Tab", font=("Helvetica", 15), background=bg_color, foreground=fg_color,
+                        padding=[10, 10], width=20)
+        style.map("TNotebook.Tab", background=[("selected", btn_color)], padding=[("selected", 7)])
         style.configure("Custom.TButton",
                         background=btn_color,
                         foreground=fg_color,
@@ -38,7 +42,7 @@ class Master:
         # Home tab
         home_tab = ttk.Frame(self.notebook)
         self.notebook.add(home_tab, text="Home")
-        home_label = ttk.Label(home_tab, text="""\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2
+        home_label = ttk.Label(home_tab, text="""\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2
 \2\2 Welcome to Py_Programs! \2\2
 \2\2\2\2\2 Collection of Various \2\2\2
 \2\2\2\2\2\2 Python Programs \2\2\2
@@ -60,14 +64,14 @@ class Master:
         
         """, font=("Helvetica", 20))
         home_label.grid(row=0, column=0, sticky="nsew")
-        
+
         # Program tab
         programs_tab = ttk.Frame(self.notebook)
         self.notebook.add(programs_tab, text="Programs")
 
         programs_frame = ttk.Frame(programs_tab)
         programs_frame.grid(row=0, column=0, sticky="nsew")
-        
+
         programs = [
             ("ABCs.py", "Py_Programs", "ABC Flashcards"),
             ("ANYTOMP4.py", "Py_Programs", "Any to Mp4"),
@@ -111,7 +115,9 @@ class Master:
         # About tab
         about_tab = ttk.Frame(self.notebook)
         self.notebook.add(about_tab, text="About")
-        about_label = ttk.Label(about_tab, text=" Py_Programs is a collection of small \n Python programs. They were made for \n Fun, and Practice, \n Feel Free to use them for \n the same and edit them to your \n liking, but Remember,\n With Great Power \n Comes Great Responsibility \n Free Software should always be Free.\n \n Thank you,\n \n AK1R4S4T0H", font=("Helvetica", 16))
+        about_label = ttk.Label(about_tab,
+                                text=" Py_Programs is a collection of small \n Python programs. They were made for \n Fun, and Practice, \n Feel Free to use them for \n the same and edit them to your \n liking, but Remember,\n With Great Power \n Comes Great Responsibility \n Free Software should always be Free.\n \n Thank you,\n \n AK1R4S4T0H",
+                                font=("Helvetica", 16))
         about_label.grid(row=0, column=0, sticky="nsew")
         # grid weights
         self.root.grid_rowconfigure(0, weight=1)
@@ -120,11 +126,12 @@ class Master:
         programs_tab.grid_columnconfigure(0, weight=1)
 
     def open_program(self, program, button):
-        initial_directory = os.getcwd() 
+        initial_directory = os.getcwd()
         os.chdir(program[1])
         self.root.update()
-        os.system("python " + program[0])
-        os.chdir(initial_directory)  
+        subprocess.Popen(["python", program[0]])
+        os.chdir(initial_directory)
+
 
 if __name__ == "__main__":
     program_launcher = Master()

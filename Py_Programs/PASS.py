@@ -1,3 +1,10 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Wednesday March 16 2023
+
+@author: AK1R4S4T0H
+"""
+
 # Ttk Password Generator GUI
 import tkinter as tk
 from tkinter import ttk

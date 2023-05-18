@@ -2,6 +2,8 @@
 # chatbot
 # you can use a much better model an tokenizer from transformers
 # this was just attempt
+""" Created by: AK1R4S4T0H
+"""
 import tkinter as tk
 from transformers import GPT2Tokenizer, TFGPT2LMHeadModel
 from transformers import AdamW

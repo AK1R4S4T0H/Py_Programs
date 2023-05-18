@@ -1,6 +1,8 @@
 # Program for jumbling images for use in Machine Learning
 # Add normal file dialog for image open
 #
+""" Created by: AK1R4S4T0H
+"""
 import random
 from tkinter import *
 from PIL import Image, ImageTk

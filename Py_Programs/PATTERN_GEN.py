@@ -1,6 +1,8 @@
 # Python Programs that generates a random Pattern
 # made up of small squares
 # Updated to Ttk, and made buttons work
+""" Created by: AK1R4S4T0H
+"""
 import tkinter as tk
 import tkinter.ttk as ttk
 import random

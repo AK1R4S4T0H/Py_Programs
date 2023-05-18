@@ -1,5 +1,7 @@
 # Creates an EXE from a .py file
 #
+""" Created by: AK1R4S4T0H
+"""
 import tkinter as tk
 import tkinter.filedialog as fd
 import subprocess
