@@ -41,7 +41,7 @@ def decrypt_data():
         popup = tk.Toplevel(window)
         popup.title("Extracted Message")
 
-        text = tk.Text(popup, height=20, width=50)
+        text = tk.Text(popup, height=50, width=50)
         text.pack(side=tk.LEFT, fill=tk.BOTH, padx=10, pady=10)
 
         scrollbar = ttk.Scrollbar(popup, command=text.yview)

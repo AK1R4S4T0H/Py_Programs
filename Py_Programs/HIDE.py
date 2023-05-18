@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk, filedialog, messagebox
 from PIL import Image
+import random
 
 def select_image():
     file_path = filedialog.askopenfilename(filetypes=[("Image Files", "*.png;*.jpg;*.jpeg"), ("All Files", "*.*")])
@@ -76,6 +77,9 @@ def hide_data():
         image.save(save_path)
         messagebox.showinfo("Success", "Image saved successfully!")
 
+        # Provide the encryption key to the user
+        messagebox.showinfo("Encryption Key", "Encryption key: {}".format(encryption_key))
+
 window = tk.Tk()
 window.title("Hide Secrets in Images")
 
@@ -111,5 +115,4 @@ label_selected_file = ttk.Label(window, text="Selected File: ")
 label_selected_file.grid(row=5, column=0, columnspan=2, padx=10, pady=10)
 
 window.mainloop()
-
 
