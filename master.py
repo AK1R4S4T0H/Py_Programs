@@ -11,7 +11,7 @@ class Master:
         self.root = tk.Tk()
         self.root.title("My Programs")
         self.root.geometry("400x550")
-
+        # styles
         style = ttk.Style()
         style.theme_use('clam')
         bg_color = "#1c1c1c"
@@ -119,12 +119,15 @@ class Master:
                                 text=" Py_Programs is a collection of small \n Python programs. They were made for \n Fun, and Practice, \n Feel Free to use them for \n the same and edit them to your \n liking, but Remember,\n With Great Power \n Comes Great Responsibility \n Free Software should always be Free.\n \n Thank you,\n \n AK1R4S4T0H",
                                 font=("Helvetica", 16))
         about_label.grid(row=0, column=0, sticky="nsew")
+        
         # grid weights
         self.root.grid_rowconfigure(0, weight=1)
         self.root.grid_columnconfigure(0, weight=1)
         programs_tab.grid_rowconfigure(0, weight=1)
         programs_tab.grid_columnconfigure(0, weight=1)
 
+    # opens the programs inside in a new popup, 
+    # and as many as you like can be opened
     def open_program(self, program, button):
         initial_directory = os.getcwd()
         os.chdir(program[1])
