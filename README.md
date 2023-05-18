@@ -38,6 +38,12 @@ ___
 ### IMAGE.py
 ##### Simple Python tKinter Image Viewer
 ___
+### HIDE.py
+##### Simple Python ttk Steganography tool to hide a message or file in a picture, encryption key provided when data is hidden, uses XOR currently
+___
+### SEEK.py
+##### Pair Program to HIDE.py, used to decrpyt and extract the hidden data, must provide correct encryption key or hidden data will not be seeable, has button to save the text from the decrypted picture.
+___
 ### installer.py
 ##### Fake Installer for Fun
 ___
