@@ -7,7 +7,6 @@ import tkinter as tk
 from tkinter import filedialog
 from tkinter import font
 import tkinter.colorchooser as colorchooser
-from nltk.tokenize import word_tokenize
 import tkinter as tk
 from tkinter import ttk, filedialog, font, colorchooser
 
@@ -81,7 +80,7 @@ class Notes:
         self.status_bar = ttk.Label(self.root, text="Ln 1, Col 1", anchor='w', justify='center')
         self.status_bar.pack(side='bottom', fill='x')
 
-        default_font_size = 15 
+        default_font_size = 15
 
         self.text_area = tk.Text(self.frame, undo=True, bg="#221122", fg="white")
         self.text_area.pack(side='left', fill='both', expand=True)
@@ -107,7 +106,7 @@ class Notes:
         self.text_area.bind("<Control-i>", self.toggle_italic)
         self.text_area.bind("<Control-u>", self.toggle_underline)
 
-             # right-click menu
+        # right-click menu
         self.text_menu = tk.Menu(self.root, tearoff=0, bg='black', fg='white')
         self.text_menu.add_command(label="New", accelerator="Ctrl+N", command=self.new_file)
         self.text_menu.add_command(label="Open...", accelerator="Ctrl+O", command=self.open_file)
@@ -130,11 +129,10 @@ class Notes:
         # Bind the right-click menu to the text area
         self.text_area.bind("<Button-3>", self.show_text_menu)
 
-        
         self.root.bind("<Control-s>", self.save_file)
 
     def on_mousewheel(self, event):
-        self.text_area.yview_scroll(int(-1*(event.delta/120)), "units")
+        self.text_area.yview_scroll(int(-1 * (event.delta / 120)), "units")
 
     def update_status_bar(self, event=None):
         row, col = self.text_area.index('insert').split('.')
@@ -210,7 +208,8 @@ class Notes:
         font_size_spinbox = tk.Spinbox(font_size_window, from_=1, to=100, textvariable=self.font_size, width=5)
         font_size_spinbox.pack(side='top', padx=5, pady=5)
         font_size_spinbox.focus()
-        font_size_spinbox.bind("<Return>", lambda event: self.text_area.configure(font=(self.font_family.get(), self.font_size.get())))
+        font_size_spinbox.bind("<Return>",
+                               lambda event: self.text_area.configure(font=(self.font_family.get(), self.font_size.get())))
 
     def change_font_color(self):
         color = colorchooser.askcolor()[1]
@@ -227,23 +226,24 @@ class Notes:
     def paste(self):
         self.text_area.event_generate("<<Paste>>")
 
-    def new_file(self):
+    def new_file(self, event=None):
         self.current_file = None
-        self.root.title("Untitled - Notes")
-        self.text_area.delete('1.0', tk.END)
+        self.text_area.delete(1.0, 'end')
+        self.update_title()
 
-    def open_file(self):
+    def open_file(self, event=None):
         file_path = filedialog.askopenfilename()
         if file_path:
-            self.current_file = file_path
-            self.root.title(f"{file_path} - Notes")
             with open(file_path, 'r') as file:
-                self.text_area.delete('1.0', tk.END)
-                self.text_area.insert('1.0', file.read())
+                text = file.read()
+                self.text_area.delete(1.0, 'end')
+                self.text_area.insert('end', text)
+            self.current_file = file_path
+            self.update_title()
 
     def run(self):
         self.root.mainloop()
 
-if __name__ == '__main__':
-    notepad = Notes()
-    notepad.run()
+
+notes = Notes()
+notes.run()
