@@ -12,7 +12,6 @@
 "RSSReader.py" - RSS Reader
 "VideoDownloader.py" - Video Downloader
 "CodeEditor.py" - Code Editor
-"MusicPlayer.py" - Music Player
 "DictionaryApp.py" - Dictionary Application
 "URLShortener.py" - URL Shortener
 "ExpenseTracker.py" - Expense Tracker
@@ -42,3 +41,25 @@
 "CodeVersionControl.py" - Code Version Control System
 "DocumentScanner.py" - Document Scanner and PDF Creator
 "GraphPlotter.py" - Graph Plotter and Data Visualization
+"PasswordManager.py" - Password Manager with Encryption and Secure Storage
+"VulnerabilityScanner.py" - Vulnerability Scanner and Assessment Tool
+"NetworkSniffer.py" - Network Packet Sniffer and Analyzer
+"FirewallManager.py" - Firewall Manager and Rule Analyzer
+"SecureFileTransfer.py" - Secure File Transfer Utility with Encryption
+"MalwareScanner.py" - Malware Scanner and Detection Tool
+"IntrusionDetectionSystem.py" - Intrusion Detection System with Log Analysis
+"CryptographyToolkit.py" - Cryptography Toolkit with Various Algorithms
+"Wi-FiAnalyzer.py" - Wi-Fi Network Analyzer and Security Scanner
+"DataBreachChecker.py" - Data Breach Checker and Notification System
+"SecureEmailClient.py" - Secure Email Client with PGP Encryption
+"WebApplicationFirewall.py" - Web Application Firewall for Protection against Attacks
+"ExploitDevelopment.py" - Exploit Development and Testing Environment
+"DigitalForensicsTool.py" - Digital Forensics Tool for Data Recovery and Analysis
+"SecurityLogAnalyzer.py" - Security Log Analyzer for Incident Response
+"WebScrapingSecurity.py" - Web Scraping Tool with Built-in Security Measures
+"SecureMessagingApp.py" - Secure Messaging Application with End-to-End Encryption
+"PhishingAwarenessTraining.py" - Phishing Awareness Training Simulator
+"PasswordCracker.py" - Password Cracking Tool for Ethical Hacking Practice
+"NetworkTrafficMonitor.py" - Network Traffic Monitor and Analyzer for Anomaly Detection
+"SecureCodeAnalyzer.py" - Secure Code Analyzer for Identifying Vulnerabilities
+"SecureDNSResolver.py" - Secure DNS Resolver with DNSSEC Validation
