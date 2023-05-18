@@ -131,14 +131,17 @@ class Notes:
         self.text_area.bind("<Button-3>", self.show_text_menu)
 
         self.root.bind("<Control-s>", self.save_file)
+
     # Need for Scrolling without scrollbar
     def on_mousewheel(self, event):
         self.text_area.yview_scroll(int(-1 * (event.delta / 120)), "units")
+    
     # Make sure Status bar does what is suppsoed to
     def update_status_bar(self, event=None):
         row, col = self.text_area.index('insert').split('.')
         status_text = "Ln {}, Col {}".format(int(row), int(col) + 1)
         self.status_bar.config(text=status_text)
+    
     # right click
     def show_text_menu(self, event):
         self.text_menu.tk_popup(event.x_root, event.y_root)
@@ -151,6 +154,7 @@ class Notes:
             self.root.title(self.current_file + " - Notes")
         else:
             self.root.title("Untitled - Notes")
+    
     # Save
     def save_file(self, event=None):
         if self.current_file:
@@ -160,6 +164,7 @@ class Notes:
             self.update_title()
         else:
             self.save_file_as()
+    
     # Save As
     def save_file_as(self, event=None):
         file_path = filedialog.asksaveasfilename()
@@ -169,6 +174,7 @@ class Notes:
                 file.write(text)
             self.current_file = file_path
             self.update_title()
+   
     # Bold
     def toggle_bold(self):
         if self.bold_on:
@@ -178,6 +184,7 @@ class Notes:
             self.text_area.tag_add('bold', 'sel.first', 'sel.last')
             self.text_area.tag_configure('bold', font=(self.font_family.get(), self.font_size.get(), 'bold'))
             self.bold_on = True
+    
     # Italic
     def toggle_italic(self):
         if self.italic_on:
@@ -187,6 +194,7 @@ class Notes:
             self.text_area.tag_add('italic', 'sel.first', 'sel.last')
             self.text_area.tag_configure('italic', font=(self.font_family.get(), self.font_size.get(), 'italic'))
             self.italic_on = True
+    
     # Underline
     def toggle_underline(self):
         current_tags = self.text_area.tag_names("sel.first")
@@ -196,6 +204,7 @@ class Notes:
         else:
             self.text_area.tag_add("underline", "sel.first", "sel.last")
             self.underline_on = True
+    
     # Font
     def change_font_family(self):
         self.text_area.configure(font=(self.font_family.get(), self.font_size.get()))
@@ -217,6 +226,7 @@ class Notes:
         if color:
             self.font_color.set(color)
             self.text_area.configure(fg=color)
+    
     # Cut, Copy, Paste
     def cut(self):
         self.text_area.event_generate("<<Cut>>")
@@ -226,11 +236,13 @@ class Notes:
 
     def paste(self):
         self.text_area.event_generate("<<Paste>>")
+    
     #  New FIle
     def new_file(self, event=None):
         self.current_file = None
         self.text_area.delete(1.0, 'end')
         self.update_title()
+    
     # Open
     def open_file(self, event=None):
         file_path = filedialog.askopenfilename()
@@ -241,6 +253,7 @@ class Notes:
                 self.text_area.insert('end', text)
             self.current_file = file_path
             self.update_title()
+    
     # Self explanitory
     def run(self):
         self.root.mainloop()
