@@ -38,19 +38,19 @@ class Master:
         # Home tab
         home_tab = ttk.Frame(self.notebook)
         self.notebook.add(home_tab, text="Home")
-        home_label = ttk.Label(home_tab, text="""
-     Welcome to Py_Programs! 
-          Collection of Various 
-             Python Programs 
-                      _________
-                     /.:lodxxc,'',;..\\         
-                   /.':loddxl,''........\\      
-      ......;;:;:coxxdoc:'.      ..... \\       
-            ..:'     .c.        'xNOkox'          
-              (      .X.         '\033\033\033\033\033\033\033         
-               :     'WO.    .xN00Kd,          
-                ::lOUlKOXXO0NNk,          
-                .:;..,oNWWN0NKK             
+        home_label = ttk.Label(home_tab, text="""\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2
+\2\2 Welcome to Py_Programs!\2\2
+\2\2\2\2\2 Collection of Various\2\2\2
+\2\2\2\2\2\2 Python Programs\2\2\2
+\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2
+\2\2\2\2\2\2         /.:lodxxc,'',;..\\                    
+\2\2\2\2\2         /.':loddxl,''........\\          
+  \2\2......;;:;:coxxdoc:'.      ..... \\             
+   \2\2\2     ..:'     .c.        'xNOkox'              
+      \2\2    (      .X.         '\033\033\033\033\033\033\033           
+       \2\2    :     'WO.    .xN00Kd,          
+          \2    ::lOUlKOXXO0NNk,          
+            \2|:::;:::oNWWN0NKK             
                  ':..;dxkOkOXK0d'             
                  .''..;lok0kkdcdk.            
                ..:  ,coOK00x;;kXO .'.         
