@@ -39,9 +39,9 @@ class Master:
         home_tab = ttk.Frame(self.notebook)
         self.notebook.add(home_tab, text="Home")
         home_label = ttk.Label(home_tab, text="""\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2
-\2\2 Welcome to Py_Programs!\2\2
-\2\2\2\2\2 Collection of Various\2\2\2
-\2\2\2\2\2\2 Python Programs\2\2\2
+\2\2 Welcome to Py_Programs! \2\2
+\2\2\2\2\2 Collection of Various \2\2\2
+\2\2\2\2\2\2 Python Programs \2\2\2
 \2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2
 \2\2\2\2\2\2         /.:lodxxc,'',;..\\                    
 \2\2\2\2\2         /.':loddxl,''........\\          
@@ -55,7 +55,7 @@ class Master:
                  .''..;lok0kkdcdk.            
                ..:  ,coOK00x;;kXO .'.         
              '.  .;;..;:clc:d0Oo,    ''. .  .    
-          .'.      ,:incognitoDdXo ..   .',....
+          .'.      ,:\u0399\u03A0c\u0398g\u03A0\u0399\u03A4\u0398DdXo ..   .',....
 
         
         """, font=("Helvetica", 20))
