@@ -1,28 +1,50 @@
 import tkinter as tk
-from tkinter import ttk
-from tkinter import filedialog
-from tkinter import messagebox
+from tkinter import ttk, filedialog, messagebox
 from PIL import Image
 
-def hide_data():
+def select_image():
     file_path = filedialog.askopenfilename(filetypes=[("Image Files", "*.png;*.jpg;*.jpeg"), ("All Files", "*.*")])
+    if file_path:
+        button_save.config(state=tk.NORMAL)
+        button_hide.config(state=tk.NORMAL)
+        label_selected_image.config(text="Selected Image: " + file_path)
+        window.image_path = file_path
+
+def select_file():
+    file_path = filedialog.askopenfilename()
+    if file_path:
+        window.file_path = file_path
+        label_selected_file.config(text="Selected File: " + file_path)
+
+def hide_data():
+    file_path = window.image_path
     if not file_path:
+        messagebox.showwarning("Error", "Please select an image file.")
         return
 
     image = Image.open(file_path)
 
-    secret_data = text_entry.get("1.0", tk.END).strip()
+    secret_data = ""
+    if hasattr(window, 'file_path'):
+        with open(window.file_path, 'r') as file:
+            secret_data = file.read()
 
     if not secret_data:
-        messagebox.showwarning("Error", "Please enter a secret message or select a file.")
+        messagebox.showwarning("Error", "Please select a file to hide.")
         return
 
-    binary_data = ''.join(format(ord(char), '08b') for char in secret_data)
+    # XOR encryption key
+    encryption_key = random.randint(1, 255)
+
+    # Perform XOR encryption on the secret data
+    encrypted_data = "".join(chr(ord(char) ^ encryption_key) for char in secret_data)
+
+    binary_data = ''.join(format(ord(char), '08b') for char in encrypted_data)
 
     num_pixels = image.width * image.height
     max_data_size = num_pixels * 3 // 8
     if len(binary_data) > max_data_size:
-        messagebox.showwarning("Error", "The selected image is too small to hold the secret data.")
+        messagebox.showwarning("Error", "The selected image is too small to hold the file.")
         return
 
     pixels = image.load()
@@ -65,21 +87,29 @@ style.configure('TButton', foreground='white', background='#9c27b0', font=('Aria
 style.configure('TEntry', foreground='black', background='white', font=('Arial', 12))
 
 label = ttk.Label(window, text="Enter the secret message or select a file:")
-label.pack()
+label.grid(row=0, column=0, columnspan=2, padx=10, pady=10)
 
 text_entry = tk.Text(window, height=4)
-text_entry.pack()
+text_entry.grid(row=1, column=0, columnspan=2, padx=10, pady=10)
 
-button_hide = ttk.Button(window, text="Hide Data", command=hide_data)
-button_hide.pack()
+button_select_image = ttk.Button(window, text="Select Image", command=select_image)
+button_select_image.grid(row=2, column=0, padx=10, pady=10)
 
-button_save = ttk.Button(window, text="Save Image")
-button_save.pack()
+button_select_file = ttk.Button(window, text="Select File", command=select_file)
+button_select_file.grid(row=2, column=1, padx=10, pady=10)
+
+button_hide = ttk.Button(window, text="Hide Data", command=hide_data, state=tk.DISABLED)
+button_hide.grid(row=3, column=0, padx=10, pady=10)
+
+button_save = ttk.Button(window, text="Save Image", state=tk.DISABLED)
+button_save.grid(row=3, column=1, padx=10, pady=10)
+
+label_selected_image = ttk.Label(window, text="Selected Image: ")
+label_selected_image.grid(row=4, column=0, columnspan=2, padx=10, pady=10)
+
+label_selected_file = ttk.Label(window, text="Selected File: ")
+label_selected_file.grid(row=5, column=0, columnspan=2, padx=10, pady=10)
 
 window.mainloop()
 
 
-button = ttk.Button(window, text="Select Image", command=hide_data)
-button.pack()
-
-window.mainloop()
