@@ -24,8 +24,9 @@ class Notes:
         self.font_color = tk.StringVar()
 
         self.create_widgets()
-
+    # GUI
     def create_widgets(self):
+        # Styles
         self.style = ttk.Style()
         self.style.theme_use('default')
 
@@ -42,10 +43,10 @@ class Notes:
 
         self.frame = ttk.Frame(self.root, style="TFrame")
         self.frame.pack(fill='both', expand=True)
-
+        # Menu bar
         self.menu_bar = tk.Menu(self.root, bg="black", fg="white")
         self.root.config(menu=self.menu_bar)
-
+        # File menu
         self.file_menu = tk.Menu(self.menu_bar, tearoff=0, bg="black", fg="white")
         self.menu_bar.add_cascade(label="File", menu=self.file_menu)
         self.file_menu.add_command(label="New", accelerator="Ctrl+N", command=self.new_file)
@@ -54,7 +55,7 @@ class Notes:
         self.file_menu.add_command(label="Save As", accelerator="Ctrl+Shift+S", command=self.save_file_as)
         self.file_menu.add_separator()
         self.file_menu.add_command(label="Exit", command=self.root.quit)
-
+        # Edit menu
         self.edit_menu = tk.Menu(self.menu_bar, tearoff=0, bg="black", fg="white")
         self.menu_bar.add_cascade(label="Edit", menu=self.edit_menu)
         self.edit_menu.add_command(label="Cut", accelerator="Ctrl+X", command=self.cut)
@@ -64,7 +65,7 @@ class Notes:
         self.edit_menu.add_command(label="Bold", accelerator="Ctrl+B", command=self.toggle_bold)
         self.edit_menu.add_command(label="Italic", accelerator="Ctrl+I", command=self.toggle_italic)
         self.edit_menu.add_command(label="Underline", accelerator="Ctrl+U", command=self.toggle_underline)
-
+        # Format menu
         self.format_menu = tk.Menu(self.menu_bar, tearoff=0, bg="black", fg="white")
         self.menu_bar.add_cascade(label="Format", menu=self.format_menu)
         self.font_family_menu = tk.Menu(self.format_menu, tearoff=0, bg="black", fg="white")
@@ -76,10 +77,10 @@ class Notes:
                                                 command=self.change_font_family)
         self.format_menu.add_command(label="Font Size", command=self.change_font_size)
         self.format_menu.add_command(label="Font Color", command=self.change_font_color)
-
+        #Status bar
         self.status_bar = ttk.Label(self.root, text="Ln 1, Col 1", anchor='w', justify='center')
         self.status_bar.pack(side='bottom', fill='x')
-
+        # Text area and font size
         default_font_size = 15
 
         self.text_area = tk.Text(self.frame, undo=True, bg="#221122", fg="white")
@@ -126,19 +127,19 @@ class Notes:
         self.text_menu.add_command(label="Font Color", command=self.change_font_color)
         self.text_menu.add_separator()
         self.text_menu.add_command(label="Exit", command=self.root.quit)
-        # Bind the right-click menu to the text area
+        # Bind right-click menu to text area
         self.text_area.bind("<Button-3>", self.show_text_menu)
 
         self.root.bind("<Control-s>", self.save_file)
-
+    # Need for Scrolling without scrollbar
     def on_mousewheel(self, event):
         self.text_area.yview_scroll(int(-1 * (event.delta / 120)), "units")
-
+    # Make sure Status bar does what is suppsoed to
     def update_status_bar(self, event=None):
         row, col = self.text_area.index('insert').split('.')
         status_text = "Ln {}, Col {}".format(int(row), int(col) + 1)
         self.status_bar.config(text=status_text)
-
+    # right click
     def show_text_menu(self, event):
         self.text_menu.tk_popup(event.x_root, event.y_root)
 
@@ -150,7 +151,7 @@ class Notes:
             self.root.title(self.current_file + " - Notes")
         else:
             self.root.title("Untitled - Notes")
-
+    # Save
     def save_file(self, event=None):
         if self.current_file:
             text = self.text_area.get(1.0, 'end')
@@ -159,7 +160,7 @@ class Notes:
             self.update_title()
         else:
             self.save_file_as()
-
+    # Save As
     def save_file_as(self, event=None):
         file_path = filedialog.asksaveasfilename()
         if file_path:
@@ -168,7 +169,7 @@ class Notes:
                 file.write(text)
             self.current_file = file_path
             self.update_title()
-
+    # Bold
     def toggle_bold(self):
         if self.bold_on:
             self.text_area.tag_remove('bold', 'sel.first', 'sel.last')
@@ -177,7 +178,7 @@ class Notes:
             self.text_area.tag_add('bold', 'sel.first', 'sel.last')
             self.text_area.tag_configure('bold', font=(self.font_family.get(), self.font_size.get(), 'bold'))
             self.bold_on = True
-
+    # Italic
     def toggle_italic(self):
         if self.italic_on:
             self.text_area.tag_remove('italic', 'sel.first', 'sel.last')
@@ -186,7 +187,7 @@ class Notes:
             self.text_area.tag_add('italic', 'sel.first', 'sel.last')
             self.text_area.tag_configure('italic', font=(self.font_family.get(), self.font_size.get(), 'italic'))
             self.italic_on = True
-
+    # Underline
     def toggle_underline(self):
         current_tags = self.text_area.tag_names("sel.first")
         if "underline" in current_tags:
@@ -195,7 +196,7 @@ class Notes:
         else:
             self.text_area.tag_add("underline", "sel.first", "sel.last")
             self.underline_on = True
-
+    # Font
     def change_font_family(self):
         self.text_area.configure(font=(self.font_family.get(), self.font_size.get()))
 
@@ -216,7 +217,7 @@ class Notes:
         if color:
             self.font_color.set(color)
             self.text_area.configure(fg=color)
-
+    # Cut, Copy, Paste
     def cut(self):
         self.text_area.event_generate("<<Cut>>")
 
@@ -225,12 +226,12 @@ class Notes:
 
     def paste(self):
         self.text_area.event_generate("<<Paste>>")
-
+    #  New FIle
     def new_file(self, event=None):
         self.current_file = None
         self.text_area.delete(1.0, 'end')
         self.update_title()
-
+    # Open
     def open_file(self, event=None):
         file_path = filedialog.askopenfilename()
         if file_path:
@@ -240,7 +241,7 @@ class Notes:
                 self.text_area.insert('end', text)
             self.current_file = file_path
             self.update_title()
-
+    # Self explanitory
     def run(self):
         self.root.mainloop()
 
