@@ -9,46 +9,56 @@ from tkinter import filedialog
 from tkinter import font
 import tkinter.colorchooser as colorchooser
 from nltk.tokenize import word_tokenize
+import tkinter as tk
+from tkinter import ttk, filedialog, font, colorchooser
 
 
 class Notes:
     def __init__(self):
         self.root = tk.Tk()
         self.root.title("Notepad")
-        self.root.geometry("500x500")
-        self.root.configure(bg='black')
-        self.root.winfo_colormapfull()
         self.current_file = None
-        self.font_family = tk.StringVar(self.root)
-        self.font_size = tk.StringVar(self.root)
-        self.font_size.set('12')
-        self.font_color = tk.StringVar(self.root)
-        self.font_color.set('black')
         self.bold_on = False
         self.italic_on = False
         self.underline_on = False
+        self.font_family = tk.StringVar()
+        self.font_size = tk.StringVar()
+        self.font_color = tk.StringVar()
+
         self.create_widgets()
 
     def create_widgets(self):
-        self.frame = tk.Frame(self.root)
+        self.style = ttk.Style()
+        self.style.theme_use('default')
+
+        self.style.configure("TFrame", background="black")
+        self.style.configure("TLabel", background="black", foreground="white")
+        self.style.configure("TMenu", background="black", foreground="white")
+        self.style.configure("TButton", background="black", foreground="white")
+        self.style.configure("TScrollbar", background="black", troughcolor="black", gripcount=0)
+        self.style.map(
+            "TScrollbar",
+            background=[("active", "black")],
+            troughcolor=[("active", "black")]
+        )
+
+        self.frame = ttk.Frame(self.root, style="TFrame")
         self.frame.pack(fill='both', expand=True)
 
-        # menu bar
-        self.menu_bar = tk.Menu(self.root, bg='black', fg='white')
-        self.root.config(menu=self.menu_bar, background='black')
+        self.menu_bar = tk.Menu(self.root, bg="black", fg="white")
+        self.root.config(menu=self.menu_bar)
 
-        # file menu
-        self.file_menu = tk.Menu(self.menu_bar, tearoff=0, bg='black', fg='white', activebackground='white', activeforeground='black')
+        self.file_menu = tk.Menu(self.menu_bar, tearoff=0, bg="black", fg="white")
+        self.menu_bar.add_cascade(label="File", menu=self.file_menu)
         self.file_menu.add_command(label="New", accelerator="Ctrl+N", command=self.new_file)
-        self.file_menu.add_command(label="Open...", accelerator="Ctrl+O", command=self.open_file)
+        self.file_menu.add_command(label="Open", accelerator="Ctrl+O", command=self.open_file)
         self.file_menu.add_command(label="Save", accelerator="Ctrl+S", command=self.save_file)
-        self.file_menu.add_command(label="Save As...", accelerator="Ctrl+Shift+S", command=self.save_file_as)
+        self.file_menu.add_command(label="Save As", accelerator="Ctrl+Shift+S", command=self.save_file_as)
         self.file_menu.add_separator()
         self.file_menu.add_command(label="Exit", command=self.root.quit)
-        self.menu_bar.add_cascade(label="File", menu=self.file_menu)
 
-        # edit menu
-        self.edit_menu = tk.Menu(self.menu_bar, tearoff=0, bg='black', fg='white', activebackground='white', activeforeground='black')
+        self.edit_menu = tk.Menu(self.menu_bar, tearoff=0, bg="black", fg="white")
+        self.menu_bar.add_cascade(label="Edit", menu=self.edit_menu)
         self.edit_menu.add_command(label="Cut", accelerator="Ctrl+X", command=self.cut)
         self.edit_menu.add_command(label="Copy", accelerator="Ctrl+C", command=self.copy)
         self.edit_menu.add_command(label="Paste", accelerator="Ctrl+V", command=self.paste)
@@ -56,38 +66,49 @@ class Notes:
         self.edit_menu.add_command(label="Bold", accelerator="Ctrl+B", command=self.toggle_bold)
         self.edit_menu.add_command(label="Italic", accelerator="Ctrl+I", command=self.toggle_italic)
         self.edit_menu.add_command(label="Underline", accelerator="Ctrl+U", command=self.toggle_underline)
-        self.menu_bar.add_cascade(label="Edit", menu=self.edit_menu)
 
-        # format menu #
-        self.format_menu = tk.Menu(self.menu_bar, tearoff=0, bg='black', fg='white', activebackground='white', activeforeground='black')
-        self.font_family_menu = tk.Menu(self.format_menu, tearoff=0)
+        self.format_menu = tk.Menu(self.menu_bar, tearoff=0, bg="black", fg="white")
+        self.menu_bar.add_cascade(label="Format", menu=self.format_menu)
+        self.font_family_menu = tk.Menu(self.format_menu, tearoff=0, bg="black", fg="white")
+        self.format_menu.add_cascade(label="Font Family", menu=self.font_family_menu)
         fonts = list(font.families())
         fonts.sort()
         for font_family in fonts:
-            self.font_family_menu.add_radiobutton(label=font_family, variable=self.font_family, value=font_family, command=self.change_font_family)
-        self.format_menu.add_cascade(label="Font Family", menu=self.font_family_menu)
+            self.font_family_menu.add_radiobutton(label=font_family, variable=self.font_family, value=font_family,
+                                                command=self.change_font_family)
         self.format_menu.add_command(label="Font Size", command=self.change_font_size)
         self.format_menu.add_command(label="Font Color", command=self.change_font_color)
-        self.menu_bar.add_cascade(label="Format", menu=self.format_menu)
 
-        # about menu
-        self.about_menu = tk.Menu(self.menu_bar, tearoff=0, bg='black', fg='white', activebackground='white', activeforeground='black')
-        self.about_menu.add_command(label='About..')
-        self.menu_bar.add_cascade(label="About", menu=self.about_menu)
-
-        # status bar
-        self.status_bar = tk.Label(self.root, text="Ln 1, Col 1", bg='black', fg='white')
+        self.status_bar = ttk.Label(self.root, text="Ln 1, Col 1", anchor='w', justify='center')
         self.status_bar.pack(side='bottom', fill='x')
 
-        # text area
-        self.text_area = tk.Text(self.frame, font=(self.font_family.get(), self.font_size.get()), bg='#2c1c2c', fg='white', wrap=tk.WORD)
-        self.text_area.pack(fill='both', expand=True, padx=1)
-        self.text_area.bind('<Any-KeyPress>', self.update)
+        default_font_size = 15 
 
-        # bind status bar to text area
+        self.text_area = tk.Text(self.frame, undo=True, bg="#221122", fg="white")
+        self.text_area.pack(side='left', fill='both', expand=True)
+
+        self.text_area.bind("<MouseWheel>", self.on_mousewheel)
+        self.text_area.bind("<Button-4>", self.on_mousewheel)
+        self.text_area.bind("<Button-5>", self.on_mousewheel)
+        self.text_area.config(font=("TkDefaultFont", default_font_size))
+        self.text_area.pack(side='left', fill='both', expand=True)
         self.text_area.bind('<KeyRelease>', self.update_status_bar)
+        self.text_area.bind('<ButtonRelease-1>', self.update_status_bar)
+        self.text_area.bind('<ButtonRelease-3>', self.update_status_bar)
+        self.text_area.bind('<B1-Motion>', self.update_status_bar)
+        self.text_area.bind('<B3-Motion>', self.update_status_bar)
+        self.text_area.bind("<Control-n>", self.new_file)
+        self.text_area.bind("<Control-o>", self.open_file)
+        self.text_area.bind("<Control-s>", self.save_file)
+        self.text_area.bind("<Control-S>", self.save_file_as)
+        self.text_area.bind("<Control-x>", self.cut)
+        self.text_area.bind("<Control-c>", self.copy)
+        self.text_area.bind("<Control-v>", self.paste)
+        self.text_area.bind("<Control-b>", self.toggle_bold)
+        self.text_area.bind("<Control-i>", self.toggle_italic)
+        self.text_area.bind("<Control-u>", self.toggle_underline)
 
-        # right-click menu
+             # right-click menu
         self.text_menu = tk.Menu(self.root, tearoff=0, bg='black', fg='white')
         self.text_menu.add_command(label="New", accelerator="Ctrl+N", command=self.new_file)
         self.text_menu.add_command(label="Open...", accelerator="Ctrl+O", command=self.open_file)
@@ -110,23 +131,28 @@ class Notes:
         # Bind the right-click menu to the text area
         self.text_area.bind("<Button-3>", self.show_text_menu)
 
+        
+        self.root.bind("<Control-s>", self.save_file)
+
+    def on_mousewheel(self, event):
+        self.text_area.yview_scroll(int(-1*(event.delta/120)), "units")
+
+    def update_status_bar(self, event=None):
+        row, col = self.text_area.index('insert').split('.')
+        status_text = "Ln {}, Col {}".format(int(row), int(col) + 1)
+        self.status_bar.config(text=status_text)
+
     def show_text_menu(self, event):
         self.text_menu.tk_popup(event.x_root, event.y_root)
 
     def update(self, event=None):
         self.update_title()
-        
+
     def update_title(self):
         if self.current_file:
             self.root.title(self.current_file + " - Notes")
         else:
             self.root.title("Untitled - Notes")
-
-    def update_status_bar(self, event=None):
-        row, col = self.text_area.index('end-1c').split('.')
-        status_text = "Ln {}, Col {}".format(int(row), int(col) + 1)
-        self.status_bar.config(text=status_text)
-
 
     def save_file(self, event=None):
         if self.current_file:
@@ -134,15 +160,6 @@ class Notes:
             with open(self.current_file, 'w') as file:
                 file.write(text)
             self.update_title()
-
-            # Tokenize and save tokens to 'tokens' directory
-            tokens = word_tokenize(text)
-            if not os.path.exists("tokens"):
-                os.makedirs("tokens")
-            tokens_file_path = os.path.join("tokens", os.path.basename(self.current_file) + "_tokens.txt")
-            with open(tokens_file_path, 'w') as tokens_file:
-                tokens_file.write("\n".join(tokens))
-
         else:
             self.save_file_as()
 
@@ -197,7 +214,7 @@ class Notes:
         font_size_spinbox.bind("<Return>", lambda event: self.text_area.configure(font=(self.font_family.get(), self.font_size.get())))
 
     def change_font_color(self):
-        color = tk.colorchooser.askcolor()[1]
+        color = colorchooser.askcolor()[1]
         if color:
             self.font_color.set(color)
             self.text_area.configure(fg=color)
