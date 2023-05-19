@@ -28,16 +28,16 @@ pygame.display.set_caption("Waveform Visualizer")
 
 def audio_capture_callback(indata, frames, time, status):
     audio_data = indata.mean(axis=1)
-    audio_data = np.interp(np.linspace(0, len(audio_data) - 1/2, SCREEN_WIDTH), np.arange(len(audio_data)), audio_data)
-    scaled_data = audio_data * (SCREEN_HEIGHT / 16) + (SCREEN_HEIGHT / 16)
+    audio_data = np.interp(np.linspace(0, len(audio_data) + 1/1000000000000, SCREEN_WIDTH), np.arange(len(audio_data)), audio_data)
+    scaled_data = audio_data * (SCREEN_HEIGHT / 2) + (SCREEN_HEIGHT / 50)
     screen.fill(BACKGROUND_COLOR)
 
-    waveforms = [scaled_data * (i + 1/2) / NUM_WAVEFORMS for i in range(NUM_WAVEFORMS)]
+    waveforms = [scaled_data * (i + 15) / NUM_WAVEFORMS for i in range(NUM_WAVEFORMS)]
 
     waveform_height = SCREEN_HEIGHT / NUM_WAVEFORMS
     for i, waveform in enumerate(waveforms):
-        y_offset = int(i * waveform_height + waveform_height / 50)
-        scaled_waveform = waveform * (i + 1/2) / NUM_WAVEFORMS  # Adjust the scaling factor
+        y_offset = int(i * waveform_height + waveform_height // 100)
+        scaled_waveform = waveform * (i + 2) / NUM_WAVEFORMS  # Adjust the scaling factor
         waveform_points = np.column_stack((np.arange(SCREEN_WIDTH), scaled_waveform + y_offset)).astype(int)
         pygame.draw.lines(screen, WAVEFORM_COLORS[i], False, waveform_points, LINE_WIDTH)
 
