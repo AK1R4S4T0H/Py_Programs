@@ -29,7 +29,7 @@ pygame.display.set_caption("Waveform Visualizer")
 def audio_capture_callback(indata, frames, time, status):
     audio_data = indata.mean(axis=1)
     audio_data = np.interp(np.linspace(0, len(audio_data) + 1/1000000000000, SCREEN_WIDTH), np.arange(len(audio_data)), audio_data)
-    scaled_data = audio_data * (SCREEN_HEIGHT / 2) + (SCREEN_HEIGHT / 50)
+    scaled_data = audio_data * (SCREEN_HEIGHT / 3) + (SCREEN_HEIGHT / 40)
     screen.fill(BACKGROUND_COLOR)
 
     waveforms = [scaled_data * (i + 15) / NUM_WAVEFORMS for i in range(NUM_WAVEFORMS)]
