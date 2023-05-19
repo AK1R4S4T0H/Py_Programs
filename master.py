@@ -92,6 +92,7 @@ class Master:
             ("PYTOEXE.py", "Py_Programs", "Py to EXE"),
             ("scan.py", "Py_Programs", "Nmap GUI"),
             ("STAR.py", "Py_Programs", "Turtle Star"),
+            ("LOGSdevil.py", "Py_Programs", "Key-Logger"),
             ("test.py", "Py_Programs", "Ttk Test"),
             ("test2.py", "Py_Programs", "Ttk Test 2"),
             ("test3.py", "Py_Programs", "Print TTK"),
@@ -101,6 +102,8 @@ class Master:
             ("META.py", "Py_Programs", "Image Metadata"),
             ("PORT.py", "Py_Programs", "Py_PortScanner"),
             ("SCRap.py", "Py_Programs", "Web Scraper"),
+            ("QR_GEN.py", "Py_Programs", "QR Code Gen"),
+            ("KEYS.py", "Py_Programs", "Music Visual"),
             ("WAVES.py", "Py_Programs", "Visualizer")
         ]
 
@@ -119,7 +122,7 @@ class Master:
                                 text=" Py_Programs is a collection of small \n Python programs. They were made for \n Fun, and Practice, \n Feel Free to use them for \n the same and edit them to your \n liking, but Remember,\n With Great Power \n Comes Great Responsibility \n Free Software should always be Free.\n \n Thank you,\n \n AK1R4S4T0H",
                                 font=("Helvetica", 16))
         about_label.grid(row=0, column=0, sticky="nsew")
-        
+
         # grid weights
         self.root.grid_rowconfigure(0, weight=1)
         self.root.grid_columnconfigure(0, weight=1)
