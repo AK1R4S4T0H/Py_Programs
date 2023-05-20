@@ -77,7 +77,7 @@ def audio_capture_callback(indata, frames, time, status):
         normalized_frequency = np.interp(peak_frequency, [0, SAMPLE_RATE / 2], frequency_range)
 
        
-        line_position = int(SCREEN_WIDTH * (normalized_frequency - frequency_range[0]) / (frequency_range[1] - frequency_range[0]))
+        line_position = int(SCREEN_WIDTH * (normalized_frequency - frequency_range[0]) // (frequency_range[1] - frequency_range[0]))
 
         line_start = (line_position, y_offset)
         line_end = (line_position, y_offset + waveform_height)

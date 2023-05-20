@@ -92,7 +92,7 @@ class Master:
             ("PYTOEXE.py", "Py_Programs", "Py to EXE"),
             ("scan.py", "Py_Programs", "Nmap GUI"),
             ("STAR.py", "Py_Programs", "Turtle Star"),
-            ("LOGSdevil.py", "Py_Programs", "Key-Logger"),
+            ("LOGS.py", "Py_Programs", "Key-Logger"),
             ("test.py", "Py_Programs", "Ttk Test"),
             ("test2.py", "Py_Programs", "Ttk Test 2"),
             ("test3.py", "Py_Programs", "Print TTK"),
