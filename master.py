@@ -1,6 +1,7 @@
 """ Created by: AK1R4S4T0H
 """
 # master launcher for the Py_Programs
+# 
 import os
 import tkinter as tk
 from tkinter import ttk
@@ -138,7 +139,7 @@ class Master:
         subprocess.Popen(["python", program[0]])
         os.chdir(initial_directory)
 
-
+# RUN
 if __name__ == "__main__":
     program_launcher = Master()
     program_launcher.root.mainloop()
