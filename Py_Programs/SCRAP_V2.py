@@ -1,12 +1,7 @@
-""" Created by: AK1R4S4T0H
-"""
 import tkinter as tk
 from tkinter import ttk, scrolledtext
 from bs4 import BeautifulSoup
 import requests
-import urllib.parse
-import csv
-import os
 
 def scrape_button_clicked():
     url = entry_url.get()
@@ -23,16 +18,9 @@ def scrape_button_clicked():
         soup = BeautifulSoup(response.content, 'html.parser')
         title = soup.title.string.strip()
         paragraphs = [p.get_text() for p in soup.find_all('p')]
-        links = [urllib.parse.urljoin(url, a['href']) for a in soup.find_all('a')]  # Combine base URL and relative path
+        links = [a['href'] for a in soup.find_all('a')]
         
         display_scraped_content(title, paragraphs, links)
-        
-        # Go to the next viable link after 10 seconds
-        if links:
-            next_link = links[1]  # Assuming the next link is the first one in the list
-            entry_url.delete(0, tk.END)
-            entry_url.insert(tk.END, next_link)
-            window.after(10000, scrape_button_clicked)  # Wait for 10 seconds and call the function again
     except requests.RequestException as e:
         display_error_message(f"Request Error: {str(e)}")
     except Exception as e:
@@ -78,20 +66,23 @@ def display_scraped_content(title, paragraphs, links):
     text_links.delete('1.0', tk.END)
     for link in links:
         text_links.insert(tk.END, f"{link}\n")
+        text_links.tag_add("link", "end-1l", "end")
+        text_links.tag_bind("link", "<Button-1>", lambda event, url=link: open_link(event, url))
     text_links.configure(state='disabled')
-    # Append scraped data to a CSV file
-    directory = "scrap"
-    filename = "scrap.csv"
-    os.makedirs(directory, exist_ok=True)  # Create the "scrap" directory if it doesn't exist
-    
-    file_path = os.path.join(directory, filename)
-    
-    with open(file_path, mode='a', newline='') as file:
-        writer = csv.writer(file)
-        writer.writerow([title])
-        writer.writerow(paragraphs)
-        writer.writerow(links)
 
+def open_link(event, url):
+    try:
+        response = requests.get(url)
+        response.raise_for_status()
+        soup = BeautifulSoup(response.content, 'html.parser')
+        title = soup.title.string.strip()
+        paragraphs = [p.get_text() for p in soup.find_all('p')]
+        links = [a['href'] for a in soup.find_all('a')]
+        display_scraped_content(title, paragraphs, links)
+    except requests.RequestException as e:
+        display_error_message(f"Request Error: {str(e)}")
+    except Exception as e:
+        display_error_message(f"An error occurred: {str(e)}")
 
 def change_theme():
     theme = theme_var.get()
@@ -138,7 +129,6 @@ text_paragraphs.pack(pady=5)
 
 text_links = scrolledtext.ScrolledText(frame_display, wrap=tk.WORD, width=73, height=13)
 text_links.insert(tk.END, "Links")
-text_links.configure(state='disabled')
 text_links.pack(pady=5)
 
 frame_theme = ttk.Frame(window)
