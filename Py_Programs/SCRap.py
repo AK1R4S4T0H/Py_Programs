@@ -26,12 +26,12 @@ def scrape_button_clicked():
         
         display_scraped_content(title, paragraphs, links)
         
-        # Go to the next viable link after 10 seconds
+        # Go to link after 10 seconds
         if links:
-            next_link = links[0]  # Assuming the next link is the first one in the list
+            next_link = links[0]  # Assuming link is the first one
             entry_url.delete(0, tk.END)
             entry_url.insert(tk.END, next_link)
-            window.after(10000, scrape_button_clicked)  # Wait for 10 seconds and call the function again
+            window.after(10000, scrape_button_clicked)  # Wait for 10 seconds
     except requests.RequestException as e:
         display_error_message(f"Request Error: {str(e)}")
     except Exception as e:
@@ -105,7 +105,6 @@ window.geometry("600x600")
 
 style = ttk.Style()
 
-# Configure the style for various elements
 style.configure("TLabel", background="black", foreground="white")
 style.configure("TButton", background="black", foreground="white", hoverbackground="red", hoverforeground="white")
 
