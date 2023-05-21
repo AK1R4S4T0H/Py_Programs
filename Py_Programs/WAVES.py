@@ -25,7 +25,7 @@ FREQUENCIES = [61.63, 293.66, 929.63, 1449.23, 2292.00, 2640.00, 3193.88]
 
 pygame.init()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption("Waveform Visualizer")
+pygame.display.set_caption("Waveform")
 
 
 def audio_capture_callback(indata, frames, time, status):
