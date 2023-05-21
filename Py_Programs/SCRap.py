@@ -4,9 +4,8 @@ import tkinter as tk
 from tkinter import ttk, scrolledtext
 from bs4 import BeautifulSoup
 import requests
-import urllib.parse
-import csv
 import os
+import csv
 
 def scrape_button_clicked():
     url = entry_url.get()
@@ -23,13 +22,13 @@ def scrape_button_clicked():
         soup = BeautifulSoup(response.content, 'html.parser')
         title = soup.title.string.strip()
         paragraphs = [p.get_text() for p in soup.find_all('p')]
-        links = [urllib.parse.urljoin(url, a['href']) for a in soup.find_all('a')]  # Combine base URL and relative path
+        links = [a['href'] for a in soup.find_all('a')]
         
         display_scraped_content(title, paragraphs, links)
         
         # Go to the next viable link after 10 seconds
         if links:
-            next_link = links[1]  # Assuming the next link is the first one in the list
+            next_link = links[0]  # Assuming the next link is the first one in the list
             entry_url.delete(0, tk.END)
             entry_url.insert(tk.END, next_link)
             window.after(10000, scrape_button_clicked)  # Wait for 10 seconds and call the function again
@@ -91,7 +90,6 @@ def display_scraped_content(title, paragraphs, links):
         writer.writerow([title])
         writer.writerow(paragraphs)
         writer.writerow(links)
-
 
 def change_theme():
     theme = theme_var.get()
