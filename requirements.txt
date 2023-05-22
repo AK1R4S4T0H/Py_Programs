@@ -11,3 +11,8 @@ nltk==3.6.5
 pygame==2.1.0
 torch==1.10.0
 moviepy==1.0.3
+scipy==1.10.1
+beautifulsoup4==4.12.2
+qrcode==7.4.2
+psutil==5.9.4
+pynput==1.7.6
