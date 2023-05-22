@@ -5,6 +5,9 @@ import numpy as np
 import sounddevice as sd
 import pygame
 from scipy.fft import fft
+import tkinter as tk
+from tkinter import ttk
+
 
 # Audio settings
 CHANNELS = 2
@@ -55,6 +58,7 @@ while running:
         if event.type == pygame.QUIT:
             running = False
     pygame.event.pump()
+
 
 stream.stop()
 stream.close()
