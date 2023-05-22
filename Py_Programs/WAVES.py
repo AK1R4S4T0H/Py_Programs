@@ -9,11 +9,11 @@ from scipy.fft import fft
 # Audio settings
 CHANNELS = 2
 SAMPLE_RATE = 44100
-BLOCK_SIZE = 128
+BLOCK_SIZE = 2048
 
 # Visualization settings
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 400
+SCREEN_WIDTH = 900
+SCREEN_HEIGHT = 500
 BACKGROUND_COLOR = (0, 0, 0)
 NUM_WAVEFORMS = 7
 WAVEFORM_COLORS = [(255, 120, 0), (255, 200, 0), (0, 255, 100), (0, 150, 255), (0, 0, 255), (255, 0, 255), (255, 255, 255)]
@@ -21,7 +21,7 @@ LINE_WIDTH = 2
 WAVEFORM_MOVEMENT = 99 # pronounced movement of the waveform
 
 # Frequencies
-FREQUENCIES = [61.63, 293.66, 929.63, 1449.23, 2292.00, 2640.00, 3193.88]
+FREQUENCIES = [161.63, 293.66, 929.63, 1449.23, 2292.00, 2640.00, 3193.88]
 
 pygame.init()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
