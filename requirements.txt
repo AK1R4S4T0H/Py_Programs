@@ -1,8 +1,8 @@
-opencv-python==4.5.3
+opencv-python==4.7.0.42
 Pillow==8.3.2
 tkhtmlview==1.1.1
 transformers==4.11.3
-numpy==1.21.4
+numpy==1.17.0
 tensorflow==2.7.0
 turtle==0.0.1
 matplotlib==3.5.1
