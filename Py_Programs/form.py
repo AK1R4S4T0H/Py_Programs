@@ -41,7 +41,7 @@ password_entry.grid(row=1, column=1)
 
 submit_button = ttk.Button(form_frame, text="Submit", command=submit_form)
 submit_button.grid(row=2, columnspan=2)
-
+# tab 2
 tab2 = ttk.Frame(notebook)
 notebook.add(tab2, text="Results")
 
