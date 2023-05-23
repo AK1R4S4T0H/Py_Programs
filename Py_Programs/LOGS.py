@@ -1,3 +1,8 @@
+# USE AT YOUR OWN RISK
+# WITH GREAT POWER COMES GREAT RESPONSIBILITY
+# I AM NOT RESPONSIBLE FOR WHAT YOU DO WITH THIS
+""" Created by: AK1R4S4T0H
+"""
 import tkinter as tk
 from tkinter import ttk
 from pynput import keyboard

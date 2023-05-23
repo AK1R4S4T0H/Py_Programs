@@ -9,7 +9,7 @@ port_range = input("Enter the port range (e.g., '80-100', 'common'): ")
 num_threads = int(input("Enter the number of threads: "))
 
 common_port_ranges = {
-    "common": [(1, 1023)],
+    "CUPS": [(630, 631)],
     "web": [(80, 80), (443, 443), (8080, 8080)],
     "ftp": [(20, 21)],
     "ssh": [(22, 22)],
@@ -30,6 +30,7 @@ common_port_ranges = {
     "irc": [(6667, 6667)],
     "git": [(9418, 9418)],
     "docker": [(2375, 2375)],
+    "common": [(1, 1023)]
     # Add more common port ranges as needed
 }
 
@@ -147,7 +148,10 @@ print('\u2514' + '\u2500' * (box_width - 2) + '\u2518')
 # Print detailed information for each open port
 for port in open_ports:
     service = get_service_name(port)
-    print('\n' + '=' * box_width)
+    print('\u250C' + '\u2500' * (box_width - 2) + '\u2510')
+    print('*' * box_width)
     print(f"Port: {port}".center(box_width))
     print(f"Service: {service}".center(box_width))
-    print('=' * box_width)
+    print('*' * box_width )
+    print('\u2514' + '\u2500' * (box_width - 2) + '\u2518')
+    

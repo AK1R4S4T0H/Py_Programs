@@ -8,62 +8,75 @@ from tkinter import ttk
 from tkinter import colorchooser
 from tkinter import font as tkfont
 
-BACKGROUND_COLOR = "#492a44"
-LABEL_COLOR = "#d1d1e0"
-METER_COLOR = "#daaaff"
 
-def update_meter():
-    cpu_percent = psutil.cpu_percent()
-    ram_percent = psutil.virtual_memory().percent
+import psutil
+import platform
+import tkinter as tk
+from tkinter import ttk
 
-    cpu_meter["value"] = cpu_percent
-    ram_meter["value"] = ram_percent
 
-    cpu_label.config(text=f"CPU Usage: {cpu_percent}%")
-    ram_label.config(text=f"RAM Usage: {ram_percent}%")
+class PonkyPy:
+    def __init__(self):
+        self.BACKGROUND_COLOR = "#492a44"
+        self.LABEL_COLOR = "#d1d1e0"
+        self.METER_COLOR = "#daaaff"
+        self.root = tk.Tk()
+        self.root.title("PONKY PY")
+        self.root.configure(bg=self.BACKGROUND_COLOR)
+        self.style = ttk.Style()
+        self.style.configure("Custom.Horizontal.TProgressbar", troughcolor=self.BACKGROUND_COLOR, background=self.METER_COLOR)
 
-    root.after(1000, update_meter)
+        # CPU
+        self.cpu_label = ttk.Label(self.root, text="CPU Usage:", foreground=self.LABEL_COLOR, background=self.BACKGROUND_COLOR)
+        self.cpu_label.pack()
 
-root = tk.Tk()
-root.title("PONKY PY")
-root.configure(bg=BACKGROUND_COLOR)
-style = ttk.Style()
-style.configure("Custom.Horizontal.TProgressbar", troughcolor=BACKGROUND_COLOR, background=METER_COLOR)
+        self.cpu_meter = ttk.Progressbar(self.root, mode="determinate", length=200, style="Custom.Horizontal.TProgressbar", value=0)
+        self.cpu_meter.pack()
 
-# CPU
-cpu_label = ttk.Label(root, text="CPU Usage:", foreground=LABEL_COLOR, background=BACKGROUND_COLOR)
-cpu_label.pack()
+        # RAM
+        self.ram_label = ttk.Label(self.root, text="RAM Usage:", foreground=self.LABEL_COLOR, background=self.BACKGROUND_COLOR)
+        self.ram_label.pack()
 
-cpu_meter = ttk.Progressbar(root, mode="determinate", length=200, style="Custom.Horizontal.TProgressbar", value=0)
-cpu_meter.pack()
+        self.ram_meter = ttk.Progressbar(self.root, mode="determinate", length=200, style="Custom.Horizontal.TProgressbar", value=0)
+        self.ram_meter.pack()
 
-# RAM
-ram_label = ttk.Label(root, text="RAM Usage:", foreground=LABEL_COLOR, background=BACKGROUND_COLOR)
-ram_label.pack()
+        # SysInfo
+        self.system_label = ttk.Label(self.root, text="System Information:", foreground=self.LABEL_COLOR, background=self.BACKGROUND_COLOR, font=("Arial", 12, "bold"))
+        self.system_label.pack(pady=10)
 
-ram_meter = ttk.Progressbar(root, mode="determinate", length=200, style="Custom.Horizontal.TProgressbar", value=0)
-ram_meter.pack()
+        self.system_info = ttk.Label(self.root, text="", foreground=self.LABEL_COLOR, background=self.BACKGROUND_COLOR, justify="left")
+        self.system_info.pack()
 
-# SysInfo
-system_label = ttk.Label(root, text="System Information:", foreground=LABEL_COLOR, background=BACKGROUND_COLOR, font=("Arial", 12, "bold"))
-system_label.pack(pady=10)
+        self.update_meter()
 
-system_info = ttk.Label(root, text="", foreground=LABEL_COLOR, background=BACKGROUND_COLOR, justify="left")
-system_info.pack()
+    def update_meter(self):
+        cpu_percent = psutil.cpu_percent()
+        ram_percent = psutil.virtual_memory().percent
 
-# Retrieve SysInfo
-system_details = []
-system_details.append(f"OS: {platform.system()} {platform.release()}")
-system_details.append(f"Processor: {platform.processor()}")
-system_details.append(f"Machine: {platform.machine()}")
-system_details.append(f"System Type: {platform.architecture()[0]}")
-system_details.append(f"Memory: {round(psutil.virtual_memory().total / (1024 ** 3))} GB")
-system_details.append(f"Hostname: {platform.node()}")
-system_details.append(f"Python Version: {platform.python_version()}")
+        self.cpu_meter["value"] = cpu_percent
+        self.ram_meter["value"] = ram_percent
 
-system_info.config(text="\n".join(system_details))
+        self.cpu_label.config(text=f"CPU Usage: {cpu_percent}%")
+        self.ram_label.config(text=f"RAM Usage: {ram_percent}%")
 
-update_meter()
+        self.root.after(1000, self.update_meter)
 
-root.mainloop()
+    def run(self):
+        # Retrieve SysInfo
+        system_details = []
+        system_details.append(f"OS: {platform.system()} {platform.release()}")
+        system_details.append(f"Processor: {platform.processor()}")
+        system_details.append(f"Machine: {platform.machine()}")
+        system_details.append(f"System Type: {platform.architecture()[0]}")
+        system_details.append(f"Memory: {round(psutil.virtual_memory().total / (1024 ** 3))} GB")
+        system_details.append(f"Hostname: {platform.node()}")
+        system_details.append(f"Python Version: {platform.python_version()}")
 
+        self.system_info.config(text="\n".join(system_details))
+
+        self.root.mainloop()
+
+
+if __name__ == "__main__":
+    ponky = PonkyPy()
+    ponky.run()
