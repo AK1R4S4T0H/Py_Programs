@@ -9,14 +9,15 @@ import tkinter as tk
 from tkinter import ttk
 
 
+
 # Audio settings
-CHANNELS = 2
+CHANNELS = 7
 SAMPLE_RATE = 44100
-BLOCK_SIZE = 248
+BLOCK_SIZE = 2048
 
 # Visualization settings
 SCREEN_WIDTH = 700
-SCREEN_HEIGHT = 300
+SCREEN_HEIGHT = 500
 BACKGROUND_COLOR = (0, 0, 0)
 NUM_WAVEFORMS = 7
 WAVEFORM_COLORS = [(255, 120, 0), (255, 200, 0), (0, 255, 100), (0, 150, 255), (0, 0, 255), (255, 0, 255), (255, 255, 255)]

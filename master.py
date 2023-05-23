@@ -76,6 +76,7 @@ class Master:
             ("ABCs.py", "Py_Programs", "ABC Flashcards"),
             ("ANYTOMP4.py", "Py_Programs", "Any to Mp4"),
             ("AUDIO.py", "Py_Programs", "Audio Player"),
+            ("BROWSE.py", "Py_Programs", "Web Browser"),
             ("Calculator.py", "Py_Programs", "Calculator"),
             ("CSVPLOT.py", "Py_Programs", "CSV Plot"),
             ("DODGE.py", "Py_Programs", "Dodge the Dots"),
