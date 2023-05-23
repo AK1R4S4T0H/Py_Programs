@@ -2,30 +2,50 @@ import tkinter as tk
 from tkinter import ttk, scrolledtext
 from bs4 import BeautifulSoup
 import requests
+import os
+import csv
+
 
 def scrape_button_clicked():
     url = entry_url.get()
-    
-    # Validate URL
-    if not url.startswith('http://') and not url.startswith('https://'):
-        display_error_message("Invalid URL")
-        return
-    
-    try:
-        response = requests.get(url)
-        response.raise_for_status()  # Check for request errors
-        
-        soup = BeautifulSoup(response.content, 'html.parser')
-        title = soup.title.string.strip()
-        paragraphs = [p.get_text() for p in soup.find_all('p')]
-        links = [a['href'] for a in soup.find_all('a')]
-        
-        display_scraped_content(title, paragraphs, links)
-    except requests.RequestException as e:
-        display_error_message(f"Request Error: {str(e)}")
-    except Exception as e:
-        display_error_message(f"An error occurred: {str(e)}")
 
+    # Check URL for http:// or https://
+    if not url.startswith('http://') and not url.startswith('https://'):
+        # Try with https://
+        url_with_https = f'https://{url}'
+        try:
+            response = requests.get(url_with_https)
+            response.raise_for_status()  # Check request errors
+        except requests.RequestException:
+            # Try http://
+            url_with_http = f'http://{url}'
+            try:
+                response = requests.get(url_with_http)
+                response.raise_for_status() 
+            except requests.RequestException as e:
+                display_error_message(f"Request Error: {str(e)}")
+                return
+        except Exception as e:
+            display_error_message(f"An error occurred: {str(e)}")
+            return
+    else:
+        # URL includes http:// https://
+        try:
+            response = requests.get(url)
+            response.raise_for_status() 
+        except requests.RequestException as e:
+            display_error_message(f"Request Error: {str(e)}")
+            return
+        except Exception as e:
+            display_error_message(f"An error occurred: {str(e)}")
+            return
+
+    soup = BeautifulSoup(response.content, 'html.parser')
+    title = soup.title.string.strip()
+    paragraphs = [p.get_text() for p in soup.find_all('p')]
+    links = [a['href'] for a in soup.find_all('a')]
+
+    display_scraped_content(title, paragraphs, links)
 def clear_button_clicked():
     entry_url.delete(0, tk.END)
     text_title.configure(state='normal')
@@ -66,9 +86,19 @@ def display_scraped_content(title, paragraphs, links):
     text_links.delete('1.0', tk.END)
     for link in links:
         text_links.insert(tk.END, f"{link}\n")
-        text_links.tag_add("link", "end-1l", "end")
-        text_links.tag_bind("link", "<Button-1>", lambda event, url=link: open_link(event, url))
     text_links.configure(state='disabled')
+    # Append scraped data to a CSV file
+    directory = "scrap"
+    filename = "scrap.csv"
+    os.makedirs(directory, exist_ok=True)  # Create the "scrap" directory if it doesn't exist
+    
+    file_path = os.path.join(directory, filename)
+    
+    with open(file_path, mode='a', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow([title])
+        writer.writerow(paragraphs)
+        writer.writerow(links)
 
 def open_link(event, url):
     try:
@@ -84,23 +114,64 @@ def open_link(event, url):
     except Exception as e:
         display_error_message(f"An error occurred: {str(e)}")
 
-def change_theme():
-    theme = theme_var.get()
-    
-    if theme == 0:
-        style.theme_use('default')  # Default theme
-    elif theme == 1:
-        style.theme_use('alt')  # Alternate theme
 
 window = tk.Tk()
 window.title("Web Scraper")
 window.geometry("600x600")
 
-style = ttk.Style()
+def change_theme():
+    theme = theme_var.get()
+    
+    if theme == 0:
+        style.theme_use('alt')  # Default theme
+        window.config(background="#a2a6d6")
+        style.configure("TFrame", background="#a2a6d6")
+        style.configure("TRadiobutton", background="#a2a6d6", foreground="black")
+        style.configure("TLabel", background="#a2a6d6", foreground="black")
+        style.configure("TButton", background="#a2a6d6", foreground="black")
+        style.map("TButton",
+          background=[('active', '#d6c9d9'), ('!active', '#a2a6d6')],
+          foreground=[('active', 'black'), ('!active', 'black')])
+        style.map("TRadiobutton",
+          background=[('active', '#d6c9d9'), ('!active', '#a2a6d6')],
+          foreground=[('active', 'black'), ('!active', 'black')])
+        text_title.config(background="#d6c9d9", foreground="black")
+        text_paragraphs.config(background="#d6c9d9", foreground="black")
+        text_links.config(background="#d6c9d9", foreground="black")
 
-# Configure the style for various elements
-style.configure("TLabel", background="black", foreground="white")
-style.configure("TButton", background="black", foreground="white", hoverbackground="red", hoverforeground="white")
+
+    elif theme == 1:
+        style.theme_use('alt')  # Alternate theme
+        window.config(background="#4c4c4c")
+        style.configure("TFrame", background="#4c4c4c")
+        style.configure("TButton", background="#4c4c4c", foreground="white")
+        style.configure("TRadiobutton", background="#4c4c4c", foreground="white")
+        style.configure("TLabel", background="#4c4c4c", foreground="white")
+        style.map("TButton",
+          background=[('active', 'red')],
+          foreground=[('active', 'white')])
+        style.map("TRadiobutton",
+          background=[('active', 'red')],
+          foreground=[('active', 'white')])
+        text_title.config(background="#7c7c7c", foreground="white")
+        text_paragraphs.config(background="#7c7c7c", foreground="white")
+        text_links.config(background="#7c7c7c", foreground="white")
+
+
+style = ttk.Style()
+style.theme_use('alt')  # Default theme
+window.config(background="#a2a6d6")
+style.configure("TFrame", background="#a2a6d6")
+style.configure("TRadiobutton", background="#a2a6d6", foreground="black")
+style.configure("TLabel", background="#a2a6d6", foreground="black")
+style.configure("TButton", background="#a2a6d6", foreground="black")
+style.map("TButton",
+          background=[('active', '#d6c9d9'), ('!active', '#a2a6d6')],
+          foreground=[('active', 'black'), ('!active', 'black')])
+style.map("TRadiobutton",
+          background=[('active', '#d6c9d9'), ('!active', '#a2a6d6')],
+          foreground=[('active', 'black'), ('!active', 'black')])
+
 
 frame_input = ttk.Frame(window)
 frame_input.pack(pady=10)
@@ -140,10 +211,14 @@ label_theme.pack(side=tk.LEFT)
 theme_var = tk.IntVar()
 theme_var.set(0)  # Default theme
 
-radio_default = ttk.Radiobutton(frame_theme, text="Default", variable=theme_var, value=0, command=change_theme)
+radio_default = ttk.Radiobutton(frame_theme, text="Light", variable=theme_var, value=0, command=change_theme)
 radio_default.pack(side=tk.LEFT)
 
-radio_light = ttk.Radiobutton(frame_theme, text="Alternate", variable=theme_var, value=1, command=change_theme)
+radio_light = ttk.Radiobutton(frame_theme, text="Dark", variable=theme_var, value=1, command=change_theme)
 radio_light.pack(side=tk.LEFT)
+
+text_title.config(background="#d6c9d9", foreground="black")
+text_paragraphs.config(background="#d6c9d9", foreground="black")
+text_links.config(background="#d6c9d9", foreground="black")
 
 window.mainloop()
