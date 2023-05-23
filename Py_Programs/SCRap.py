@@ -159,7 +159,6 @@ def change_theme():
         text_paragraphs.config(background="#7c7c7c", foreground="white")
         text_links.config(background="#7c7c7c", foreground="white")
 
-
 style = ttk.Style()
 style.theme_use('alt')  # Default theme
 window.config(background="#a2a6d6")
@@ -176,7 +175,7 @@ style.map("TRadiobutton",
 
 
 frame_input = ttk.Frame(window)
-frame_input.pack(pady=10)
+frame_input.grid(row=0, column=0, pady=10)
 
 entry_url = ttk.Entry(frame_input, width=50)
 entry_url.grid(row=0, column=0, padx=5)
@@ -188,39 +187,64 @@ button_clear = ttk.Button(frame_input, text="Clear", command=clear_button_clicke
 button_clear.grid(row=0, column=2, padx=5)
 
 frame_display = ttk.Frame(window)
-frame_display.pack()
+frame_display.grid(row=1, column=0)
 
 text_title = scrolledtext.ScrolledText(frame_display, wrap=tk.WORD, width=73, height=3)
 text_title.insert(tk.END, "Title")
 text_title.configure(state='disabled')
-text_title.pack(pady=5)
+text_title.grid(row=0, column=0, pady=5)
 
 text_paragraphs = scrolledtext.ScrolledText(frame_display, wrap=tk.WORD, width=73, height=10)
 text_paragraphs.insert(tk.END, "Paragraphs")
 text_paragraphs.configure(state='disabled')
-text_paragraphs.pack(pady=5)
+text_paragraphs.grid(row=1, column=0, pady=5)
 
 text_links = scrolledtext.ScrolledText(frame_display, wrap=tk.WORD, width=73, height=13)
 text_links.insert(tk.END, "Links")
-text_links.pack(pady=5)
+text_links.grid(row=2, column=0, pady=5)
 
 frame_theme = ttk.Frame(window)
-frame_theme.pack(side=tk.BOTTOM, pady=10, padx=10, anchor=tk.SW)
-
-label_theme = ttk.Label(frame_theme, text="Theme:")
-label_theme.pack(side=tk.LEFT)
+frame_theme.grid(row=2, column=0, pady=10, padx=10, sticky=tk.SW)
 
 theme_var = tk.IntVar()
 theme_var.set(0)  # Default theme
 
-radio_default = ttk.Radiobutton(frame_theme, text="Light", variable=theme_var, value=0, command=change_theme)
-radio_default.pack(side=tk.LEFT)
+label_theme = ttk.Label(frame_theme, text="Theme:")
+label_theme.grid(row=0, column=0, sticky=tk.W, padx=5)
 
-radio_light = ttk.Radiobutton(frame_theme, text="Dark", variable=theme_var, value=1, command=change_theme)
-radio_light.pack(side=tk.LEFT)
+radio_default = ttk.Radiobutton(frame_theme, text="Light", variable=theme_var, value=0, command=change_theme)
+radio_default.grid(row=0, column=1, padx=5)
+
+radio_dark = ttk.Radiobutton(frame_theme, text="Dark", variable=theme_var, value=1, command=change_theme)
+radio_dark.grid(row=0, column=2, padx=5)
 
 text_title.config(background="#d6c9d9", foreground="black")
 text_paragraphs.config(background="#d6c9d9", foreground="black")
 text_links.config(background="#d6c9d9", foreground="black")
+
+def popup():
+    popup = tk.Toplevel()
+    popup.title("Popup")
+    popup.geometry("300x200")
+    popup.resizable(False, False)
+    popup.configure(bg='black')
+    label = ttk.Label(popup, text="About Web Scraper:", foreground='white', background='black', font=('Courier', 18, 'bold'))
+    label.pack(pady=5)
+    label1 = ttk.Label(popup, text="Scrap web pages based on URL inputed", foreground='white', background='black', font=('Courier', 10, 'bold'))
+    label1.pack(pady=5)
+    label2 = ttk.Label(popup, text="Goes to 1st Link every 10 seconds", foreground='white', background='black', font=('Courier', 11, 'bold'))
+    label2.pack(pady=5)
+    label3 = ttk.Label(popup, text="saves in Folder in parent dir", foreground='white', background='black', font=('Courier', 11, 'bold'))
+    label3.pack(pady=5)
+    label3 = ttk.Label(popup, text="DIR: scrap, FILE: scrap.csv", foreground='white', background='black', font=('Courier', 11, 'bold'))
+    label3.pack(pady=5)
+    popup.focus_set()
+    popup.grab_set()
+    popup.transient(window)
+    popup.wait_window(popup)
+
+about = ttk.Button(frame_theme, text="About", command=popup)
+about.grid(row=0, column=5, padx=5)
+
 
 window.mainloop()
