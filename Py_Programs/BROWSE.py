@@ -3,7 +3,7 @@ from PySide6.QtCore import Qt, Slot
 from PySide6.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QLineEdit, QPushButton, QTextBrowser
 from PySide6.QtNetwork import QNetworkAccessManager, QNetworkRequest, QNetworkReply
 
-class WebBrowserWindow(QMainWindow):
+class WebBrowser(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Web Browser")
@@ -48,6 +48,6 @@ class WebBrowserWindow(QMainWindow):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    window = WebBrowserWindow()
+    window = WebBrowser()
     window.show()
     sys.exit(app.exec())
