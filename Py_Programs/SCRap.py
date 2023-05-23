@@ -238,7 +238,7 @@ class Scrap():
             label3.pack(pady=5)
             popup.focus_set()
             popup.grab_set()
-            popup.transient(window)
+            popup.transient(self.window)
             popup.wait_window(popup)
 
         about = ttk.Button(frame_theme, text="About", command=popup)

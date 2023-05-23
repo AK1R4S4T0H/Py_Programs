@@ -12,7 +12,7 @@ class KeyloggerGUI:
         self.root = root
         self.root.title("Keylogger")
         self.root.geometry("400x300")
-
+        
         self.textbox = tk.Text(self.root, height=10, width=40)
         self.textbox.pack(pady=10)
 
