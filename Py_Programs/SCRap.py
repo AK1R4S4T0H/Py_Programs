@@ -224,7 +224,7 @@ text_links.config(background="#d6c9d9", foreground="black")
 
 def popup():
     popup = tk.Toplevel()
-    popup.title("Popup")
+    popup.title("About")
     popup.geometry("300x200")
     popup.resizable(False, False)
     popup.configure(bg='black')
