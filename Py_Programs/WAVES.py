@@ -12,11 +12,11 @@ from tkinter import ttk
 # Audio settings
 CHANNELS = 2
 SAMPLE_RATE = 44100
-BLOCK_SIZE = 2048
+BLOCK_SIZE = 248
 
 # Visualization settings
-SCREEN_WIDTH = 900
-SCREEN_HEIGHT = 500
+SCREEN_WIDTH = 700
+SCREEN_HEIGHT = 300
 BACKGROUND_COLOR = (0, 0, 0)
 NUM_WAVEFORMS = 7
 WAVEFORM_COLORS = [(255, 120, 0), (255, 200, 0), (0, 255, 100), (0, 150, 255), (0, 0, 255), (255, 0, 255), (255, 255, 255)]
@@ -24,7 +24,18 @@ LINE_WIDTH = 2
 WAVEFORM_MOVEMENT = 99 # pronounced movement of the waveform
 
 # Frequencies
-FREQUENCIES = [161.63, 293.66, 929.63, 1449.23, 2292.00, 2640.00, 3193.88]
+FREQUENCIES = [[60, 261.63], [262, 493.66], [494, 929.63], [930, 1449.23], [1450, 2292.00], [2293, 2640.00], [2641, 3193.88]]
+
+# Frequency settings
+LOW_FREQ = 60
+HIGH_FREQ = 3000
+NUM_FREQ_BINS = 1700
+
+freq_bins = np.logspace(np.log10(LOW_FREQ), np.log10(HIGH_FREQ), NUM_FREQ_BINS)
+
+waveform_freq_ranges = np.linspace(LOW_FREQ, HIGH_FREQ, NUM_WAVEFORMS + 10)
+waveform_freq_ranges = list(zip(waveform_freq_ranges[:-1], waveform_freq_ranges[1:]))
+
 
 pygame.init()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -41,10 +52,17 @@ def audio_capture_callback(indata, frames, time, status):
 
     waveform_height = SCREEN_HEIGHT / NUM_WAVEFORMS
     for i, waveform in enumerate(waveforms):
-        y_offset = int(i * waveform_height + waveform_height // 100000)
-        scaled_waveform = waveform * (i + 1) / NUM_WAVEFORMS  # Adjust the scaling factor
+        y_offset = int(i * waveform_height + waveform_height // 300000)
+        scaled_waveform = waveform * (i + 15) / NUM_WAVEFORMS  # Adjust the scaling factor
         waveform_points = np.column_stack((np.arange(SCREEN_WIDTH), scaled_waveform + y_offset)).astype(int)
         pygame.draw.lines(screen, WAVEFORM_COLORS[i], False, waveform_points, LINE_WIDTH)
+
+        y_offset = int(i * waveform_height / 300 +  waveform_height // 300000)
+        scaled_waveform = waveform * (i + 15) / NUM_WAVEFORMS
+        freq_range = list(waveform_freq_ranges)[i]
+        waveform_points = np.column_stack((np.arange(SCREEN_WIDTH), scaled_waveform + y_offset)).astype(int)
+        pygame.draw.lines(screen, WAVEFORM_COLORS[i], False, waveform_points, LINE_WIDTH)
+
 
     pygame.display.flip()
 

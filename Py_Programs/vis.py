@@ -1,92 +1,95 @@
-import taichi as ti
+import numpy as np
+import sounddevice as sd
+import pygame
+from scipy.fft import fft
+import tkinter as tk
+from tkinter import ttk
 
-ti.init(arch=ti.cpu)
+# Audio settings
+CHANNELS = 7
+SAMPLE_RATE = 44100
+BLOCK_SIZE = 512
 
-# Simulation parameters
-res = 100
-width, height, depth = res, res, res
-dx = 1.0 / res
-pixels = ti.Vector.field(3, dtype=ti.uint8, shape=(width, height))
-density = ti.field(dtype=ti.f32, shape=(width, height, depth))
-velocity = ti.Vector.field(3, dtype=ti.f32, shape=(width, height, depth))
-new_density = ti.field(dtype=ti.f32, shape=(width, height, depth))
-new_velocity = ti.Vector.field(3, dtype=ti.f32, shape=(width, height, depth))
+# Visualization settings
+SCREEN_WIDTH = 900
+SCREEN_HEIGHT = 500
+BACKGROUND_COLOR = (0, 0, 0)
+NUM_WAVEFORMS = 7
+WAVEFORM_COLORS = [(255, 120, 0), (255, 200, 0), (0, 255, 100), (0, 150, 255), (0, 0, 255), (255, 0, 255), (255, 255, 255)]
+LINE_WIDTH = 2
+WAVEFORM_MOVEMENT = 99000  # pronounced movement of the waveform
 
-# Initialize GUI
-gui = ti.GUI("Water Simulator", (width, height))
+# Frequency settings
+LOW_FREQ = 60
+HIGH_FREQ = 3000
+NUM_FREQ_BINS = 700
 
-@ti.kernel
-def initialize():
-    for i, j, k in density:
-        density[i, j, k] = 0.0
-        new_density[i, j, k] = 0.0
-        velocity[i, j, k] = ti.Vector([0.0, 0.0, 0.0])
-        new_velocity[i, j, k] = ti.Vector([0.0, 0.0, 0.0])
+freq_bins = np.logspace(np.log10(LOW_FREQ), np.log10(HIGH_FREQ), NUM_FREQ_BINS)
 
-@ti.kernel
-def add_density(pos_x: ti.f32, pos_y: ti.f32, pos_z: ti.f32, amount: ti.f32):
-    i, j, k = int(pos_x), int(pos_y), int(pos_z)
-    new_density[i, j, k] += amount
+waveform_freq_ranges = np.linspace(LOW_FREQ, HIGH_FREQ, NUM_WAVEFORMS + 1)
+waveform_freq_ranges = list(zip(waveform_freq_ranges[:-1], waveform_freq_ranges[1:]))
 
-@ti.kernel
-def add_velocity(pos_x: ti.f32, pos_y: ti.f32, pos_z: ti.f32, amount: ti.template()):
-    i, j, k = int(pos_x), int(pos_y), int(pos_z)
-    new_velocity[i, j, k] += amount
+pygame.init()
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+pygame.display.set_caption("Waveform")
 
-@ti.kernel
-def advect(field: ti.template(), new_field: ti.template(), velocity: ti.template()):
-    for i, j, k in field:
-        coord = ti.Vector([i, j, k]) - velocity[i, j, k]
-        coord = ti.min(ti.max(coord, [0.5, 0.5, 0.5]), [width - 0.5, height - 0.5, depth - 0.5])
-        i_f, j_f, k_f = coord  # Floating-point indices
-        i0, j0, k0 = int(i_f), int(j_f), int(k_f)
-        i1, j1, k1 = i0 + 1, j0 + 1, k0 + 1
-        s, t, u = i_f - i0, j_f - j0, k_f - k0
-        field[i, j, k] = (1 - s) * (1 - t) * (1 - u) * new_field[i0, j0, k0] + \
-                         s * (1 - t) * (1 - u) * new_field[i1, j0, k0] + \
-                         (1 - s) * t * (1 - u) * new_field[i0, j1, k0] + \
-                         s * t * (1 - u) * new_field[i1, j1, k0] + \
-                         (1 - s) * (1 - t) * u * new_field[i0, j0, k1] + \
-                         s * (1 - t) * u * new_field[i1, j0, k1] + \
-                         (1 - s) * t * u * new_field[i0, j1, k1] + \
-                         s * t * u * new_field[i1, j1, k1]
 
-@ti.kernel
-def update():
-    for i, j, k in density:
-        velocity[i, j, k] = new_velocity[i, j, k]
-        density[i, j, k] = new_density[i, j, k]
+def audio_capture_callback(indata, frames, time, status):
+    audio_data = indata.mean(axis=1)
+    audio_data = np.interp(np.linspace(7, len(audio_data) + 1/100000000000, SCREEN_WIDTH), np.arange(len(audio_data)), audio_data)
+    scaled_data = audio_data * (SCREEN_HEIGHT / 40) + (SCREEN_HEIGHT / 40)
+    screen.fill(BACKGROUND_COLOR)
 
-@ti.kernel
-def render():
-    for i, j, k in pixels:
-        pixels[i, j] = [int(density[i, j, res // 2] * 255)] * 3
+    fft_data = np.abs(fft(audio_data))
+    freq_magnitudes = np.interp(freq_bins, np.linspace(0, SAMPLE_RATE, len(fft_data)), fft_data)
 
-def main():
-    initialize()
+    waveforms = [scaled_data * (i + 22) / NUM_WAVEFORMS for i in range(NUM_WAVEFORMS)]
 
-    while gui.running:
-        for e in gui.get_events(ti.GUI.PRESS):
-            if e.key == ti.GUI.ESCAPE:
-                gui.running = False
-            elif e.key == 'c':
-                initialize()
+    waveform_height = SCREEN_HEIGHT / NUM_WAVEFORMS
+    for i, waveform in enumerate(waveforms):
+        y_offset = int(i * waveform_height / 300)
+        scaled_waveform = waveform * (i + 25) / NUM_WAVEFORMS
+        freq_range = list(waveform_freq_ranges)[i]
+        waveform_points = np.column_stack((np.arange(SCREEN_WIDTH), scaled_waveform + y_offset)).astype(int)
+        pygame.draw.lines(screen, WAVEFORM_COLORS[i], False, waveform_points, LINE_WIDTH)
 
-        if gui.get_event(ti.GUI.LMB):
-            mx, my = gui.event.pos
-            add_density(mx, my, res // 2, 500.0)
+    for i, waveform in enumerate(waveforms):
+        y_offset = int(i * waveform_height / 100)
+        scaled_waveform = waveform * (i + 40) / NUM_WAVEFORMS
+        freq_range = list(waveform_freq_ranges)[i]
+        waveform_points = np.column_stack((np.arange(SCREEN_WIDTH), scaled_waveform + y_offset)).astype(int)
+        pygame.draw.lines(screen, WAVEFORM_COLORS[i], False, waveform_points, LINE_WIDTH)
 
-        if gui.get_event(ti.GUI.RMB):
-            mx, my = gui.event.pos
-            add_velocity(mx, my, res // 2, ti.Vector([0.0, 10.0, 0.0]))
 
-        advect(density, new_density, velocity)
-        advect(velocity, new_velocity, velocity)
-        update()
-        render()
+    for i, waveform in enumerate(waveforms):
+        y_offset = int(i * waveform_height / 150)
+        scaled_waveform = waveform * (i + 60) / NUM_WAVEFORMS
+        freq_range = list(waveform_freq_ranges)[i]
+        waveform_points = np.column_stack((np.arange(SCREEN_WIDTH), scaled_waveform + y_offset)).astype(int)
+        pygame.draw.lines(screen, WAVEFORM_COLORS[i], False, waveform_points, LINE_WIDTH)
 
-        gui.set_image(pixels.to_numpy())
-        gui.show()
+    for i, waveform in enumerate(waveforms):
+        y_offset = int(i * waveform_height / 300)
+        scaled_waveform = waveform * (i + 15) / NUM_WAVEFORMS
+        freq_range = list(waveform_freq_ranges)[i]
+        waveform_points = np.column_stack((np.arange(SCREEN_WIDTH), scaled_waveform + y_offset)).astype(int)
+        pygame.draw.lines(screen, WAVEFORM_COLORS[i], False, waveform_points, LINE_WIDTH)
 
-if __name__ == '__main__':
-    main()
+
+    pygame.display.flip()
+
+
+
+stream = sd.InputStream(callback=audio_capture_callback, channels=CHANNELS, samplerate=SAMPLE_RATE,
+                        blocksize=BLOCK_SIZE, device="pulse")
+stream.start()
+
+running = True
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+    pygame.event.pump()
+
+stream.stop()
+stream.close()
