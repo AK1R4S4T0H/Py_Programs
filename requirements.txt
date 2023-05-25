@@ -1,9 +1,9 @@
 beautifulsoup4==4.12.2
 matplotlib==3.7.1
 moviepy==1.0.3
-nltk==3.8.11
+nltk==3.8.1
 numpy==1.23.5
-opencv-python==4.7.0.42
+opencv-python==4.7.0.72
 pandas==2.0.1
 pillow==9.5.0
 psutil==5.9.4
@@ -15,7 +15,6 @@ requests==2.28.2
 requests-oauthlib==1.3.1
 scipy==1.10.1
 tensorflow==2.12.0
-torch==1.10.0
 transformers==4.29.2
-tkhtmlview==1.1.1
+tkhtmlview==0.2.0
 urllib3==1.26.13
