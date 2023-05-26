@@ -223,7 +223,6 @@ class Scrap():
                 self.style.configure("TButton", background="#a2a6d6", foreground="black")
                 self.style.configure("TMenubutton", background="#a2a6d6", foreground="black")
                 self.style.configure("TMenu", background="#a2a6d6", foreground="black")
-
                 self.style.map("TButton",
                 background=[('active', '#d6c9d9'), ('!active', '#a2a6d6')],
                 foreground=[('active', 'black'), ('!active', 'black')])
@@ -300,12 +299,13 @@ class Scrap():
             popup.transient(self.window)
             popup.wait_window(popup)
 
-        about = ttk.Button(frame_theme, text="About", command=popup)
-        about.grid(row=0, column=5, padx=5)
+
 
         self.right_click_menu = tk.Menu(self.window, tearoff=0)
         self.right_click_menu.add_command(label="Copy", command=self.copy_text)
         self.right_click_menu.add_command(label="Paste", command=self.paste_text)
+        self.right_click_menu.add_separator()
+        self.right_click_menu.add_command(label="Open Notepad", command=lambda: open_notepad())
 
 
         self.window.bind("<Button-3>", self.show_right_click_menu)
@@ -327,7 +327,7 @@ class Scrap():
 
         # Create the third menu
         menu3 = tk.Menu(menu_bar, tearoff=0)
-        menu3.add_command(label="Option 1", command=menu3_action)
+        menu3.add_command(label="About", command=popup)
         menu3.add_command(label="Option 2", command=menu3_action)
         menu_bar.add_cascade(label="Help", menu=menu3)
 
@@ -343,6 +343,7 @@ class Scrap():
     def paste_text(self):
         widget = self.window.focus_get()
         if isinstance(widget, scrolledtext.ScrolledText):
+
             widget.insert(tk.INSERT, widget.clipboard_get())
 
     
