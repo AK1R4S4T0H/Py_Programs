@@ -17,12 +17,19 @@ def open_notepad():
     elif platform.system() == "Darwin":
         subprocess.run(["open", "-a", "TextEdit"])
     elif platform.system() == "Linux":
-        subprocess.run(["python3", "Py_Programs/Notepad.py"])  # Opens the default application on Linux
+        subprocess.run(["python3", "Py_Programs/Notepad.py"]) 
     else:
         print("Unsupported operating system.")
 
-def menu2_action():
-    print("Menu 2 selected")
+def ipynb():
+    if platform.system() == "Windows":
+        pass
+    elif platform.system() == "Darwin":
+        pass
+    elif platform.system() == "Linux":
+        pass
+    else:
+        print("Unsupported operating system.")
 
 def menu3_action():
     print("Menu 3 selected")
@@ -309,13 +316,13 @@ class Scrap():
         # Create the first menu
         menu1 = tk.Menu(menu_bar, tearoff=0)
         menu1.add_command(label="Open Notepad", command=open_notepad)
-        menu1.add_command(label="Open .ipynb", command=menu2_action)
+        menu1.add_command(label="Open .ipynb", command=ipynb)
         menu_bar.add_cascade(label="File", menu=menu1)
 
         # Create the second menu
         menu2 = tk.Menu(menu_bar, tearoff=0)
-        menu2.add_command(label="Clear", command=menu2_action)
-        menu2.add_command(label="Copy All", command=menu2_action)
+        menu2.add_command(label="Clear", command=menu3_action)
+        menu2.add_command(label="Copy All", command=menu3_action)
         menu_bar.add_cascade(label="Edit", menu=menu2)
 
         # Create the third menu
