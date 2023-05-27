@@ -2,37 +2,38 @@
 QWidget {
     background-color: #292929;
     color: #FFFFFF;
-    border: 1px outset #4c4c4c;
-    border-radius: 5px;
+    
 }
 
 /* QLabel Styles */
 QLabel {
     color: #FFFFFF;
     font-size: 12px;
+    border: 1px outset #4c4c4c;
+    border-radius: 5px;
 }
 
 /* QTextEdit Styles */
-QTextEdit {
-    color: #000000;
-    background-color: #FFFFFF;
-    font-size: 12px;
+QTextEdit, QPlainTextEdit, QLineEdit {
+    color: #ffffff;
+    background-color: #4c4c4c;
+    font-size: 14px;
 }
 
 /* QPushButton Styles */
 QPushButton {
     color: #FFFFFF;
-    background-color: #9C27B0;
+    background-color: #165753;
     font-size: 12px;
     padding: 5px;
 }
 
 QPushButton:hover {
-    background-color: #7B1FA2;
+    background-color: #367783;
 }
 
 QPushButton:pressed {
-    background-color: #4A148C;
+    background-color: #263733;
 }
 
 QPushButton:disabled {
@@ -45,7 +46,7 @@ QFileDialog {
     color: #FFFFFF;
 }
 
-QFileDialog QPushButton {
+QFileDialog QPushButton{
     color: #FFFFFF;
     background-color: #9C27B0;
     font-size: 12px;
@@ -58,6 +59,20 @@ QFileDialog QPushButton:hover {
 
 QFileDialog QPushButton:pressed {
     background-color: #4A148C;
+}
+
+/* QMenu */
+QMenu {
+    color: #FFFFFF;
+    background-color: #292929;
+    font-size: 12px;
+    padding: 5px;
+}
+QMenu:hover {
+    background-color: #266754;
+}
+QMenu:pressed {
+    background-color: #162734;
 }
 
 /* QMessageBox Styles */
@@ -87,7 +102,7 @@ QMessageBox QPushButton:pressed {
 }
 
 QProgressBar {
-    background-color: #ddffdd;
+    background-color: #263733;
     color: #bbddbb;
     border: 2px outset black;
     padding: 2px;

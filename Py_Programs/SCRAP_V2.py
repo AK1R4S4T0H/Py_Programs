@@ -55,36 +55,33 @@ class Scrap(QMainWindow):
         self.text_title = QPlainTextEdit()
         self.text_title.setReadOnly(True)
         self.text_title.setPlaceholderText("Title")
+        self.text_title.setFixedHeight(50)
+
+        self.text_sections = QPlainTextEdit()
+        self.text_sections.setReadOnly(True)
+        self.text_sections.setPlaceholderText("Sections")
+        self.text_sections.setFixedHeight(50)
+
         self.text_paragraphs = QPlainTextEdit()
         self.text_paragraphs.setReadOnly(True)
         self.text_paragraphs.setPlaceholderText("Paragraphs")
+        self.text_paragraphs.setFixedHeight(100)
+
         self.text_links = QPlainTextEdit()
         self.text_links.setReadOnly(True)
         self.text_links.setPlaceholderText("Links")
+        self.text_links.setFixedHeight(100)
 
         display_layout = QVBoxLayout(self.frame_display)
         display_layout.addWidget(self.text_title)
+        display_layout.addWidget(self.text_sections)
         display_layout.addWidget(self.text_paragraphs)
         display_layout.addWidget(self.text_links)
 
         self.frame_theme = QFrame()
         self.frame_theme.setFrameStyle(QFrame.StyledPanel | QFrame.Raised)
-        self.frame_theme.setLineWidth(1)
+        self.frame_theme.setLineWidth(0.2)
         self.layout.addWidget(self.frame_theme)
-
-        self.label_theme = QLabel("Theme:")
-        self.radio_default = QRadioButton("Light")
-        self.radio_dark = QRadioButton("Dark")
-        self.radio_default.setChecked(True)
-
-        theme_layout = QHBoxLayout(self.frame_theme)
-        theme_layout.addWidget(self.label_theme)
-        theme_layout.addWidget(self.radio_default)
-        theme_layout.addWidget(self.radio_dark)
-
-        self.theme_group = QtWidgets.QButtonGroup()
-        self.theme_group.addButton(self.radio_default)
-        self.theme_group.addButton(self.radio_dark)
 
         self.menu_bar = QMenuBar(self)
         self.setMenuBar(self.menu_bar)
@@ -140,25 +137,44 @@ class Scrap(QMainWindow):
 
         soup = BeautifulSoup(response.text, "html.parser")
         title = soup.title.string if soup.title else ""
+        sections = soup.find_all("section")
         paragraphs = soup.find_all("p")
         links = soup.find_all("a")
 
         self.text_title.setPlainText(title)
+        self.text_sections.setPlainText("\n".join([section.text for section in sections]))
         self.text_paragraphs.setPlainText("\n".join([p.text for p in paragraphs]))
         self.text_links.setPlainText("\n".join([link.get("href") for link in links]))
 
         if not url:
             QMessageBox.warning(self, "Warning", "Please enter a URL.")
 
+        directory = "scrap"
+        filename = "scrap.csv"
+        os.makedirs(directory, exist_ok=True)  # Create "scrap" dir if it doesn't exist
+        
+        file_path = os.path.join(directory, filename)
+        
+        with open(file_path, mode='a', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerow([title])
+            writer.writerow(paragraphs)
+            writer.writerow(links)
+
             
     def clear_button_clicked(self):
         self.entry_url.clear()
         self.text_title.clear()
+        self.text_sections.clear()
         self.text_paragraphs.clear()
         self.text_links.clear()
 
     def open_notepad(self):
-        subprocess.Popen(["notepad.exe"])
+        program = ("Notepad.py", "Py_Programs")
+        directory = os.getcwd()
+        os.chdir(program[1])
+        subprocess.Popen(["python3", program[0]])
+        os.chdir(directory)
 
     def ipynb(self):
         file_dialog = QFileDialog()
