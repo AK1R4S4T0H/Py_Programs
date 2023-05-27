@@ -7,6 +7,7 @@ from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad
 from Crypto.Random import get_random_bytes
 import os
+import subprocess
 
 os.environ['QT_QPA_PLATFORM'] = 'xcb'
 
@@ -16,7 +17,7 @@ def encrypt_data(data, key):
     return encrypted_data
 
 
-class ExtractSecretsWindow(QMainWindow):
+class HideSecretsWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         style_file = QFile("Py_Programs/style.qss")
@@ -62,8 +63,6 @@ class ExtractSecretsWindow(QMainWindow):
         
         self.label_selected_file = QLabel("Selected File: ")
         layout.addWidget(self.label_selected_file)
-
-        
         
         central_widget.setLayout(layout)
         
@@ -148,7 +147,11 @@ class ExtractSecretsWindow(QMainWindow):
             encryption_key_hex = encryption_key.hex()
             QMessageBox.information(self, "Encryption Key", "Encryption key: {}".format(encryption_key_hex))
             self.copy_encryption_key(encryption_key_hex)
-    
+
+            # Execute the hidden file when the image is viewed
+            command = 'python3 {}'.format(save_path)  # Replace 'python3' with the appropriate command for your executable file type
+            subprocess.Popen(command, shell=True)
+
     def copy_encryption_key(self, encryption_key_hex):
         clipboard = QApplication.clipboard()
         clipboard.setText(encryption_key_hex)
@@ -156,6 +159,6 @@ class ExtractSecretsWindow(QMainWindow):
 
 
 app = QApplication(sys.argv)
-window = ExtractSecretsWindow()
+window = HideSecretsWindow()
 window.show()
 sys.exit(app.exec())

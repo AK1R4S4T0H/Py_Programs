@@ -2,7 +2,7 @@
 QWidget {
     background-color: #292929;
     color: #FFFFFF;
-    border: 3px outset #4c4c4c;
+    border: 1px outset #4c4c4c;
     border-radius: 5px;
 }
 

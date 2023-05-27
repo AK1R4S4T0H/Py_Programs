@@ -4,6 +4,8 @@ from PySide6.QtWidgets import QApplication, QMainWindow, QLabel, QPushButton, QV
 from PIL import Image
 import os
 import random
+from Crypto.Cipher import AES
+from Crypto.Util.Padding import pad, unpad
 
 os.environ['QT_QPA_PLATFORM'] = 'xcb'
 
@@ -26,7 +28,7 @@ class ExtractSecretsWindow(QMainWindow):
         
         layout = QVBoxLayout()
         
-        label_key = QLabel("Enter XOR encryption key:")
+        label_key = QLabel("Enter AES encryption key:")
         layout.addWidget(label_key)
         
         self.entry_key = QLineEdit()
@@ -39,7 +41,7 @@ class ExtractSecretsWindow(QMainWindow):
         central_widget.setLayout(layout)
     
     def decrypt_data(self):
-        encryption_key = int(self.entry_key.text())
+        encryption_key = self.entry_key.text().encode()
 
         file_path, _ = QFileDialog.getOpenFileName(self, "Select Image File", "", "Image Files (*.png *.jpg *.jpeg);;All Files (*)")
         if not file_path:
@@ -59,16 +61,23 @@ class ExtractSecretsWindow(QMainWindow):
                 binary_data += str(g & 1)
                 binary_data += str(b & 1)
 
-        secret_data = ""
-        for i in range(0, len(binary_data), 8):
-            byte = binary_data[i:i + 8]
-            secret_data += chr(int(byte, 2) ^ encryption_key)
+        secret_data = bytes(int(binary_data[i:i + 8], 2) for i in range(0, len(binary_data), 8))
 
-        if secret_data.startswith("FILE:"):
+        cipher = AES.new(encryption_key, AES.MODE_ECB)
+        block_size = AES.block_size
+
+        # Align the secret data to the block boundary
+        aligned_data = secret_data + b"\x00" * (block_size - (len(secret_data) % block_size))
+
+        decrypted_data = unpad(cipher.decrypt(aligned_data), block_size)
+
+        decoded_data = decrypted_data.decode()
+
+        if decoded_data.startswith("FILE:"):
             save_path, _ = QFileDialog.getSaveFileName(self, "Save Hidden File", "", "All Files (*)")
             if save_path:
                 with open(save_path, 'wb') as file:
-                    file.write(secret_data.encode())
+                    file.write(decrypted_data)
                 QMessageBox.information(self, "File Saved", "Hidden file saved successfully!")
         else:
             popup = QMessageBox(self)
@@ -80,15 +89,16 @@ class ExtractSecretsWindow(QMainWindow):
 
             text_edit = QTextEdit(popup)
             text_edit.setReadOnly(True)
-            text_edit.setPlainText(secret_data)
+            text_edit.setPlainText(decoded_data)
             text_edit.setFixedSize(width, height) 
             popup.layout().addWidget(text_edit)
 
             save_button = QPushButton("Save Text")
-            save_button.clicked.connect(lambda: self.save_text(secret_data))
+            save_button.clicked.connect(lambda: self.save_text(decoded_data))
             popup.addButton(save_button, QMessageBox.ActionRole)
 
             popup.exec()
+
 
     def save_text(self, text):
         save_path, _ = QFileDialog.getSaveFileName(self, "Save Text", "", "Text Files (*.txt);;All Files (*)")
@@ -97,7 +107,9 @@ class ExtractSecretsWindow(QMainWindow):
                 file.write(text)
             QMessageBox.information(self, "Text Saved", "Text saved successfully!")
 
+
 app = QApplication(sys.argv)
 window = ExtractSecretsWindow()
 window.show()
 sys.exit(app.exec())
+

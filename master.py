@@ -104,6 +104,8 @@ class Master:
             ("VIDEO.py", "Py_Programs", "Video Player"),
             ("HIDE.py", "Py_Programs", "Steg Hide"),
             ("SEEK.py", "Py_Programs", "Steg Seek"),
+            ("HIDE_V2.py", "Py_Programs", "Steg Hide V2"),
+            ("SEEK_V2.py", "Py_Programs", "Steg Seek V2"),
             ("META.py", "Py_Programs", "Image Metadata"),
             ("PORT.py", "Py_Programs", "Py_PortScanner"),
             ("SCRap.py", "Py_Programs", "Web Scraper"),
