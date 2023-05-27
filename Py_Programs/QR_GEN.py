@@ -1,89 +1,127 @@
-import tkinter as tk
-from tkinter import filedialog
+import os
+import sys
 import qrcode
-from PIL import Image, ImageTk
+from PIL import Image, ImageQt
+from PySide6.QtCore import Qt, QFile
+from PySide6.QtGui import QIcon, QPixmap
+from PySide6.QtWidgets import (
+    QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QLabel,
+    QLineEdit, QPushButton, QFileDialog, QMessageBox, QFrame
+)
+os.environ['QT_QPA_PLATFORM'] = 'xcb'
 
 QR_CODE_SIZE = 600
 
-def generate_and_draw(canvas, data_entry, file_entry):
-    data = data_entry.get()
-    filename = file_entry.get()
 
-    if not data and not filename:
-        return
+class QRCodeGeneratorWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("QR Code Generator")
+        self.setGeometry(100, 100, 800, 800)
+        style_file = QFile("style.qss")
+        if style_file.open(QFile.ReadOnly | QFile.Text):
+            style_sheet = style_file.readAll()
+            style_file.close()
+            style_sheet = str(style_sheet, encoding='utf-8')
+            self.setStyleSheet(style_sheet)
+        else:
+            print("Failed to open style.qss")
 
-    qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_L, box_size=10, border=4)
+        main_widget = QWidget(self)
+        self.setCentralWidget(main_widget)
 
-    if data:
-        qr.add_data(data)
+        main_layout = QVBoxLayout(main_widget)
 
-    if filename:
-        with open(filename, 'rb') as file:
-            qr.add_data(file.read())
+        canvas_frame = QFrame()
+        main_layout.addWidget(canvas_frame)
+        canvas_layout = QVBoxLayout(canvas_frame)
 
-    qr.make(fit=True)
-    img = qr.make_image(fill_color="black", back_color="white")
+        self.canvas = QLabel()
+        self.canvas.setAlignment(Qt.AlignCenter)
+        self.canvas.setMinimumSize(QR_CODE_SIZE, QR_CODE_SIZE)
+        canvas_layout.addWidget(self.canvas)
 
-    # Resize the image
-    img = img.resize((QR_CODE_SIZE, QR_CODE_SIZE), Image.ANTIALIAS)
+        file_frame = QFrame()
+        main_layout.addWidget(file_frame)
+        file_layout = QHBoxLayout(file_frame)
 
-    # Convert the QRCode image to PhotoImage
-    img_pil = img.convert("RGB")
-    img_tk = ImageTk.PhotoImage(img_pil)
+        self.file_entry = QLineEdit()
+        file_layout.addWidget(self.file_entry)
 
-    canvas.delete("all")
-    canvas.create_image(0, 0, anchor=tk.NW, image=img_tk)
-    canvas.image = img_tk
+        file_button = QPushButton("Select File")
+        file_button.clicked.connect(self.select_file)
+        file_layout.addWidget(file_button)
 
-def select_file(file_entry):
-    filename = filedialog.askopenfilename()
-    if filename:
-        file_entry.delete(0, tk.END)
-        file_entry.insert(tk.END, filename)
+        data_frame = QFrame()
+        main_layout.addWidget(data_frame)
+        data_layout = QHBoxLayout(data_frame)
 
-def save_image(canvas):
-    image = canvas.image
-    if image:
-        filename = filedialog.asksaveasfilename(defaultextension=".png", filetypes=[("PNG Image", "*.png"), ("JPEG Image", "*.jpg")])
+        data_label = QLabel("Data:")
+        data_layout.addWidget(data_label)
+
+        self.data_entry = QLineEdit()
+        data_layout.addWidget(self.data_entry)
+
+        draw_button = QPushButton("Draw QR Code")
+        draw_button.clicked.connect(self.generate_and_draw)
+        main_layout.addWidget(draw_button)
+
+        save_button = QPushButton("Save QR Code")
+        save_button.clicked.connect(self.save_image)
+        main_layout.addWidget(save_button)
+
+    def generate_and_draw(self):
+        data = self.data_entry.text()
+        filename = self.file_entry.text()
+
+        if not data and not filename:
+            return
+
+        qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_L, box_size=10, border=4)
+
+        if data:
+            qr.add_data(data)
+
         if filename:
-            image.save(filename)
+            with open(filename, 'rb') as file:
+                qr.add_data(file.read())
 
-def main():
-    root = tk.Tk()
-    root.title("QR Code Generator")
-    root.geometry("800x800")
+        qr.make(fit=True)
+        img = qr.make_image(fill_color="black", back_color="white")
 
-    main_frame = tk.Frame(root)
-    main_frame.pack(fill=tk.BOTH, expand=True)
+        # Resize the image
+        img = img.resize((QR_CODE_SIZE, QR_CODE_SIZE), Image.LANCZOS)
 
-    canvas = tk.Canvas(main_frame, width=QR_CODE_SIZE, height=QR_CODE_SIZE)
-    canvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
+        # Convert the QRCode image to QImage
+        qimage = ImageQt.ImageQt(img)
+        pixmap = QPixmap.fromImage(qimage)
 
-    file_frame = tk.Frame(main_frame)
-    file_frame.pack(pady=10)
+        self.canvas.setPixmap(pixmap)
 
-    file_entry = tk.Entry(file_frame, width=50)
-    file_entry.pack(side=tk.LEFT)
+    def select_file(self):
+        filename, _ = QFileDialog.getOpenFileName(self, "Select File")
+        if filename:
+            self.file_entry.setText(filename)
 
-    file_button = tk.Button(file_frame, text="Select File", command=lambda: select_file(file_entry))
-    file_button.pack(side=tk.LEFT, padx=5)
+    def save_image(self):
+        pixmap = self.canvas.pixmap()
+        if pixmap:
+            filename, _ = QFileDialog.getSaveFileName(self, "Save QR Code", "", "PNG Image (*.png);;JPEG Image (*.jpg)")
+            if filename:
+                pixmap.save(filename)
 
-    data_frame = tk.Frame(main_frame)
-    data_frame.pack(pady=10)
+    def closeEvent(self, event):
+        reply = QMessageBox.question(self, "Exit", "Are you sure you want to exit?", QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+        if reply == QMessageBox.Yes:
+            event.accept()
+        else:
+            event.ignore()
 
-    data_label = tk.Label(data_frame, text="Data:")
-    data_label.pack(side=tk.LEFT)
-
-    data_entry = tk.Entry(data_frame, width=50)
-    data_entry.pack(side=tk.LEFT)
-
-    draw_button = tk.Button(main_frame, text="Draw QR Code", command=lambda: generate_and_draw(canvas, data_entry, file_entry))
-    draw_button.pack(pady=10)
-
-    save_button = tk.Button(main_frame, text="Save QR Code", command=lambda: save_image(canvas))
-    save_button.pack(pady=10)
-
-    root.mainloop()
 
 if __name__ == "__main__":
-    main()
+    app = QApplication(sys.argv)
+
+    window = QRCodeGeneratorWindow()
+    window.show()
+
+    sys.exit(app.exec())

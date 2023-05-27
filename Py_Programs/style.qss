@@ -90,6 +90,8 @@ QProgressBar {
     background-color: #ddffdd;
     color: #bbddbb;
     border: 2px outset black;
+    padding: 2px;
+
 }
 
 /* Other Styles */

@@ -76,7 +76,8 @@ class Master:
         programs = [
             ("ABCs.py", "Py_Programs", "ABC Flashcards"),
             ("ANYTOMP4.py", "Py_Programs", "Any to Mp4"),
-            ("AUDIO.py", "Py_Programs", "Audio Player"),
+            ("AUDIO.py", "Py_Programs", "TTK Audio Player"),
+            ("AUDIO_V2.py", "Py_Programs", "PyQt Audio"),
             ("BROWSE.py", "Py_Programs", "Web Browser"),
             ("Calculator.py", "Py_Programs", "Calculator"),
             ("CSVPLOT.py", "Py_Programs", "CSV Plot"),
@@ -98,6 +99,7 @@ class Master:
             ("LOGS.py", "Py_Programs", "Key-Logger"),
             ("test.py", "Py_Programs", "Ttk Test"),
             ("test2.py", "Py_Programs", "Ttk Test 2"),
+            ("PySide6Test.py", "Py_Programs", "PySide6 Test"),
             ("test3.py", "Py_Programs", "Print TTK"),
             ("VIDEO.py", "Py_Programs", "Video Player"),
             ("HIDE.py", "Py_Programs", "Steg Hide"),
