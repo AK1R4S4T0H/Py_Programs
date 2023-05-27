@@ -11,15 +11,8 @@ import sys
 import platform
 
 
-def open_notepad():
-    if platform.system() == "Windows":
-        subprocess.run(["start", "", "wordpad"])
-    elif platform.system() == "Darwin":
-        subprocess.run(["open", "-a", "TextEdit"])
-    elif platform.system() == "Linux":
-        subprocess.run(["python3", "Py_Programs/Notepad.py"]) 
-    else:
-        print("Unsupported operating system.")
+
+
 
 def ipynb():
     if platform.system() == "Windows":
@@ -62,6 +55,12 @@ class Scrap():
                 background=[('active', '#d6c9d9'), ('!active', '#a2a6d6')],
                 foreground=[('active', 'black'), ('!active', 'black')])
 
+        def open_notepad():
+            program = ["Notepad.py"]
+            directory = os.getcwd()
+            self.window.update()
+            subprocess.Popen(["python3", program[0]])
+            os.chdir(directory)
 
 
         def scrape_button_clicked():

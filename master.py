@@ -105,6 +105,7 @@ class Master:
             ("META.py", "Py_Programs", "Image Metadata"),
             ("PORT.py", "Py_Programs", "Py_PortScanner"),
             ("SCRap.py", "Py_Programs", "Web Scraper"),
+            ("SCRAP_V2.py", "Py_Programs", "Web ScrapV2"),
             ("QR_GEN.py", "Py_Programs", "QR Code Gen"),
             ("KEYS.py", "Py_Programs", "Music Visual"),
             ("WAVES.py", "Py_Programs", "Visualizer")
@@ -138,7 +139,7 @@ class Master:
         initial_directory = os.getcwd()
         os.chdir(program[1])
         self.root.update()
-        subprocess.Popen(["python", program[0]])
+        subprocess.Popen(["python3", program[0]])
         os.chdir(initial_directory)
 
 
