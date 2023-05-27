@@ -1,353 +1,179 @@
-""" Created by: AK1R4S4T0H
-"""
-import tkinter as tk
-from tkinter import ttk, scrolledtext
-from bs4 import BeautifulSoup
-import requests
 import os
-import csv
 import subprocess
-import sys
-import platform
+import csv
+import requests
+from bs4 import BeautifulSoup
+from PySide6 import QtCore, QtGui, QtWidgets
+from PySide6.QtWidgets import (
+    QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QLabel,
+    QLineEdit, QTextEdit, QRadioButton, QStyleFactory, QMenu, QFileDialog,
+    QFrame, QPushButton, QPlainTextEdit, QStyle, QMenuBar, QStatusBar, QMessageBox
+)
+from PySide6.QtCore import Qt, QThread
+from PySide6.QtGui import QAction
+import os
 
+os.environ['QT_QPA_PLATFORM'] = 'xcb'
 
-
-
-
-def ipynb():
-    if platform.system() == "Windows":
-        pass
-    elif platform.system() == "Darwin":
-        pass
-    elif platform.system() == "Linux":
-        pass
-    else:
-        print("Unsupported operating system.")
-
-def menu3_action():
-    print("Menu 3 selected")
-
-
-class Scrap():
+class Scrap(QMainWindow):
     def __init__(self):
-        self.window = tk.Tk()
-        self.window.title("Web Scraper")
-        self.window.geometry("600x600")
-        self.style = ttk.Style()
-        self.style.theme_use('alt')  # Default theme
-        self.window.config(background="#a2a6d6")
-        self.style.configure("TFrame", background="#a2a6d6")
-        self.style.configure("TRadiobutton", background="#a2a6d6", foreground="black")
-        self.style.configure("TLabel", background="#a2a6d6", foreground="black")
-        self.style.configure("TButton", background="#a2a6d6", foreground="black")
-        self.style.configure("TMenubutton", background="#a2a6d6", foreground="black")
-        self.style.configure("TMenu", background="#a2a6d6", foreground="black")
-        self.style.map("TButton",
-                background=[('active', '#d6c9d9'), ('!active', '#a2a6d6')],
-                foreground=[('active', 'black'), ('!active', 'black')])
-        self.style.map("TRadiobutton",
-                background=[('active', '#d6c9d9'), ('!active', '#a2a6d6')],
-                foreground=[('active', 'black'), ('!active', 'black')])
-        self.style.map("TMenubutton",
-                background=[('active', '#d6c9d9'), ('!active', '#a2a6d6')],
-                foreground=[('active', 'black'), ('!active', 'black')])
-        self.style.map("TMenu",
-                background=[('active', '#d6c9d9'), ('!active', '#a2a6d6')],
-                foreground=[('active', 'black'), ('!active', 'black')])
+        super().__init__()
+        self.setWindowTitle("Web Scraper")
+        self.setGeometry(100, 100, 600, 600)
+        style_file = QtCore.QFile("Py_Programs/style.qss")
+        if style_file.open(QtCore.QFile.ReadOnly | QtCore.QFile.Text):
+            style_sheet = style_file.readAll()
+            style_file.close()
+            style_sheet = str(style_sheet, encoding='utf-8')
+            self.setStyleSheet(style_sheet)
+        else:
+            print("Failed to open style.qss")
 
-        def open_notepad():
-            program = ["Notepad.py"]
-            directory = os.getcwd()
-            self.window.update()
-            subprocess.Popen(["python3", program[0]])
-            os.chdir(directory)
+        central_widget = QWidget(self)
+        self.setCentralWidget(central_widget)
+        self.layout = QVBoxLayout(central_widget)
 
+        self.frame_input = QFrame()
+        self.frame_input.setFrameStyle(QFrame.StyledPanel | QFrame.Raised)
+        self.frame_input.setLineWidth(1)
+        self.layout.addWidget(self.frame_input)
 
-        def scrape_button_clicked():
-            url = entry_url.get()
+        self.entry_url = QLineEdit()
+        self.button_scrape = QPushButton("Scrape")
+        self.button_clear = QPushButton("Clear")
 
-            # Check URL for http:// or https://
-            if not url.startswith('http://') and not url.startswith('https://'):
-                # Try with https://
-                url_with_https = f'https://{url}'
+        input_layout = QHBoxLayout(self.frame_input)
+        input_layout.addWidget(self.entry_url)
+        input_layout.addWidget(self.button_scrape)
+        input_layout.addWidget(self.button_clear)
+
+        self.frame_display = QFrame()
+        self.frame_display.setFrameStyle(QFrame.StyledPanel | QFrame.Raised)
+        self.frame_display.setLineWidth(1)
+        self.layout.addWidget(self.frame_display)
+
+        self.text_title = QPlainTextEdit()
+        self.text_title.setReadOnly(True)
+        self.text_title.setPlaceholderText("Title")
+        self.text_paragraphs = QPlainTextEdit()
+        self.text_paragraphs.setReadOnly(True)
+        self.text_paragraphs.setPlaceholderText("Paragraphs")
+        self.text_links = QPlainTextEdit()
+        self.text_links.setReadOnly(True)
+        self.text_links.setPlaceholderText("Links")
+
+        display_layout = QVBoxLayout(self.frame_display)
+        display_layout.addWidget(self.text_title)
+        display_layout.addWidget(self.text_paragraphs)
+        display_layout.addWidget(self.text_links)
+
+        self.frame_theme = QFrame()
+        self.frame_theme.setFrameStyle(QFrame.StyledPanel | QFrame.Raised)
+        self.frame_theme.setLineWidth(1)
+        self.layout.addWidget(self.frame_theme)
+
+        self.label_theme = QLabel("Theme:")
+        self.radio_default = QRadioButton("Light")
+        self.radio_dark = QRadioButton("Dark")
+        self.radio_default.setChecked(True)
+
+        theme_layout = QHBoxLayout(self.frame_theme)
+        theme_layout.addWidget(self.label_theme)
+        theme_layout.addWidget(self.radio_default)
+        theme_layout.addWidget(self.radio_dark)
+
+        self.theme_group = QtWidgets.QButtonGroup()
+        self.theme_group.addButton(self.radio_default)
+        self.theme_group.addButton(self.radio_dark)
+
+        self.menu_bar = QMenuBar(self)
+        self.setMenuBar(self.menu_bar)
+
+        self.menu1 = self.menu_bar.addMenu("File")
+        self.action_open_notepad = QAction("Open Notepad", self)
+        self.menu1.addAction(self.action_open_notepad)
+        self.menu1.addAction("Open .ipynb", self.ipynb)
+
+        self.menu2 = self.menu_bar.addMenu("Edit")
+        self.menu2.addAction("Clear", self.clear_button_clicked)
+
+        self.popup_menu = QMenu(self)
+        self.popup_menu.addAction("Open Notepad", self.open_notepad)
+
+        self.button_scrape.clicked.connect(self.scrape_button_clicked)
+        self.button_clear.clicked.connect(self.clear_button_clicked)
+        self.action_open_notepad.triggered.connect(self.open_notepad)
+
+    def scrape_button_clicked(self):
+        url = self.entry_url.text()
+
+        # Check URL for http:// or https://
+        if not url.startswith('http://') and not url.startswith('https://'):
+            # Try with https://
+            url_with_https = f'https://{url}'
+            try:
+                response = requests.get(url_with_https)
+                response.raise_for_status()  # Check request errors
+            except requests.RequestException:
+                # Try http://
+                url_with_http = f'http://{url}'
                 try:
-                    response = requests.get(url_with_https)
-                    response.raise_for_status()  # Check request errors
-                except requests.RequestException:
-                    # Try http://
-                    url_with_http = f'http://{url}'
-                    try:
-                        response = requests.get(url_with_http)
-                        response.raise_for_status() 
-                    except requests.RequestException as e:
-                        display_error_message(f"Request Error: {str(e)}")
-                        return
-                except Exception as e:
-                    display_error_message(f"An error occurred: {str(e)}")
-                    return
-            else:
-                # URL includes http:// https://
-                try:
-                    response = requests.get(url)
+                    response = requests.get(url_with_http)
                     response.raise_for_status() 
                 except requests.RequestException as e:
-                    display_error_message(f"Request Error: {str(e)}")
+                    self.display_error_message(f"Request Error: {str(e)}")
                     return
                 except Exception as e:
-                    display_error_message(f"An error occurred: {str(e)}")
+                    self.display_error_message(f"An error occurred: {str(e)}")
                     return
-
-            soup = BeautifulSoup(response.content, 'html.parser')
-            title = soup.title.string.strip()
-            paragraphs = [p.get_text() for p in soup.find_all('p')]
-            links = [a['href'] for a in soup.find_all('a')]
-
-            display_scraped_content(title, paragraphs, links)
-
-        def clear_button_clicked():
-            entry_url.delete(0, tk.END)
-            text_title.configure(state='normal')
-            text_title.delete('1.0', tk.END)
-            text_title.configure(state='disabled')
-            text_paragraphs.configure(state='normal')
-            text_paragraphs.delete('1.0', tk.END)
-            text_paragraphs.configure(state='disabled')
-            text_links.configure(state='normal')
-            text_links.delete('1.0', tk.END)
-            text_links.configure(state='disabled')
-
-        def display_error_message(message):
-            text_title.configure(state='normal')
-            text_title.delete('1.0', tk.END)
-            text_title.insert(tk.END, f"Error: {message}")
-            text_title.configure(state='disabled')
-            text_paragraphs.configure(state='normal')
-            text_paragraphs.delete('1.0', tk.END)
-            text_paragraphs.configure(state='disabled')
-            text_links.configure(state='normal')
-            text_links.delete('1.0', tk.END)
-            text_links.configure(state='disabled')
-
-        def display_scraped_content(title, paragraphs, links):
-            text_title.configure(state='normal')
-            text_title.delete('1.0', tk.END)
-            text_title.insert(tk.END, title)
-            text_title.configure(state='disabled')
-            
-            text_paragraphs.configure(state='normal')
-            text_paragraphs.delete('1.0', tk.END)
-            for paragraph in paragraphs:
-                text_paragraphs.insert(tk.END, f"{paragraph}\n")
-            text_paragraphs.configure(state='disabled')
-            
-            text_links.configure(state='normal')
-            text_links.delete('1.0', tk.END)
-            for link in links:
-                text_links.insert(tk.END, f"{link}\n")
-            text_links.configure(state='disabled')
-            # Append scraped data to CSV 
-            directory = "scrap"
-            filename = "scrap.csv"
-            os.makedirs(directory, exist_ok=True)  # Create "scrap" dir if it doesn't exist
-            
-            file_path = os.path.join(directory, filename)
-            
-            with open(file_path, mode='a', newline='') as file:
-                writer = csv.writer(file)
-                writer.writerow([title])
-                writer.writerow(paragraphs)
-                writer.writerow(links)
-
-        def open_link(event, url):
+        else:
+            # URL includes http:// https://
             try:
                 response = requests.get(url)
-                response.raise_for_status()
-                soup = BeautifulSoup(response.content, 'html.parser')
-                title = soup.title.string.strip()
-                paragraphs = [p.get_text() for p in soup.find_all('p')]
-                links = [a['href'] for a in soup.find_all('a')]
-                display_scraped_content(title, paragraphs, links)
+                response.raise_for_status() 
             except requests.RequestException as e:
-                display_error_message(f"Request Error: {str(e)}")
+                self.display_error_message(f"Request Error: {str(e)}")
+                return
             except Exception as e:
-                display_error_message(f"An error occurred: {str(e)}")
+                self.display_error_message(f"An error occurred: {str(e)}")
+                return
 
-        frame_input = ttk.Frame(self.window)
-        frame_input.grid(row=0, column=0, pady=10)
+        soup = BeautifulSoup(response.text, "html.parser")
+        title = soup.title.string if soup.title else ""
+        paragraphs = soup.find_all("p")
+        links = soup.find_all("a")
 
-        entry_url = ttk.Entry(frame_input, width=50)
-        entry_url.grid(row=0, column=0, padx=5)
+        self.text_title.setPlainText(title)
+        self.text_paragraphs.setPlainText("\n".join([p.text for p in paragraphs]))
+        self.text_links.setPlainText("\n".join([link.get("href") for link in links]))
 
-        button_scrape = ttk.Button(frame_input, text="Scrape", command=scrape_button_clicked)
-        button_scrape.grid(row=0, column=1, padx=5)
+        if not url:
+            QMessageBox.warning(self, "Warning", "Please enter a URL.")
 
-        button_clear = ttk.Button(frame_input, text="Clear", command=clear_button_clicked)
-        button_clear.grid(row=0, column=2, padx=5)
-
-        frame_display = ttk.Frame(self.window)
-        frame_display.grid(row=1, column=0)
-
-        theme_var = tk.IntVar()
-        theme_var.set(0)  # Default theme
-        
-        text_title = scrolledtext.ScrolledText(frame_display, wrap=tk.WORD, width=73, height=3)
-        text_title.insert(tk.END, "Title")
-        text_title.configure(state='disabled')
-        text_title.grid(row=0, column=0, pady=5)
-        text_title.config(background="#d6c9d9", foreground="black")
-
-        text_paragraphs = scrolledtext.ScrolledText(frame_display, wrap=tk.WORD, width=73, height=10)
-        text_paragraphs.insert(tk.END, "Paragraphs")
-        text_paragraphs.configure(state='disabled')
-        text_paragraphs.grid(row=1, column=0, pady=5)
-        text_paragraphs.config(background="#d6c9d9", foreground="black")
-
-        text_links = scrolledtext.ScrolledText(frame_display, wrap=tk.WORD, width=73, height=13)
-        text_links.insert(tk.END, "Links")
-        text_links.grid(row=2, column=0, pady=5)
-        text_links.config(background="#d6c9d9", foreground="black")
-
-        frame_theme = ttk.Frame(self.window)
-        frame_theme.grid(row=2, column=0, pady=10, padx=10, sticky=tk.SW)
-
-        def change_theme():
-            theme = theme_var.get()
             
-            if theme == 0: # Light theme
-                self.style.theme_use('alt')  
-                self.window.config(background="#a2a6d6")
-                self.style.configure("TFrame", background="#a2a6d6")
-                self.style.configure("TRadiobutton", background="#a2a6d6", foreground="black")
-                self.style.configure("TLabel", background="#a2a6d6", foreground="black")
-                self.style.configure("TButton", background="#a2a6d6", foreground="black")
-                self.style.configure("TMenubutton", background="#a2a6d6", foreground="black")
-                self.style.configure("TMenu", background="#a2a6d6", foreground="black")
-                self.style.map("TButton",
-                background=[('active', '#d6c9d9'), ('!active', '#a2a6d6')],
-                foreground=[('active', 'black'), ('!active', 'black')])
-                self.style.map("TRadiobutton",
-                background=[('active', '#d6c9d9'), ('!active', '#a2a6d6')],
-                foreground=[('active', 'black'), ('!active', 'black')])
-                self.style.map("TMenubutton",
-                background=[('active', '#d6c9d9'), ('!active', '#a2a6d6')],
-                foreground=[('active', 'black'), ('!active', 'black')])
-                self.style.map("TMenu",
-                background=[('active', '#d6c9d9'), ('!active', '#a2a6d6')],
-                foreground=[('active', 'black'), ('!active', 'black')])
-                text_title.config(background="#d6c9d9", foreground="black")
-                text_paragraphs.config(background="#d6c9d9", foreground="black")
-                text_links.config(background="#d6c9d9", foreground="black")
-                menu_bar.config(background="#d6c9d9", foreground="black")
-                self.right_click_menu.config(background="#d6c9d9", foreground="black")
+    def clear_button_clicked(self):
+        self.entry_url.clear()
+        self.text_title.clear()
+        self.text_paragraphs.clear()
+        self.text_links.clear()
+
+    def open_notepad(self):
+        subprocess.Popen(["notepad.exe"])
+
+    def ipynb(self):
+        file_dialog = QFileDialog()
+        file_dialog.setFileMode(QFileDialog.AnyFile)
+        file_dialog.setFilter(QDir.Files)
+
+        if file_dialog.exec():
+            file_path = file_dialog.selectedFiles()[0]
+            subprocess.Popen(["jupyter", "notebook", file_path])
+
+    def contextMenuEvent(self, event):
+        self.popup_menu.exec_(self.mapToGlobal(event.pos()))
 
 
-            elif theme == 1: # Dark theme
-                self.style.theme_use('alt')  
-                self.window.config(background="#4c4c4c")
-                self.style.configure("TFrame", background="#4c4c4c")
-                self.style.configure("TButton", background="#4c4c4c", foreground="white")
-                self.style.configure("TRadiobutton", background="#4c4c4c", foreground="white")
-                self.style.configure("TLabel", background="#4c4c4c", foreground="white")
-                self.style.configure("TMenubutton", background="#4c4c4c", foreground="white")
-                self.style.configure("TMenu", background="#4c4c4c", foreground="white")
-                self.style.map("TButton",
-                background=[('active', 'red')],
-                foreground=[('active', 'white')])
-                self.style.map("TRadiobutton",
-                background=[('active', 'red')],
-                foreground=[('active', 'white')])
-                self.style.map("TMenubutton",
-                background=[('active', 'red')],
-                foreground=[('active', 'white')])
-                self.style.map("TMenu",
-                background=[('active', 'red')],
-                foreground=[('active', 'white')])
-                text_title.config(background="#7c7c7c", foreground="white")
-                text_paragraphs.config(background="#7c7c7c", foreground="white")
-                text_links.config(background="#7c7c7c", foreground="white")
-                menu_bar.config(background="#7c7c7c", foreground="white")
-                self.right_click_menu.config(background="#7c7c7c", foreground="white")
-
-        label_theme = ttk.Label(frame_theme, text="Theme:")
-        label_theme.grid(row=0, column=0, sticky=tk.W, padx=5)
-
-        radio_default = ttk.Radiobutton(frame_theme, text="Light", variable=theme_var, value=0, command=change_theme)
-        radio_default.grid(row=0, column=1, padx=5)
-
-        radio_dark = ttk.Radiobutton(frame_theme, text="Dark", variable=theme_var, value=1, command=change_theme)
-        radio_dark.grid(row=0, column=2, padx=5)
-
-        def popup():
-            popup = tk.Toplevel()
-            popup.title("About")
-            popup.geometry("300x200")
-            popup.resizable(False, False)
-            popup.configure(bg='black')
-            label = ttk.Label(popup, text="About Web Scraper:", foreground='white', background='black', font=('Courier', 18, 'bold'))
-            label.pack(pady=5)
-            label1 = ttk.Label(popup, text="Scrap web pages based on URL inputed", foreground='white', background='black', font=('Courier', 10, 'bold'))
-            label1.pack(pady=5)
-            label2 = ttk.Label(popup, text="Goes to 1st Link every 10 seconds", foreground='white', background='black', font=('Courier', 11, 'bold'))
-            label2.pack(pady=5)
-            label3 = ttk.Label(popup, text="saves in Folder in parent dir", foreground='white', background='black', font=('Courier', 11, 'bold'))
-            label3.pack(pady=5)
-            label3 = ttk.Label(popup, text="DIR: scrap, FILE: scrap.csv", foreground='white', background='black', font=('Courier', 11, 'bold'))
-            label3.pack(pady=5)
-            popup.focus_set()
-            popup.grab_set()
-            popup.transient(self.window)
-            popup.wait_window(popup)
-
-
-
-        self.right_click_menu = tk.Menu(self.window, tearoff=0)
-        self.right_click_menu.add_command(label="Copy", command=self.copy_text)
-        self.right_click_menu.add_command(label="Paste", command=self.paste_text)
-        self.right_click_menu.add_separator()
-        self.right_click_menu.add_command(label="Open Notepad", command=lambda: open_notepad())
-
-
-        self.window.bind("<Button-3>", self.show_right_click_menu)
-
-        menu_bar = tk.Menu(self.window)
-        self.window.config(menu=menu_bar)
-
-        # Create the first menu
-        menu1 = tk.Menu(menu_bar, tearoff=0)
-        menu1.add_command(label="Open Notepad", command=open_notepad)
-        menu1.add_command(label="Open .ipynb", command=ipynb)
-        menu_bar.add_cascade(label="File", menu=menu1)
-
-        # Create the second menu
-        menu2 = tk.Menu(menu_bar, tearoff=0)
-        menu2.add_command(label="Clear", command=menu3_action)
-        menu2.add_command(label="Copy All", command=menu3_action)
-        menu_bar.add_cascade(label="Edit", menu=menu2)
-
-        # Create the third menu
-        menu3 = tk.Menu(menu_bar, tearoff=0)
-        menu3.add_command(label="About", command=popup)
-        menu3.add_command(label="Option 2", command=menu3_action)
-        menu_bar.add_cascade(label="Help", menu=menu3)
-
-    def show_right_click_menu(self, event):
-        self.right_click_menu.post(event.x_root, event.y_root)
-
-    def copy_text(self):
-        widget = self.window.focus_get()
-        if isinstance(widget, scrolledtext.ScrolledText):
-            widget.clipboard_clear()
-            widget.clipboard_append(widget.selection_get())
-
-    def paste_text(self):
-        widget = self.window.focus_get()
-        if isinstance(widget, scrolledtext.ScrolledText):
-
-            widget.insert(tk.INSERT, widget.clipboard_get())
-
-    
-
-
-if __name__ == "__main__":
-    scrap = Scrap()
-    scrap.window.mainloop()
+app = QApplication([])
+window = Scrap()
+window.show()
+app.exec()
