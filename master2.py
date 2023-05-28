@@ -1,9 +1,13 @@
+""" Created by: AK1R4S4T0H
+"""
+
+# master launcher for the Py_Programs
 import os
 import subprocess
 from PySide6.QtWidgets import QApplication, QMainWindow, QTabWidget, QVBoxLayout, QLabel, QWidget, QPushButton, QGridLayout
 from PySide6.QtGui import QTextCursor
 from PySide6.QtCore import Slot, QFile
-import os
+import sys
 
 os.environ['QT_QPA_PLATFORM'] = 'xcb'
 class Master:
@@ -107,7 +111,7 @@ class Master:
         num_columns = 3
         for i, program in enumerate(programs):
             button = QPushButton(program[2])
-            button.clicked.connect(lambda _, p=program: self.open_program(p))
+            button.clicked.connect(lambda _=program, p=program: self.open_program(p))
             row = i // num_columns
             col = i % num_columns
             programs_layout.addWidget(button, row, col, 1, 1)
@@ -121,6 +125,7 @@ class Master:
         about_layout.addWidget(about_label)
 
         self.window.show()
+        self.app.aboutToQuit.connect(self.close_application)
         self.app.exec()
 
     def open_program(self, program):
@@ -130,7 +135,10 @@ class Master:
         subprocess.Popen(["python3", program[0]])
         os.chdir(initial_directory)
 
+    def close_application(self):
+        self.app.quit()
+
 if __name__ == "__main__":
     program_launcher = Master()
-    program_launcher.app.exec()
+    sys.exit(program_launcher.app.exec())
 

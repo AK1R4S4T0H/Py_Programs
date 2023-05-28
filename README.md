@@ -7,9 +7,13 @@ ___
 ### loadBar.sh
 ##### Bash loading bar to 9001
 ___
-### Master.py
+### master.py
 ##### TTK GUI Program Launcher for a Lot of my Py Programs
 ![alt text](https://github.com/AK1R4S4T0H/Py_Programs/blob/main/images/master2.png?raw=true)
+___
+### master2.py
+##### PySide6 GUI Program Launcher for a Lot of my Py Programs
+![alt text](https://github.com/AK1R4S4T0H/Py_Programs/blob/main/images/master2-1.png?raw=true)
 ___
 ### ABC's.py
 ##### ABCs and 1-20, flash card like thing for learning
