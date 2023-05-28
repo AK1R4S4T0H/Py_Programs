@@ -1,12 +1,6 @@
 # Py_Programs
 Some Random Python Programs I made out of necessity mostly. As well as a couple Bash Scripts, working on swwitching programs from ttk to PySide6
 ___
-### weather.sh
-##### Terminal based weather, displays ascii art depending on how it is outside
-___
-### loadBar.sh
-##### Bash loading bar to 9001
-___
 ### master.py
 ##### TTK GUI Program Launcher for a Lot of my Py Programs
 ![alt text](https://github.com/AK1R4S4T0H/Py_Programs/blob/main/images/master2.png?raw=true)
@@ -147,4 +141,12 @@ ___
 ##### pygame music visualizer
 ![alt text](https://github.com/AK1R4S4T0H/Py_Programs/blob/main/images/WAVES.png?raw=true)
 ![alt text](https://github.com/AK1R4S4T0H/Py_Programs/blob/main/images/WAVES2.png?raw=true)
+___
+## Scripts
+___
+### weather.sh
+##### Terminal based weather, displays ascii art depending on how it is outside
+___
+### loadBar.sh
+##### Bash loading bar to 9001
 ___
