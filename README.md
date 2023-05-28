@@ -1,5 +1,5 @@
 # Py_Programs
-Some Random Python Programs I made out of necessity mostly. As well as a couple Bash Scripts
+Some Random Python Programs I made out of necessity mostly. As well as a couple Bash Scripts, working on swwitching programs from ttk to PySide6
 ___
 ### weather.sh
 ##### Terminal based weather, displays ascii art depending on how it is outside
