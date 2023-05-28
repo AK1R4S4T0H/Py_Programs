@@ -1,4 +1,4 @@
-# mp4 video player using cv2 and PySide6
+# mp4 video player using PySide6
 #
 """ Created by: AK1R4S4T0H
 """
@@ -6,14 +6,18 @@ import sys
 import os
 from PySide6 import QtCore, QtGui, QtWidgets
 import cv2
-from PIL import Image, ImageTk
+from PIL import Image, ImageQt
 
 os.environ['QT_QPA_PLATFORM'] = 'xcb'
+
+
 class VideoPlayer:
     def __init__(self, root):
         self.root = root
         self.video_path = ""
         self.cap = None
+        self.audio_path = ""
+
         try:
             style_file = QtCore.QFile("Py_Programs/style.qss")
             if style_file.open(QtCore.QFile.ReadOnly | QtCore.QFile.Text):
@@ -69,9 +73,16 @@ class VideoPlayer:
                 frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
                 frame = Image.fromarray(frame)
                 frame = frame.resize((canvas_size.width(), canvas_size.height()), Image.ANTIALIAS)
-                frame = ImageTk.PhotoImage(frame)
-                self.canvas.setScene(QtGui.QGraphicsScene())
-                self.canvas.scene().addPixmap(QtGui.QPixmap.fromImage(frame))
+                frame = ImageQt.toqpixmap(frame)
+                scene = QtWidgets.QGraphicsScene()
+                scene.addPixmap(frame)
+                self.canvas.setScene(scene)
+
+                # Play audio
+                if self.audio_path:
+                    QtCore.QCoreApplication.processEvents()
+                    os.system(f"ffplay -nodisp -autoexit -hide_banner -loglevel error '{self.audio_path}' &")
+
         QtCore.QTimer.singleShot(30, self.play_video)  # Delay between frames
 
     def pause_video(self):
@@ -82,7 +93,13 @@ class VideoPlayer:
         if self.cap is not None:
             self.cap.release()
             self.cap = None
-            self.canvas.setScene(QtGui.QGraphicsScene())
+            self.canvas.setScene(None)
+            # Stop audio playback
+            os.system("pkill ffplay")
+
+    def set_audio_path(self, audio_path):
+        self.audio_path = audio_path
+
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)

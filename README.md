@@ -1,5 +1,5 @@
 # Py_Programs
-Some Random Python Programs I made out of necessity mostly. As well as a couple Bash Scripts, working on switching programs from ttk to PySide6
+Some Random Python Programs I made out of necessity mostly. As well as a couple Bash Scripts, working on switching programs from ttk to PySide6, master.py and master2.py are the Program launchers for the Programs, master.py is ttk, master2.py is PySide6
 ___
 ### master.py
 ##### TTK GUI Program Launcher for a Lot of my Py Programs
