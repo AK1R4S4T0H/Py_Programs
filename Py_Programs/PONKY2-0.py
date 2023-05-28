@@ -1,3 +1,4 @@
+# Python Conky, PySide6
 import platform
 import psutil
 from PySide6 import QtCore, QtGui, QtWidgets

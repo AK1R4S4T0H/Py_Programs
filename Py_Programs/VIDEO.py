@@ -6,6 +6,7 @@ import sys
 import os
 from PySide6 import QtCore, QtGui, QtWidgets
 import cv2
+from PIL import Image, ImageTk
 
 os.environ['QT_QPA_PLATFORM'] = 'xcb'
 class VideoPlayer:
@@ -67,7 +68,7 @@ class VideoPlayer:
                 canvas_size = self.canvas.size()
                 frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
                 frame = Image.fromarray(frame)
-                frame = frame.resize(canvas_size, Image.ANTIALIAS)
+                frame = frame.resize((canvas_size.width(), canvas_size.height()), Image.ANTIALIAS)
                 frame = ImageTk.PhotoImage(frame)
                 self.canvas.setScene(QtGui.QGraphicsScene())
                 self.canvas.scene().addPixmap(QtGui.QPixmap.fromImage(frame))

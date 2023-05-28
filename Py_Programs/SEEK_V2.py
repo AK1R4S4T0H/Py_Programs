@@ -1,3 +1,6 @@
+# Steganography pair program for HIDE_V2,
+# for decrypting and viewing message
+# with proper key
 import sys
 from PySide6.QtCore import QFile, QPropertyAnimation, QPoint
 from PySide6.QtWidgets import QApplication, QMainWindow, QLabel, QPushButton, QVBoxLayout, QFileDialog, QMessageBox, QTextEdit, QWidget, QLineEdit

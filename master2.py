@@ -1,7 +1,6 @@
 """ Created by: AK1R4S4T0H
 """
-
-# master launcher for the Py_Programs
+# master launcher for the Py_Programs PySide6 Version
 import os
 import subprocess
 from PySide6.QtWidgets import QApplication, QMainWindow, QTabWidget, QVBoxLayout, QLabel, QWidget, QPushButton, QGridLayout, QStyle, QStyleFactory
@@ -87,6 +86,8 @@ class Master:
             # Education -------------------------------------------|
             ("JAP.py", "Py_Programs", "Japanese Flash", "Education"),
             ("ABCs.py", "Py_Programs", "ABC Flashcards", "Education"),
+            ("COLORS.py", "Py_Programs", "Color Learn", "Education"),
+            ("HEX.py", "Py_Programs", "Color/HEX View", "Education"),
             ("scan.py", "Py_Programs", "Nmap GUI", "Education"),
             ("test3.py", "Py_Programs", "Print TTK", "Education"),
             # Utility ---------------------------------------------|
@@ -94,11 +95,13 @@ class Master:
             ("Calculator.py", "Py_Programs", "Calculator", "Utility"),
             ("PONKY.py", "Py_Programs", "Ponky", "Utility"),
             ("PONKY2-0.py", "Py_Programs", "Ponky V2", "Utility"),
+            ("PLOT.py", "Py_Programs", "Plot", "Utility"),
             ("ANYTOMP4.py", "Py_Programs", "Any to Mp4", "Utility"),
             ("IMAGE.py", "Py_Programs", "Image Viewer", "Utility"),
             ("form.py", "Py_Programs", "Register Form", "Other"),
             ("MILES.py", "Py_Programs", "Miles to Kilos", "Utility"),
             ("Notepad.py", "Py_Programs", "Notepad", "Utility"),
+            ("PYPAD.py", "Py_Programs", "PyPad", "Utility"),
             ("PATTERN_GEN.py", "Py_Programs", "Pattern Generator", "Utility"),
             ("PYTOEXE.py", "Py_Programs", "Py to EXE", "Utility"),
             ("SCRap.py", "Py_Programs", "Web Scraper", "Utility"),
@@ -118,7 +121,6 @@ class Master:
             # Other ------------------------------------------------|
             ("installer.py", "Py_Programs", "Fake Install", "Other"),
             ("CSVPLOT.py", "Py_Programs", "CSV Plot", "Other"),
-            ("PLOT.py", "Py_Programs", "Plot 2", "Other"),
             ("popup.py", "Py_Programs", "Popup Test", "Other"),
             ("test.py", "Py_Programs", "Ttk Test", "Other"),
             ("test2.py", "Py_Programs", "Ttk Test 2", "Other"),

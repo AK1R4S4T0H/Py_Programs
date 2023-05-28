@@ -1,69 +1,102 @@
 """ Created by: AK1R4S4T0H
 """
 
-import tkinter as tk
-from tkinter import filedialog
-import matplotlib.pyplot as plt
-import numpy as np
+import sys
+from PySide6.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QFileDialog, QTextEdit
 import pandas as pd
+import matplotlib.pyplot as plt
+from PySide6.QtCore import QFile
+import os
 
-root = tk.Tk()
+os.environ['QT_QPA_PLATFORM'] = 'xcb'
 
-canvas1 = tk.Canvas(root, width = 300, height = 300, bg = 'lightsteelblue2', relief = 'raised')
-canvas1.pack()
+class PlotGUI(QMainWindow):
+    def __init__(self):
+        super().__init__()
+
+        self.setWindowTitle("Plot")
+        self.setGeometry(100, 100, 200, 200)
+        try:
+            style_file = QFile("Py_Programs/style.qss")
+            if style_file.open(QFile.ReadOnly | QFile.Text):
+                style_sheet = style_file.readAll()
+                style_file.close()
+                style_sheet = str(style_sheet, encoding='utf-8')
+                self.setStyleSheet(style_sheet)
+            else:
+                raise FileNotFoundError
+        except FileNotFoundError:
+            style_file = QFile("style.qss")
+            if style_file.open(QFile.ReadOnly | QFile.Text):
+                style_sheet = style_file.readAll()
+                style_file.close()
+                style_sheet = str(style_sheet, encoding='utf-8')
+                self.setStyleSheet(style_sheet)
+            else:
+                print("Failed to open style.qss")
+
+        self.central_widget = QWidget(self)
+        self.setCentralWidget(self.central_widget)
+        layout = QVBoxLayout(self.central_widget)
+
+        self.data_label = QLabel("CSV Plot")
+        self.data_input_label = QLabel("Input Data:")
+        self.data_input_textedit = QTextEdit()
+
+        self.plot_button = QPushButton("Plot")
+        self.plot_button.clicked.connect(self.plot_data)
+
+        self.load_csv_button = QPushButton("Load CSV")
+        self.load_csv_button.clicked.connect(self.load_csv_data)
+
+        button_layout = QHBoxLayout()
+        button_layout.addWidget(self.plot_button)
+        button_layout.addWidget(self.load_csv_button)
+
+        layout.addWidget(self.data_label)
+        layout.addWidget(self.data_input_label)
+        layout.addWidget(self.data_input_textedit)
+        layout.addLayout(button_layout)
+
+    def plot_data(self):
+        data = self.data_input_textedit.toPlainText()
+        if data:
+            data = data.strip()
+            lines = data.split("\n")
+            rows = [line.split(",") for line in lines]
+            df = pd.DataFrame(rows)
+            try:
+                df = df.astype(float)
+                plt.plot(df[0], df[1])
+                plt.xlabel("X")
+                plt.ylabel("Y")
+                plt.title("Data Plot")
+                plt.show()
+            except ValueError:
+                print("Invalid data format. Please enter numeric values.")
+        else:
+            print("No data entered.")
+
+    def load_csv_data(self):
+        file_path, _ = QFileDialog.getOpenFileName(self, "Select CSV File", "", "CSV Files (*.csv)")
+        if file_path:
+            try:
+                df = pd.read_csv(file_path)
+                plt.plot(df.iloc[:, 0], df.iloc[:, 1])
+                plt.xlabel("X")
+                plt.ylabel("Y")
+                plt.title("Data Plot")
+                plt.show()
+            except pd.errors.EmptyDataError:
+                print("Empty CSV file.")
+            except pd.errors.ParserError:
+                print("Invalid CSV file format.")
+        else:
+            print("No file selected.")
 
 
-def getExcel ():
-    global df
-    
-    import_file_path = filedialog.askopenfilename()
-    df = pd.read_csv (import_file_path)
-    print (df)
-    
-browseButton_Excel = tk.Button(text="      Import Excel File     ", command=getExcel, bg='green', fg='white', font=('helvetica', 12, 'bold'))
-canvas1.create_window(10, 10, window=browseButton_Excel)
-
-def plot ():
-    plt.plot(df)
-    plt.show()
-    
-plotButton = tk.Button(text='     Plot     ', command=plot, bg='green', fg='white', font=('helvetica', 12, 'bold'))
-canvas1.create_window(150, 180, window=plotButton)
- 
-
-def plotBar():
-    global df
-    plt.bar(df["x"], df["y"])
-    plt.xlabel('x')
-    plt.ylabel('y')
-    plt.title('Bar Chart')
-    plt.show()
-    
-def plotLine():
-    global df
-    plt.plot(df["x"], df["y"])
-    plt.xlabel('x')
-    plt.ylabel('y')
-    plt.title('Line Chart')
-    plt.show()
-    
-def plotScatter():
-    global df
-    plt.scatter(df["x"], df["y"])
-    plt.xlabel('x')
-    plt.ylabel('y')
-    plt.title('Scatter Chart')
-    plt.show()
-    
-button1 = tk.Button(text='Bar Chart', command=plotBar, bg='brown', fg='white', font=('helvetica', 9, 'bold'))
-canvas1.create_window(75, 150, window=button1)
-
-button2 = tk.Button(text='Line Chart', command=plotLine, bg='brown', fg='white', font=('helvetica', 9, 'bold'))
-canvas1.create_window(75, 180, window=button2)
-
-button3 = tk.Button(text='Scatter Chart', command=plotScatter, bg='brown', fg='white', font=('helvetica', 9, 'bold'))
-canvas1.create_window(75, 210, window=button3)
-
-
-root.geometry = (400,400)
-root.mainloop()
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    window = PlotGUI()
+    window.show()
+    sys.exit(app.exec())

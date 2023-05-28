@@ -1,3 +1,4 @@
+# NMAP GUI with PySide6
 import subprocess
 from PySide6.QtWidgets import QApplication, QMainWindow, QLabel, QPushButton, QFrame, QGridLayout, QTextEdit, QCheckBox, QStyle, QStyleFactory
 from PySide6.QtGui import QTextCursor
