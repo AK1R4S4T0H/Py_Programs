@@ -1,13 +1,13 @@
 # Py_Programs
-Some Random Python Programs I made out of necessity mostly. As well as a couple Bash Scripts, working on swwitching programs from ttk to PySide6
+Some Random Python Programs I made out of necessity mostly. As well as a couple Bash Scripts, working on switching programs from ttk to PySide6
 ___
 ### master.py
 ##### TTK GUI Program Launcher for a Lot of my Py Programs
 ![alt text](https://github.com/AK1R4S4T0H/Py_Programs/blob/main/images/master2.png?raw=true)
 ___
 ### master2.py
-##### PySide6 GUI Program Launcher for a Lot of my Py Programs
-![alt text](https://github.com/AK1R4S4T0H/Py_Programs/blob/main/images/master2-1.png?raw=true)
+##### PySide6 GUI Program Launcher for a Lot of my Py Programs, with Tabs for each Program type
+![alt text](https://github.com/AK1R4S4T0H/Py_Programs/blob/main/images/master2-2.png?raw=true)
 ___
 ### ABC's.py
 ##### ABCs and 1-20, flash card like thing for learning
@@ -20,7 +20,7 @@ ___
 ##### Simple Python Themed tKinter(Ttk) Audio Player using pygame
 ![alt text](https://github.com/AK1R4S4T0H/Py_Programs/blob/main/images/AUDIO.png?raw=true)
 ___
-### AUDIO.py
+### AUDIO_V2.py
 ##### AUDIO.py PySide6 Upgrade
 ![alt text](https://github.com/AK1R4S4T0H/Py_Programs/blob/main/images/AUDIO2.png?raw=true)
 ___

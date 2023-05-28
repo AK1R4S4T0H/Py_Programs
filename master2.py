@@ -13,6 +13,7 @@ os.environ['QT_QPA_PLATFORM'] = 'xcb'
 class Master:
     def __init__(self):
         self.app = QApplication([])
+        self.recursion_limit = 1000
         self.window = QMainWindow()
         self.window.setWindowTitle("My Programs")
         self.window.setGeometry(100, 100, 400, 550)
@@ -33,7 +34,7 @@ class Master:
         tab_widget = QTabWidget()
         layout.addWidget(tab_widget)
 
-        # Home tab
+        # Home ------------------------------------------------------------|
         home_tab = QWidget()
         tab_widget.addTab(home_tab, "Home")
         home_layout = QVBoxLayout(home_tab)
@@ -61,62 +62,79 @@ class Master:
         home_label.setStyleSheet("font-size: 20px;")
         home_layout.addWidget(home_label)
 
-        # Programs tab
-        programs_tab = QWidget()
-        tab_widget.addTab(programs_tab, "Programs")
-        programs_layout = QGridLayout(programs_tab)
-
+        # Programs -------------------------------------------------------|
         programs = [
-            ("ABCs.py", "Py_Programs", "ABC Flashcards"),
-            ("ANYTOMP4.py", "Py_Programs", "Any to Mp4"),
-            ("AUDIO.py", "Py_Programs", "TTK Audio Player"),
-            ("AUDIO_V2.py", "Py_Programs", "PyQt Audio"),
-            ("BROWSE.py", "Py_Programs", "Web Browser"),
-            ("Calculator.py", "Py_Programs", "Calculator"),
-            ("CSVPLOT.py", "Py_Programs", "CSV Plot"),
-            ("DODGE.py", "Py_Programs", "Dodge the Dots"),
-            ("form.py", "Py_Programs", "Register Form"),
-            ("IMAGE.py", "Py_Programs", "Image Viewer"),
-            ("installer.py", "Py_Programs", "Fake Install"),
-            ("JAP.py", "Py_Programs", "Japanese Flash"),
-            ("MIDIPLAYER.py", "Py_Programs", "Midi Player"),
-            ("MILES.py", "Py_Programs", "Miles to Kilos"),
-            ("Notepad.py", "Py_Programs", "Notepad"),
-            ("PATTERN_GEN.py", "Py_Programs", "Pattern Generator"),
-            ("PASS.py", "Py_Programs", "Pass Generator"),
-            ("PONKY.py", "Py_Programs", "Ponky"),
-            ("popup.py", "Py_Programs", "Popup Test"),
-            ("PYTOEXE.py", "Py_Programs", "Py to EXE"),
-            ("scan.py", "Py_Programs", "Nmap GUI"),
-            ("STAR.py", "Py_Programs", "Turtle Star"),
-            ("LOGS.py", "Py_Programs", "Key-Logger"),
-            ("test.py", "Py_Programs", "Ttk Test"),
-            ("test2.py", "Py_Programs", "Ttk Test 2"),
-            ("PySide6Test.py", "Py_Programs", "PySide6 Test"),
-            ("test3.py", "Py_Programs", "Print TTK"),
-            ("VIDEO.py", "Py_Programs", "Video Player"),
-            ("HIDE.py", "Py_Programs", "Steg Hide"),
-            ("SEEK.py", "Py_Programs", "Steg Seek"),
-            ("HIDE_V2.py", "Py_Programs", "Steg Hide V2"),
-            ("SEEK_V2.py", "Py_Programs", "Steg Seek V2"),
-            ("META.py", "Py_Programs", "Image Metadata"),
-            ("PORT.py", "Py_Programs", "Py_PortScanner"),
-            ("SCRap.py", "Py_Programs", "Web Scraper"),
-            ("SCRAP_V2.py", "Py_Programs", "Web ScrapV2"),
-            ("QR_GEN.py", "Py_Programs", "QR Code Gen"),
-            ("KEYS.py", "Py_Programs", "Music Visual"),
-            ("WAVES.py", "Py_Programs", "Visualizer")
+            # START CATEGORIES ------------------------------------------|
+            # Entertainment ---------------------------------------------|
+            ("ABCs.py", "Py_Programs", "ABC Flashcards", "Entertainment"),
+            ("DODGE.py", "Py_Programs", "Dodge the Dots", "Entertainment"),
+            ("JAP.py", "Py_Programs", "Japanese Flash", "Entertainment"),
+            ("MIDIPLAYER.py", "Py_Programs", "Midi Player", "Entertainment"),
+            ("AUDIO.py", "Py_Programs", "TTK Audio Player", "Entertainment"),
+            ("BROWSE.py", "Py_Programs", "Web Browser", "Entertainment"),
+            ("STAR.py", "Py_Programs", "Turtle Star", "Entertainment"),
+            ("VIDEO.py", "Py_Programs", "Video Player", "Entertainment"),
+            ("KEYS.py", "Py_Programs", "Music Visual", "Entertainment"),
+            ("WAVES.py", "Py_Programs", "Visualizer", "Entertainment"),
+            # Utility ---------------------------------------------|
+            ("AUDIO_V2.py", "Py_Programs", "PyQt Audio", "Utility"),
+            ("Calculator.py", "Py_Programs", "Calculator", "Utility"),
+            ("PONKY.py", "Py_Programs", "Ponky", "Utility"),
+            ("PONKY2-0.py", "Py_Programs", "Ponky V2", "Utility"),
+            ("ANYTOMP4.py", "Py_Programs", "Any to Mp4", "Utility"),
+            ("IMAGE.py", "Py_Programs", "Image Viewer", "Utility"),
+            ("form.py", "Py_Programs", "Register Form", "Other"),
+            ("MILES.py", "Py_Programs", "Miles to Kilos", "Utility"),
+            ("Notepad.py", "Py_Programs", "Notepad", "Utility"),
+            ("PATTERN_GEN.py", "Py_Programs", "Pattern Generator", "Utility"),
+            ("PYTOEXE.py", "Py_Programs", "Py to EXE", "Utility"),
+            ("SCRap.py", "Py_Programs", "Web Scraper", "Utility"),
+            ("SCRAP_V2.py", "Py_Programs", "Web ScrapV2", "Utility"),
+            ("QR_GEN.py", "Py_Programs", "QR Code Gen", "Utility"),
+            # Security -----------------------------------------|
+            ("HIDE.py", "Py_Programs", "Steg Hide", "Security"),
+            ("SEEK.py", "Py_Programs", "Steg Seek", "Security"),
+            ("HIDE_V2.py", "Py_Programs", "Steg Hide V2", "Security"),
+            ("SEEK_V2.py", "Py_Programs", "Steg Seek V2", "Security"),
+            ("META.py", "Py_Programs", "Image Metadata", "Security"),
+            ("PORT.py", "Py_Programs", "Py_PortScanner", "Security"),
+            ("PASS.py", "Py_Programs", "Pass Generator", "Security"),
+            ("scan.py", "Py_Programs", "Nmap GUI", "Security"),
+            ("LOGS.py", "Py_Programs", "Key-Logger", "Security"),
+            # Other ------------------------------------------------|
+            ("installer.py", "Py_Programs", "Fake Install", "Other"),
+            ("CSVPLOT.py", "Py_Programs", "CSV Plot", "Other"),
+            ("popup.py", "Py_Programs", "Popup Test", "Other"),
+            ("test.py", "Py_Programs", "Ttk Test", "Other"),
+            ("test2.py", "Py_Programs", "Ttk Test 2", "Other"),
+            ("PySide6Test.py", "Py_Programs", "PySide6 Test", "Other"),
+            ("test3.py", "Py_Programs", "Print TTK", "Other")
+            # END CATEGORIES --------------------------------------|
         ]
 
-        num_columns = 3
-        for i, program in enumerate(programs):
-            button = QPushButton(program[2])
-            button.clicked.connect(lambda _=program, p=program: self.open_program(p))
-            row = i // num_columns
-            col = i % num_columns
-            programs_layout.addWidget(button, row, col, 1, 1)
+        categories = set([program[3] for program in programs])
 
-        # About tab
+        for category in categories:
+            category_tab = QWidget()
+            tab_widget.addTab(category_tab, category)
+            category_layout = QGridLayout(category_tab)
+
+            # Filter by category
+            category_programs = [program for program in programs if program[3] == category]
+
+            num_columns = 4
+            for i, program in enumerate(category_programs):
+                button = QPushButton(program[2])
+                button.clicked.connect(lambda _=program, p=program: self.open_program(p))
+                row = i // num_columns
+                col = i % num_columns
+                category_layout.addWidget(button, row, col, 1, 1)
+
+            category_layout.setHorizontalSpacing(4)
+            category_layout.setVerticalSpacing(4)
+
+
+        # About -----------------------------------------------------------------|
         about_tab = QWidget()
         tab_widget.addTab(about_tab, "About")
         about_layout = QVBoxLayout(about_tab)
@@ -132,13 +150,21 @@ class Master:
         initial_directory = os.getcwd()
         os.chdir(program[1])
         self.app.processEvents()
-        subprocess.Popen(["python3", program[0]])
+        subprocess.run(["python3", program[0]])
         os.chdir(initial_directory)
 
     def close_application(self):
         self.app.quit()
 
+    def run(self):
+        sys.setrecursionlimit(self.recursion_limit)
+        try:
+            program_launcher = Master()
+            sys.exit(program_launcher.app.exec())
+        except RecursionError:
+            print("RecursionError occurred. Closing the application.")
+            sys.exit(1)
+
 if __name__ == "__main__":
     program_launcher = Master()
-    sys.exit(program_launcher.app.exec())
-
+    program_launcher.run()
