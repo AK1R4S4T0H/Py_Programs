@@ -55,26 +55,26 @@ class Scrap(QMainWindow):
         self.text_title = QPlainTextEdit()
         self.text_title.setReadOnly(True)
         self.text_title.setPlaceholderText("Title")
-        self.text_title.setFixedHeight(50)
+        self.text_title.setFixedHeight(100)
 
-        self.text_sections = QPlainTextEdit()
+        """self.text_sections = QPlainTextEdit()
         self.text_sections.setReadOnly(True)
         self.text_sections.setPlaceholderText("Sections")
-        self.text_sections.setFixedHeight(50)
+        self.text_sections.setFixedHeight(50)"""
 
         self.text_paragraphs = QPlainTextEdit()
         self.text_paragraphs.setReadOnly(True)
         self.text_paragraphs.setPlaceholderText("Paragraphs")
-        self.text_paragraphs.setFixedHeight(100)
+        self.text_paragraphs.setFixedHeight(150)
 
         self.text_links = QPlainTextEdit()
         self.text_links.setReadOnly(True)
         self.text_links.setPlaceholderText("Links")
-        self.text_links.setFixedHeight(100)
+        self.text_links.setFixedHeight(200)
 
         display_layout = QVBoxLayout(self.frame_display)
         display_layout.addWidget(self.text_title)
-        display_layout.addWidget(self.text_sections)
+        # display_layout.addWidget(self.text_sections)
         display_layout.addWidget(self.text_paragraphs)
         display_layout.addWidget(self.text_links)
 
@@ -137,12 +137,12 @@ class Scrap(QMainWindow):
 
         soup = BeautifulSoup(response.text, "html.parser")
         title = soup.title.string if soup.title else ""
-        sections = soup.find_all("section")
+        # sections = soup.find_all("section")
         paragraphs = soup.find_all("p")
         links = soup.find_all("a")
 
         self.text_title.setPlainText(title)
-        self.text_sections.setPlainText("\n".join([section.text for section in sections]))
+        # self.text_sections.setPlainText("\n".join([section.text for section in sections]))
         self.text_paragraphs.setPlainText("\n".join([p.text for p in paragraphs]))
         self.text_links.setPlainText("\n".join([link.get("href") for link in links]))
 

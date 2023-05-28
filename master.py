@@ -108,6 +108,7 @@ class Master:
             ("SEEK_V2.py", "Py_Programs", "Steg Seek V2"),
             ("META.py", "Py_Programs", "Image Metadata"),
             ("PORT.py", "Py_Programs", "Py_PortScanner"),
+            ("message.py", "Py_Programs", "Encrypted Chat"),
             ("SCRap.py", "Py_Programs", "Web Scraper"),
             ("SCRAP_V2.py", "Py_Programs", "Web ScrapV2"),
             ("QR_GEN.py", "Py_Programs", "QR Code Gen"),

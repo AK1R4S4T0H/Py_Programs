@@ -108,7 +108,13 @@ QProgressBar {
     padding: 2px;
 
 }
+QCheckBox {
+    background-color: #263733;
+    color: #bbddbb;
+    border: 2px outset black;
+    padding: 2px;
 
+}
 /* Other Styles */
 /* Add other widget styles here if needed */
 
