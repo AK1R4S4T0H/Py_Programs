@@ -62,6 +62,7 @@ ___
 ___
 ### installer.py
 ##### Fake Installer for Fun
+![alt text](https://github.com/AK1R4S4T0H/Py_Programs/blob/main/images/install.png?raw=true)
 ___
 ### JAP.py
 ##### Simple Python tKinter GUI i made for helping to learn Japanese
@@ -118,6 +119,10 @@ ___
 ### SCRap.py
 ##### TTK web Scraper using Beautiful Soup4
 ![alt text](https://github.com/AK1R4S4T0H/Py_Programs/blob/main/images/SCRAP.png?raw=true)
+___
+### SCRAP_V2.py
+##### PySide6 version of SCRap.py using Beautiful Soup4
+![alt text](https://github.com/AK1R4S4T0H/Py_Programs/blob/main/images/SCRAP2.png?raw=true)
 ___
 ### STAR.py
 ##### Turtle Program that pops up extra dialog to start, stop or save the image generated, generates complex star turtle picture
