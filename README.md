@@ -9,10 +9,11 @@ ___
 ___
 ### Master.py
 ##### TTK GUI Program Launcher for a Lot of my Py Programs
-![alt text](https://github.com/AK1R4S4T0H/Py_Programs/blob/main/images/master.png?raw=true)
+![alt text](https://github.com/AK1R4S4T0H/Py_Programs/blob/main/images/master2.png?raw=true)
 ___
 ### ABC's.py
 ##### ABCs and 1-20, flash card like thing for learning
+![alt text](https://github.com/AK1R4S4T0H/Py_Programs/blob/main/images/ABC.png?raw=true)
 ___
 ### ANYTOMP4.py
 ##### videos to Mp4
@@ -20,6 +21,10 @@ ___
 ### AUDIO.py
 ##### Simple Python Themed tKinter(Ttk) Audio Player using pygame
 ![alt text](https://github.com/AK1R4S4T0H/Py_Programs/blob/main/images/AUDIO.png?raw=true)
+___
+### AUDIO.py
+##### AUDIO.py PySide6 Upgrade
+![alt text](https://github.com/AK1R4S4T0H/Py_Programs/blob/main/images/AUDIO2.png?raw=true)
 ___
 ### Calculator.py
 ##### Python tKinter Calculator, Colorful because not enough are, has some scientific function, will add more
@@ -37,6 +42,7 @@ ___
 ___
 ### IMAGE.py
 ##### Simple Python tKinter Image Viewer
+![alt text](https://github.com/AK1R4S4T0H/Py_Programs/blob/main/images/IMAGE.png?raw=true)
 ___
 ### HIDE.py
 ##### Simple Python ttk Steganography tool to hide a message or file in a picture, encryption key provided when data is hidden, uses XOR currently
@@ -51,6 +57,10 @@ ___
 ##### Simple Python tKinter GUI i made for helping to learn Japanese
 ![alt text](https://github.com/AK1R4S4T0H/Py_Programs/blob/main/images/JAP.png?raw=true)
 ___
+### LOGS.py
+##### TTK Key/Mouse Logger
+![alt text](https://github.com/AK1R4S4T0H/Py_Programs/blob/main/images/LOGS.png?raw=true)
+___
 ### MIDIPLAYER.py
 ##### Simple Python tKinter Midi Player
 ___
@@ -58,6 +68,9 @@ ___
 ##### Notepad clone using tKinter with some customizations
 ![alt text](https://github.com/AK1R4S4T0H/Py_Programs/blob/main/images/Notepad.png?raw=true)
 ___
+### message.py
+##### Encrypted Messaging app in Kivy, for sending encrpyted messages via IP and port number, must have the coprrect ports open, or use the built in http server
+![alt text](https://github.com/AK1R4S4T0H/Py_Programs/blob/main/images/message.png?raw=true)
 ___
 ### PASS.py
 ##### Python tKinter Password Generator with Password strength gauge and a button to reveal the made password
@@ -83,6 +96,10 @@ ___
 ### scan.py
 ##### Nmap GUI
 ![alt text](https://github.com/AK1R4S4T0H/Py_Programs/blob/main/images/scan.png?raw=true)
+___
+### SCRap.py
+##### TTK web Scraper using Beautiful Soup4
+![alt text](https://github.com/AK1R4S4T0H/Py_Programs/blob/main/images/SCRAP.png?raw=true)
 ___
 ### STAR.py
 ##### Turtle Program that pops up extra dialog to start, stop or save the image generated, generates complex star turtle picture
