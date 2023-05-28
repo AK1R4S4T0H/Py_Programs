@@ -3,8 +3,9 @@
 # contains Hiragana and Katakana
 """ Created by: AK1R4S4T0H
 """
+import sys
+from PySide6 import QtCore, QtGui, QtWidgets
 import random
-import tkinter as tk
 
 japanese_phrases = {
     'こんにちは': 'Konnichiwa - Hello',
@@ -193,86 +194,39 @@ japanese_phrases = {
     'ン': 'N',
 }
 
-root = tk.Tk()
-root.title("Japanese Phrases")
-root.geometry("1500x400")
+class JapanesePhrasesApp(QtWidgets.QWidget):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("Japanese Phrases")
+        self.setGeometry(100, 100, 1500, 400)
 
-japanese_label = tk.Label(root, font=("Arial", 24), bg="black", fg="white")
+        self.japanese_label = QtWidgets.QLabel(self)
+        self.japanese_label.setFont(QtGui.QFont("Arial", 24))
+        self.japanese_label.setStyleSheet("background-color: black; color: white")
+        self.japanese_label.setAlignment(QtCore.Qt.AlignCenter)
 
+        self.button = QtWidgets.QPushButton("Show me a phrase!")
+        self.button.setStyleSheet("color: #FFFFFF;background-color: #165753;font-size: 12px;padding: 5px")
 
-def display_phrase():
-    phrase, definition = random.choice(list(japanese_phrases.items()))
-    japanese_label.config(text=f"{phrase}: {definition}")
-    
-    root.after(10000, display_phrase) # 10 second timer
+        self.button.clicked.connect(self.display_phrase)
 
-button = tk.Button(root, text="Show me a phrase!", command=display_phrase)
-label = tk.Label(root, text='10 second timer on Button press')
-japanese_label.pack(expand=True, fill='both')
-button.pack()
-label.pack()
-#
-root.mainloop()
+        self.label = QtWidgets.QLabel("10 second timer on Button press")
 
+        layout = QtWidgets.QVBoxLayout(self)
+        layout.addWidget(self.japanese_label, stretch=1)
+        layout.addWidget(self.button)
+        layout.addWidget(self.label)
 
+        self.display_phrase()
 
+    def display_phrase(self):
+        phrase, definition = random.choice(list(japanese_phrases.items()))
+        self.japanese_label.setText(f"{phrase}: {definition}")
 
-options = [
-            ("-sS", "SYN scan"),
-            ("-sT", "Connect scan"),
-            ("-sU", "UDP scan"),
-            ("-sA", "ACK scan"),
-            ("-sW", "Window scan"),
-            ("-sM", "Maimon scan"),
-            ("-sN", "Null scan"),
-            ("-sF", "FIN scan"),
-            ("-sX", "Xmas scan"),
-            ("-sY", "SCTP INIT scan"),
-            ("-sZ", "SCTP COOKIE-ECHO scan"),
-            ("-sO", "IP protocol scan"),
-            ("-p-", "All ports"),
-            ("-p1-65535", "Scan all 65535 ports"),
-            ("-F", "Fast scan mode"),
-            ("-r", "Scan ports consecutively"),
-            ("-A", "Aggressive scan"),
-            ("-O", "OS detection"),
-            ("-T0", "Paranoid timing template"),
-            ("-T1", "Sneaky timing template"),
-            ("-T2", "Polite timing template"),
-            ("-T3", "Normal timing template"),
-            ("-T4", "Aggressive timing template"),
-            ("-T5", "Insane timing template"),
-            ("-d", "Enable debugging output"),
-            ("-v", "Increase verbosity level"),
-            ("-n", "Disable DNS resolution"),
-            ("-Pn", "Treat all hosts as online"),
-            ("-PE", "ICMP echo request ping"),
-            ("-PP", "ICMP timestamp ping"),
-            ("-PM", "ICMP netmask ping"),
-            ("-PR", "ARP ping"),
-            ("-sn", "Ping scan"),
-            ("-PR", "ARP scan"),
-            ("-PO", "IP protocol scan"),
-            ("-PS", "TCP SYN scan"),
-            ("-PA", "TCP ACK scan"),
-            ("-PU", "UDP scan"),
-            ("-PY", "SCTP INIT scan"),
-            ("-PE", "ICMP echo request ping"),
-            ("-PP", "ICMP timestamp ping"),
-            ("-PM", "ICMP netmask ping"),
-            ("-PR", "ARP ping"),
-            ("-PE", "ICMP echo request ping"),
-            ("-PA", "TCP ACK scan"),
-            ("-PU", "UDP scan"),
-            ("-PY", "SCTP INIT scan"),
-            ("-g <portranges>", "Send packets to specified ports"),
-            ("-p <portranges>", "Only scan specified ports"),
-            ("-iL <inputfile>", "Input from list of hosts/networks"),
-            ("-oN <file>", "Output normal format"),
-            ("-oX <file>", "Output XML format"),
-            ("-oS <file>", "Output  s|<rIpt kIddi3 0uTpuT"),
-            ("-oG <file>", "Output Grepable format"),
-            ("-v", "Increase verbosity level"),
-            ("-d", "Enable debugging output"),
-            ("-h", "Print this help summary page."),
-        ]
+        QtCore.QTimer.singleShot(10000, self.display_phrase)  # 10 second timer
+
+if __name__ == "__main__":
+    app = QtWidgets.QApplication(sys.argv)
+    japanese_app = JapanesePhrasesApp()
+    japanese_app.show()
+    sys.exit(app.exec())

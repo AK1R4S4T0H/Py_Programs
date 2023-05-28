@@ -11,14 +11,24 @@ class Scan:
         self.window = QMainWindow()
         self.window.setWindowTitle("Nmap GUI")
         self.window.setGeometry(100, 100, 400, 600)
-        style_file = QFile("Py_Programs/style.qss")
-        if style_file.open(QFile.ReadOnly | QFile.Text):
-            style_sheet = style_file.readAll()
-            style_file.close()
-            style_sheet = str(style_sheet, encoding='utf-8')
-            self.window.setStyleSheet(style_sheet)
-        else:
-            print("Failed to open style.qss")
+        try:
+            style_file = QFile("Py_Programs/style.qss")
+            if style_file.open(QFile.ReadOnly | QFile.Text):
+                style_sheet = style_file.readAll()
+                style_file.close()
+                style_sheet = str(style_sheet, encoding='utf-8')
+                self.window.setStyleSheet(style_sheet)
+            else:
+                raise FileNotFoundError
+        except FileNotFoundError:
+            style_file = QFile("style.qss")
+            if style_file.open(QFile.ReadOnly | QFile.Text):
+                style_sheet = style_file.readAll()
+                style_file.close()
+                style_sheet = str(style_sheet, encoding='utf-8')
+                self.window.setStyleSheet(style_sheet)
+            else:
+                print("Failed to open style.qss")
         
 
         self.central_widget = QFrame(self.window)

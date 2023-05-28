@@ -20,15 +20,24 @@ def encrypt_data(data, key):
 class HideSecretsWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        style_file = QFile("Py_Programs/style.qss")
-        if style_file.open(QFile.ReadOnly | QFile.Text):
-            style_sheet = style_file.readAll()
-            style_file.close()
-            style_sheet = str(style_sheet, encoding='utf-8')
-            self.setStyleSheet(style_sheet)
-        else:
-            print("Failed to open style.qss")
-        self.setWindowTitle("Hide Secrets in Images")
+        try:
+            style_file = QFile("Py_Programs/style.qss")
+            if style_file.open(QFile.ReadOnly | QFile.Text):
+                style_sheet = style_file.readAll()
+                style_file.close()
+                style_sheet = str(style_sheet, encoding='utf-8')
+                self.setStyleSheet(style_sheet)
+            else:
+                raise FileNotFoundError
+        except FileNotFoundError:
+            style_file = QFile("style.qss")
+            if style_file.open(QFile.ReadOnly | QFile.Text):
+                style_sheet = style_file.readAll()
+                style_file.close()
+                style_sheet = str(style_sheet, encoding='utf-8')
+                self.setStyleSheet(style_sheet)
+            else:
+                print("Failed to open style.qss")
         
         central_widget = QWidget(self)
         self.setCentralWidget(central_widget)

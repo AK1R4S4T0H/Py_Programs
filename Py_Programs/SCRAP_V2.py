@@ -20,14 +20,24 @@ class Scrap(QMainWindow):
         super().__init__()
         self.setWindowTitle("Web Scraper")
         self.setGeometry(100, 100, 600, 600)
-        style_file = QtCore.QFile("Py_Programs/style.qss")
-        if style_file.open(QtCore.QFile.ReadOnly | QtCore.QFile.Text):
-            style_sheet = style_file.readAll()
-            style_file.close()
-            style_sheet = str(style_sheet, encoding='utf-8')
-            self.setStyleSheet(style_sheet)
-        else:
-            print("Failed to open style.qss")
+        try:
+            style_file = QtCore.QFile("Py_Programs/style.qss")
+            if style_file.open(QtCore.QFile.ReadOnly | QtCore.QFile.Text):
+                style_sheet = style_file.readAll()
+                style_file.close()
+                style_sheet = str(style_sheet, encoding='utf-8')
+                self.setStyleSheet(style_sheet)
+            else:
+                raise FileNotFoundError
+        except FileNotFoundError:
+            style_file = QtCore.QFile("style.qss")
+            if style_file.open(QtCore.QFile.ReadOnly | QtCore.QFile.Text):
+                style_sheet = style_file.readAll()
+                style_file.close()
+                style_sheet = str(style_sheet, encoding='utf-8')
+                self.setStyleSheet(style_sheet)
+            else:
+                print("Failed to open style.qss")
 
         central_widget = QWidget(self)
         self.setCentralWidget(central_widget)

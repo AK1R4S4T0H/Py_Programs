@@ -65,14 +65,24 @@ class PonkyPy(QtWidgets.QWidget):
 
         self.system_info.setText("\n".join(system_details))
 
-        style_file = QtCore.QFile("Py_Programs/style.qss")
-        if style_file.open(QtCore.QFile.ReadOnly | QtCore.QFile.Text):
-            style_sheet = style_file.readAll()
-            style_file.close()
-            style_sheet = str(style_sheet, encoding='utf-8')
-            self.setStyleSheet(style_sheet)
-        else:
-            print("Failed to open style.qss")
+        try:
+            style_file = QtCore.QFile("Py_Programs/style.qss")
+            if style_file.open(QtCore.QFile.ReadOnly | QtCore.QFile.Text):
+                style_sheet = style_file.readAll()
+                style_file.close()
+                style_sheet = str(style_sheet, encoding='utf-8')
+                self.setStyleSheet(style_sheet)
+            else:
+                raise FileNotFoundError
+        except FileNotFoundError:
+            style_file = QtCore.QFile("style.qss")
+            if style_file.open(QtCore.QFile.ReadOnly | QtCore.QFile.Text):
+                style_sheet = style_file.readAll()
+                style_file.close()
+                style_sheet = str(style_sheet, encoding='utf-8')
+                self.setStyleSheet(style_sheet)
+            else:
+                print("Failed to open style.qss")
 
         self.show()
 

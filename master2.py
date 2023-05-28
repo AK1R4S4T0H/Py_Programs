@@ -4,7 +4,7 @@
 # master launcher for the Py_Programs
 import os
 import subprocess
-from PySide6.QtWidgets import QApplication, QMainWindow, QTabWidget, QVBoxLayout, QLabel, QWidget, QPushButton, QGridLayout
+from PySide6.QtWidgets import QApplication, QMainWindow, QTabWidget, QVBoxLayout, QLabel, QWidget, QPushButton, QGridLayout, QStyle, QStyleFactory
 from PySide6.QtGui import QTextCursor
 from PySide6.QtCore import Slot, QFile
 import sys
@@ -16,15 +16,25 @@ class Master:
         self.recursion_limit = 1000
         self.window = QMainWindow()
         self.window.setWindowTitle("My Programs")
-        self.window.setGeometry(100, 100, 400, 550)
-        style_file = QFile("Py_Programs/style.qss")
-        if style_file.open(QFile.ReadOnly | QFile.Text):
-            style_sheet = style_file.readAll()
-            style_file.close()
-            style_sheet = str(style_sheet, encoding='utf-8')
-            self.window.setStyleSheet(style_sheet)
-        else:
-            print("Failed to open style.qss")
+        self.window.setGeometry(100, 200, 300, 650)
+        try:
+            style_file = QFile("Py_Programs/style.qss")
+            if style_file.open(QFile.ReadOnly | QFile.Text):
+                style_sheet = style_file.readAll()
+                style_file.close()
+                style_sheet = str(style_sheet, encoding='utf-8')
+                self.window.setStyleSheet(style_sheet)
+            else:
+                raise FileNotFoundError
+        except FileNotFoundError:
+            style_file = QFile("style.qss")
+            if style_file.open(QFile.ReadOnly | QFile.Text):
+                style_sheet = style_file.readAll()
+                style_file.close()
+                style_sheet = str(style_sheet, encoding='utf-8')
+                self.window.setStyleSheet(style_sheet)
+            else:
+                print("Failed to open style.qss")
 
         central_widget = QWidget(self.window)
         self.window.setCentralWidget(central_widget)
@@ -39,23 +49,23 @@ class Master:
         tab_widget.addTab(home_tab, "Home")
         home_layout = QVBoxLayout(home_tab)
         home_label = QLabel("""\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2
-\2\2 Welcome to Py_Programs! \2\2
-\2\2\2\2\2 Collection of Various \2\2\2
-\2\2\2\2\2\2 Python Programs \2\2\2
-\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2
-\2\2\2\2\2\2         /.:lodxxc,'',;..\\                    
-\2\2\2\2\2         /.':loddxl,''........\\          
-  \2\2......;;:;:coxxdoc:'.      ..... \\             
-   \2\2\2     ..:'     .c.        'xNOkox'              
-      \2\2    (      .X.         '\033\033\033\033\033\033\033           
-       \2\2    :     'WO.    .xN00Kd,          
-          \2    ::lOUlKOXXO0NNk,          
-            \2|:::;:::oNWWN0NKK             
-                 ':..;dxkOkOXK0d'             
-                 .''..;lok0kkdcdk.            
-               ..:  ,coOK00x;;kXO .'.         
-             '.  .;;..;:clc:d0Oo,    ''. .  .    
-          .'.      ,:\u0399\u03A0c\u0398g\u03A0\u0399\u03A4\u0398DdXo ..   .',....
+    \2\2\2\2 Welcome to Py_Programs! \2\2\2\2\2\2\2\2\2\2\2\2\2
+      \2\2\2\2\2\2 Collection of Various \2\2\2\2\2\2\2\2\2\2\2\2\2
+        \2\2\2\2\2\2 Python Programs \2\2\2\2\2\2\2\2\2\2\2
+         \2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2\2
+           \2\2\2\2\2\2\2         /.:lodxxc,'',;..\\                    
+            \2\2\2\2\2         /.':loddxl,''........\\          
+              \2\2......;;:;:coxxdoc:'.      ..... \\             
+               \2\2\2     ..:'     .c.        'xNOkox'              
+                  \2\2    (      .X.         '\033\033\033\033\033\033\033           
+                   \2\2    :     'WO.    .xN00Kd,          
+                      \2    ::lOUlKOXXO0NNk,          
+                        \2|:::;:::oNWWN0NKK             
+                             ':..;dxkOkOXK0d'             
+                            .''..;lok0kkdcdk.            
+                          ..:  ,coOK00x;;kXO .'.         
+                        '.  .;;..;:clc:d0Oo,    ''. .  .    
+                    .'.      ,:\u0399\u03A0c\u0398g\u03A0\u0399\u03A4\u0398DdXo ..   .',....
 
         
         """)
@@ -66,9 +76,7 @@ class Master:
         programs = [
             # START CATEGORIES ------------------------------------------|
             # Entertainment ---------------------------------------------|
-            ("ABCs.py", "Py_Programs", "ABC Flashcards", "Entertainment"),
             ("DODGE.py", "Py_Programs", "Dodge the Dots", "Entertainment"),
-            ("JAP.py", "Py_Programs", "Japanese Flash", "Entertainment"),
             ("MIDIPLAYER.py", "Py_Programs", "Midi Player", "Entertainment"),
             ("AUDIO.py", "Py_Programs", "TTK Audio Player", "Entertainment"),
             ("BROWSE.py", "Py_Programs", "Web Browser", "Entertainment"),
@@ -76,6 +84,11 @@ class Master:
             ("VIDEO.py", "Py_Programs", "Video Player", "Entertainment"),
             ("KEYS.py", "Py_Programs", "Music Visual", "Entertainment"),
             ("WAVES.py", "Py_Programs", "Visualizer", "Entertainment"),
+            # Education -------------------------------------------|
+            ("JAP.py", "Py_Programs", "Japanese Flash", "Education"),
+            ("ABCs.py", "Py_Programs", "ABC Flashcards", "Education"),
+            ("scan.py", "Py_Programs", "Nmap GUI", "Education"),
+            ("test3.py", "Py_Programs", "Print TTK", "Education"),
             # Utility ---------------------------------------------|
             ("AUDIO_V2.py", "Py_Programs", "PyQt Audio", "Utility"),
             ("Calculator.py", "Py_Programs", "Calculator", "Utility"),
@@ -99,16 +112,17 @@ class Master:
             ("META.py", "Py_Programs", "Image Metadata", "Security"),
             ("PORT.py", "Py_Programs", "Py_PortScanner", "Security"),
             ("PASS.py", "Py_Programs", "Pass Generator", "Security"),
-            ("scan.py", "Py_Programs", "Nmap GUI", "Security"),
+            ("scan_V2.py", "Py_Programs", "Qt Nmap GUI", "Security"),
             ("LOGS.py", "Py_Programs", "Key-Logger", "Security"),
+            ("LOGS_V2.py", "Py_Programs", "Key-Log V2", "Security"),
             # Other ------------------------------------------------|
             ("installer.py", "Py_Programs", "Fake Install", "Other"),
             ("CSVPLOT.py", "Py_Programs", "CSV Plot", "Other"),
+            ("PLOT.py", "Py_Programs", "Plot 2", "Other"),
             ("popup.py", "Py_Programs", "Popup Test", "Other"),
             ("test.py", "Py_Programs", "Ttk Test", "Other"),
             ("test2.py", "Py_Programs", "Ttk Test 2", "Other"),
-            ("PySide6Test.py", "Py_Programs", "PySide6 Test", "Other"),
-            ("test3.py", "Py_Programs", "Print TTK", "Other")
+            ("PySide6Test.py", "Py_Programs", "PySide6 Test", "Other")
             # END CATEGORIES --------------------------------------|
         ]
 
@@ -122,16 +136,18 @@ class Master:
             # Filter by category
             category_programs = [program for program in programs if program[3] == category]
 
-            num_columns = 4
+            num_columns = 5
             for i, program in enumerate(category_programs):
                 button = QPushButton(program[2])
                 button.clicked.connect(lambda _=program, p=program: self.open_program(p))
                 row = i // num_columns
                 col = i % num_columns
-                category_layout.addWidget(button, row, col, 1, 1)
+                category_layout.addWidget(button, row, col)
 
             category_layout.setHorizontalSpacing(4)
             category_layout.setVerticalSpacing(4)
+            category_layout.setRowStretch(row + 2, 1)
+            category_layout.setColumnStretch(col + 2, 1)
 
 
         # About -----------------------------------------------------------------|
@@ -150,7 +166,7 @@ class Master:
         initial_directory = os.getcwd()
         os.chdir(program[1])
         self.app.processEvents()
-        subprocess.run(["python3", program[0]])
+        subprocess.Popen(["python3", program[0]])
         os.chdir(initial_directory)
 
     def close_application(self):
