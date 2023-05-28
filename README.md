@@ -46,9 +46,19 @@ ___
 ___
 ### HIDE.py
 ##### Simple Python ttk Steganography tool to hide a message or file in a picture, encryption key provided when data is hidden, uses XOR currently
+![alt text](https://github.com/AK1R4S4T0H/Py_Programs/blob/main/images/hide.png?raw=true)
+___
+### HIDE_V2.py
+##### HIDE.py PySide6 rewrite, and uses AES instead of XOR
+![alt text](https://github.com/AK1R4S4T0H/Py_Programs/blob/main/images/hide2.png?raw=true)
 ___
 ### SEEK.py
 ##### Pair Program to HIDE.py, used to decrpyt and extract the hidden data, must provide correct encryption key or hidden data will not be seeable, has button to save the text from the decrypted picture.
+![alt text](https://github.com/AK1R4S4T0H/Py_Programs/blob/main/images/seek.png?raw=true)
+___
+### SEEK_V2.py
+##### Pair Program to HIDE_V2.py, used to decrpyt and extract the hidden data, must provide correct encryption key or hidden data will not be seeable, has button to save the text from the decrypted picture.
+![alt text](https://github.com/AK1R4S4T0H/Py_Programs/blob/main/images/seek2.png?raw=true)
 ___
 ### installer.py
 ##### Fake Installer for Fun
@@ -93,9 +103,17 @@ ___
 ##### Simple Ttk Python Conky, Picture is from a VM but it works the same anywhere, contains more than shown in picture now.
 ![alt text](https://github.com/AK1R4S4T0H/Py_Programs/blob/main/images/PONKY.png?raw=true)
 ___
+### PONKY2-0.py
+##### PONKY PY PySide6 rewrite, much better, works on VM or Bare Metal
+![alt text](https://github.com/AK1R4S4T0H/Py_Programs/blob/main/images/PONKY2.png?raw=true)
+___
 ### scan.py
 ##### Nmap GUI
 ![alt text](https://github.com/AK1R4S4T0H/Py_Programs/blob/main/images/scan.png?raw=true)
+___
+### scan_V2.py
+##### Nmap GUI update in PySide6, remeber to already have nmap downlaoded
+![alt text](https://github.com/AK1R4S4T0H/Py_Programs/blob/main/images/scan2.png?raw=true)
 ___
 ### SCRap.py
 ##### TTK web Scraper using Beautiful Soup4
@@ -119,4 +137,5 @@ ___
 ### WAVES.py
 ##### pygame music visualizer
 ![alt text](https://github.com/AK1R4S4T0H/Py_Programs/blob/main/images/WAVES.png?raw=true)
+![alt text](https://github.com/AK1R4S4T0H/Py_Programs/blob/main/images/WAVES2.png?raw=true)
 ___
