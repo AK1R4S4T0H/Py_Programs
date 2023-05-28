@@ -6,6 +6,9 @@
 import sys
 from PySide6 import QtCore, QtGui, QtWidgets
 import random
+import os
+
+os.environ['QT_QPA_PLATFORM'] = 'xcb'
 
 japanese_phrases = {
     'こんにちは': 'Konnichiwa - Hello',

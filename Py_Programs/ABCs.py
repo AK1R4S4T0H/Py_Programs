@@ -1,30 +1,45 @@
 """ Created by: AK1R4S4T0H
 """
 import random
-import tkinter as tk
-class ABC():
-    def __init__(self):
-        phrases = {'A','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w', 'x','y','z',
+from PySide6.QtWidgets import QApplication, QWidget, QMainWindow, QLabel, QPushButton, QVBoxLayout
+from PySide6.QtCore import QTimer, Qt
+import os
+
+os.environ['QT_QPA_PLATFORM'] = 'xcb'
+phrases = {'A','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w', 'x','y','z',
         'B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V', 'W','X','Y','Z',
         '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17','18', '19', '20'}
+class ABC(QMainWindow):
+    def __init__(self):
+        super().__init__()
 
-        self.root = tk.Tk()
-        self.root.title("ABC's")
-        self.root.geometry("400x400")
+        self.setWindowTitle("ABC's")
+        self.setGeometry(100, 100, 400, 400)
 
-        label = tk.Label(self.root, font=("Sans", 180), bg="black", fg="white")
+        central_widget = QWidget(self)
+        self.setCentralWidget(central_widget)
+        layout = QVBoxLayout(central_widget)
 
-        def display_phrase():
-            phrase = random.choice(list(phrases))
-            label.config(text=f"{phrase}")
-            
-            self.root.after(10000, display_phrase)
+        self.label = QLabel(self)
+        self.label.setFont("Sans")
+        self.label.setStyleSheet("background-color: black; color: white;font-size: 180px;")
+        self.label.setAlignment(Qt.AlignCenter)
 
-        button = tk.Button(self.root, text="Show me a phrase!", command=display_phrase)
+        self.button = QPushButton("Show me a phrase!", self)
+        self.button.setStyleSheet("color: #FFFFFF;background-color: #165753;font-size: 12px;padding: 5px")
+        self.button.clicked.connect(self.display_phrase)
 
-        label.pack(expand=True, fill='both')
-        button.pack()
+        layout.addWidget(self.label)
+        layout.addWidget(self.button)
+
+    def display_phrase(self):
+        phrase = random.choice(list(phrases))
+        self.label.setText(phrase)
+
+        QTimer.singleShot(10000, self.display_phrase)
 
 if __name__ == "__main__":
+    app = QApplication([])
     abc = ABC()
-    abc.root.mainloop()
+    abc.show()
+    app.exec()
