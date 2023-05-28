@@ -114,7 +114,7 @@ ___
 ___
 ### scan_V2.py
 ##### Nmap GUI update in PySide6, remeber to already have nmap downlaoded
-![alt text](https://github.com/AK1R4S4T0H/Py_Programs/blob/main/images/scan2.png?raw=true)
+![alt text](https://github.com/AK1R4S4T0H/Py_Programs/blob/main/images/scan2-1.png?raw=true)
 ___
 ### SCRap.py
 ##### TTK web Scraper using Beautiful Soup4
