@@ -95,11 +95,9 @@ class Notes(QMainWindow):
         self.underline_action.setShortcut("Ctrl+U")
         self.underline_action.triggered.connect(self.toggle_underline)
 
-        self.font_family_action = QAction("Font Family", self)
-        self.font_family_action.triggered.connect(self.change_font_family)
+        self.font_action = QAction("Font", self)
+        self.font_action.triggered.connect(self.change_font_family)
 
-        self.font_size_action = QAction("Font Size", self)
-        self.font_size_action.triggered.connect(self.change_font_size)
 
         self.font_color_action = QAction("Font Color", self)
         self.font_color_action.triggered.connect(self.change_font_color)
@@ -123,8 +121,7 @@ class Notes(QMainWindow):
         self.edit_menu.addAction(self.italic_action)
         self.edit_menu.addAction(self.underline_action)
         self.edit_menu.addSeparator()
-        self.edit_menu.addAction(self.font_family_action)
-        self.edit_menu.addAction(self.font_size_action)
+        self.edit_menu.addAction(self.font_action)
         self.edit_menu.addAction(self.font_color_action)
 
     def new_file(self):
@@ -192,13 +189,6 @@ class Notes(QMainWindow):
         font, ok = QFontDialog.getFont(self.font_family, self)
         if ok:
             self.font_family = font
-            self.text_area.setCurrentFont(self.font_family)
-
-    def change_font_size(self):
-        size, ok = QFontDialog.getInt(self, "Font Size", "Enter the font size:", self.font_size)
-        if ok:
-            self.font_size = size
-            self.font_family.setPointSize(self.font_size)
             self.text_area.setCurrentFont(self.font_family)
 
     def change_font_color(self):

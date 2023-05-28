@@ -3,10 +3,13 @@
 # master launcher for the Py_Programs PySide6 Version
 import os
 import subprocess
-from PySide6.QtWidgets import QApplication, QMainWindow, QTabWidget, QVBoxLayout, QLabel, QWidget, QPushButton, QGridLayout, QStyle, QStyleFactory
+from PySide6.QtWidgets import QApplication, QMainWindow, QTabWidget, QVBoxLayout, QLabel, QWidget, QPushButton, QGridLayout, QStyle, QStyleFactory, QDockWidget, QSizePolicy
 from PySide6.QtGui import QTextCursor
-from PySide6.QtCore import Slot, QFile
+from PySide6.QtCore import Slot, QFile, QProcess, Qt
 import sys
+from Py_Programs.PONKYDOCK import PonkyPy
+from Py_Programs.PYPAD import Notes
+from Py_Programs.AUDIO_V2 import Audio
 
 os.environ['QT_QPA_PLATFORM'] = 'xcb'
 class Master:
@@ -16,6 +19,7 @@ class Master:
         self.window = QMainWindow()
         self.window.setWindowTitle("My Programs")
         self.window.setGeometry(100, 200, 300, 650)
+        
         try:
             style_file = QFile("Py_Programs/style.qss")
             if style_file.open(QFile.ReadOnly | QFile.Text):
@@ -71,6 +75,7 @@ class Master:
         home_label.setStyleSheet("font-size: 20px;")
         home_layout.addWidget(home_label)
 
+
         # Programs -------------------------------------------------------|
         programs = [
             # START CATEGORIES ------------------------------------------|
@@ -94,7 +99,7 @@ class Master:
             ("AUDIO_V2.py", "Py_Programs", "PyQt Audio", "Utility"),
             ("Calculator.py", "Py_Programs", "Calculator", "Utility"),
             ("PONKY.py", "Py_Programs", "Ponky", "Utility"),
-            ("PONKY2-0.py", "Py_Programs", "Ponky V2", "Utility"),
+            ("PONKY2.py", "Py_Programs", "Ponky V2", "Utility"),
             ("PLOT.py", "Py_Programs", "Plot", "Utility"),
             ("ANYTOMP4.py", "Py_Programs", "Any to Mp4", "Utility"),
             ("IMAGE.py", "Py_Programs", "Image Viewer", "Utility"),
@@ -160,6 +165,53 @@ class Master:
         about_label.setStyleSheet("font-size: 16px;")
         about_layout.addWidget(about_label)
 
+
+        # PONKY2-0 ------------------------------------------------------------|
+
+        left_widget = QDockWidget("System Info", self.window)
+        left_widget.setFeatures(QDockWidget.DockWidgetVerticalTitleBar)
+        left_widget.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Expanding)
+        
+        ponky_program = PonkyPy()
+        left_widget.setWidget(ponky_program)
+
+        self.window.addDockWidget(Qt.LeftDockWidgetArea, left_widget)
+
+        # Custom Dock Right ---------------------------------------------------|
+
+        dock_widget = QDockWidget("Notes and Stuff", self.window)
+        dock_widget.setFeatures(QDockWidget.DockWidgetFloatable)
+
+        custom_widget = QWidget(dock_widget)
+        layout = QVBoxLayout(custom_widget)
+
+
+        # Dock Widgets
+        pypad = Notes()
+        pypad.setMinimumHeight(400)
+        pypad.setMinimumWidth(200)
+        layout.addWidget(pypad)
+
+        dock_label = QLabel("Music Player", self.window)
+        layout.addWidget(dock_label)
+
+        
+        audio = Audio()
+        audio.setMinimumWidth(200)
+        layout.addWidget(audio)
+
+        # Set the custom widget as the content of the dock widget
+        dock_widget.setWidget(custom_widget)
+
+        # Add the dock widget to the main window
+        self.window.addDockWidget(Qt.RightDockWidgetArea, dock_widget)
+
+
+
+
+        # END TABS ----------------------------------------------------------|
+        
+        self.window.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.window.show()
         self.app.aboutToQuit.connect(self.close_application)
         self.app.exec()
