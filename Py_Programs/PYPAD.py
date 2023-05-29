@@ -192,9 +192,14 @@ class Notes(QMainWindow):
         if font_dialog.exec() == QFontDialog.Accepted:
             font = font_dialog.selectedFont()
             self.font_family = font
-            self.text_area.setFont(self.font_family)
-            self.text_area.setFontPointSize(self.font_family.pointSize())
 
+            cursor = self.text_area.textCursor()
+            position = cursor.position()
+
+            self.text_area.setFont(font)
+
+            cursor.setPosition(position)
+            self.text_area.setTextCursor(cursor)
 
     def change_font_color(self):
         color = QColorDialog.getColor(self.font_color, self)
