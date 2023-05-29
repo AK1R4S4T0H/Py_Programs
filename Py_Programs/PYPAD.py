@@ -186,8 +186,11 @@ class Notes(QMainWindow):
         self.text_area.setCurrentFont(font)
 
     def change_font_family(self):
-        font, ok = QFontDialog.getFont(self.font_family, self)
-        if ok:
+        font_dialog = QFontDialog(self)
+        font_dialog.setCurrentFont(self.font_family)
+
+        if font_dialog.exec() == QFontDialog.Accepted:
+            font = font_dialog.selectedFont()
             self.font_family = font
             self.text_area.setFont(self.font_family)
             self.text_area.setFontPointSize(self.font_family.pointSize())
