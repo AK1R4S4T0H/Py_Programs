@@ -3,14 +3,16 @@ import subprocess
 import csv
 import requests
 from bs4 import BeautifulSoup
-from PySide6.QtGui import QAction
-from PySide6 import QtCore, QtGui, QtWidgets, Qt, QThread
+from PySide6 import QtCore, QtGui, QtWidgets
 from PySide6.QtWidgets import (
     QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QLabel,
     QLineEdit, QTextEdit, QRadioButton, QStyleFactory, QMenu, QFileDialog,
     QFrame, QPushButton, QPlainTextEdit, QStyle, QMenuBar, QStatusBar,
     QMessageBox, QGridLayout, QCheckBox, QVBoxLayout
 )
+from PySide6.QtCore import Qt, QThread
+from PySide6.QtGui import QAction
+
 
 os.environ['QT_QPA_PLATFORM'] = 'xcb'
 
@@ -133,12 +135,6 @@ class Scrap(QMainWindow):
                         'option': False,
                         'textarea': False,
                         'label': False,
-                        'img': False,
-                        'iframe': False,
-                        'video': False,
-                        'audio': False,
-                        'canvas': False,
-                        'svg': False,
                         'script': False,
                         'style': False,
                         'head': False,
