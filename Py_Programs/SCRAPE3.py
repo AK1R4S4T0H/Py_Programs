@@ -3,16 +3,14 @@ import subprocess
 import csv
 import requests
 from bs4 import BeautifulSoup
-from PySide6 import QtCore, QtGui, QtWidgets
+from PySide6.QtGui import QAction
+from PySide6 import QtCore, QtGui, QtWidgets, Qt, QThread
 from PySide6.QtWidgets import (
     QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QLabel,
     QLineEdit, QTextEdit, QRadioButton, QStyleFactory, QMenu, QFileDialog,
     QFrame, QPushButton, QPlainTextEdit, QStyle, QMenuBar, QStatusBar,
     QMessageBox, QGridLayout, QCheckBox, QVBoxLayout
 )
-from PySide6.QtCore import Qt, QThread
-from PySide6.QtGui import QAction
-
 
 os.environ['QT_QPA_PLATFORM'] = 'xcb'
 
@@ -120,6 +118,7 @@ class Scrap(QMainWindow):
                         'dt': False,
                         'dd': False,
                         'table': False,
+                        'tt': False,
                         'tr': False,
                         'td': False,
                         'th': False,
@@ -175,7 +174,7 @@ class Scrap(QMainWindow):
             checkbox.setStyleSheet("QCheckBox::indicator { width: 30px; height: 30px;}"
                                     "QCheckBox { font-size: 17px; padding: 2px; }")
             checkbox.setFixedHeight(50)
-            textbox.setFixedWidth(200)
+            textbox.setFixedWidth(230)
             textbox.setFixedHeight(50)
 
         self.layout.addWidget(grid_widget)
