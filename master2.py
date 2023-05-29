@@ -6,6 +6,7 @@ import sys
 import platform
 import psutil
 import subprocess
+import functools
 from PySide6.QtWidgets import QApplication, QMainWindow, QTabWidget, QVBoxLayout, QHBoxLayout, QLabel, QWidget, QPushButton, QGridLayout, QStyle, QStyleFactory, QDockWidget, QSizePolicy
 from PySide6.QtGui import QTextCursor
 from PySide6.QtCore import Slot, QFile, QProcess, Qt
@@ -98,6 +99,7 @@ class Master:
             ("JAP.py", "Py_Programs", "Japanese Flash", "Education"),
             ("ABCs.py", "Py_Programs", "ABC Flashcards", "Education"),
             ("COLORS.py", "Py_Programs", "Color Learn", "Education"),
+            ("SHAPES.py", "Py_Programs", "Shapes Learn", "Education"),
             ("HEX.py", "Py_Programs", "Color/HEX View", "Education"),
             ("scan.py", "Py_Programs", "Nmap GUI", "Education"),
             ("test3.py", "Py_Programs", "Print TTK", "Education"),
@@ -122,6 +124,7 @@ class Master:
             # Security -----------------------------------------|
             ("HIDE.py", "Py_Programs", "Steg Hide", "Security"),
             ("SEEK.py", "Py_Programs", "Steg Seek", "Security"),
+            ("HASH.py", "Py_Programs", "Hash Cracker", "Security"),
             ("HIDE_V2.py", "Py_Programs", "Steg Hide V2", "Security"),
             ("SEEK_V2.py", "Py_Programs", "Steg Seek V2", "Security"),
             ("META.py", "Py_Programs", "Image Metadata", "Security"),
@@ -132,11 +135,13 @@ class Master:
             ("LOGS_V2.py", "Py_Programs", "Key-Log V2", "Security"),
             # Other ------------------------------------------------|
             ("installer.py", "Py_Programs", "Fake Install", "Other"),
+            ("CSVMERGE.py", "Py_Programs", "Merge CSVs", "Other"),
             ("CSVPLOT.py", "Py_Programs", "CSV Plot", "Other"),
             ("popup.py", "Py_Programs", "Popup Test", "Other"),
             ("test.py", "Py_Programs", "Ttk Test", "Other"),
             ("test2.py", "Py_Programs", "Ttk Test 2", "Other"),
-            ("PySide6Test.py", "Py_Programs", "PySide6 Test", "Other")
+            ("PySide6Test.py", "Py_Programs", "PySide6 Test", "Other"),
+            ("pyside6test2.py", "Py_Programs", "Print PySide6", "Other")
             # END CATEGORIES --------------------------------------|
         ]
 
@@ -153,7 +158,7 @@ class Master:
             num_columns = 5
             for i, program in enumerate(category_programs):
                 button = QPushButton(program[2])
-                button.clicked.connect(lambda _=program, p=program: self.open_program(p))
+                button.clicked.connect(functools.partial(self.open_program, program))
                 row = i // num_columns
                 col = i % num_columns
                 category_layout.addWidget(button, row, col)
@@ -276,5 +281,4 @@ class Master:
 if __name__ == "__main__":
     
     program_launcher = Master()
-    program_launcher.show()
-    sys.exit(app.exec())
+    sys.exit(program_launcher)

@@ -26,6 +26,9 @@ style.configure('TScale',
                 background='#7777EE',
                 troughcolor='#9955EE')
 
+# Create a text box to display the styles
+text_box = tk.Text(root, width=40, height=20)
+text_box.pack()
 
 # Get all element names
 element_names = style.element_names()
@@ -34,7 +37,7 @@ element_names = style.element_names()
 for element in element_names:
     options = style.element_options(element)
     maps = style.map(element)
-    print(f"{element}: {options}")
-    print(f"{element} map: {maps}")
+    text_box.insert(tk.END, f"{element}: {options}\n")
+    text_box.insert(tk.END, f"{element} map: {maps}\n")
 
 root.mainloop()

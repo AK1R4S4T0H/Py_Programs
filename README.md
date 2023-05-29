@@ -122,6 +122,11 @@ ___
 ##### PySide6 version of SCRap.py using Beautiful Soup4
 ![alt text](https://github.com/AK1R4S4T0H/Py_Programs/blob/main/images/SCRAP2.png?raw=true)
 ___
+### SCRAPE3.py
+##### Heavily Modified SCRAP_V2.py
+![alt text](https://github.com/AK1R4S4T0H/Py_Programs/blob/main/images/SCRAP3.png?raw=true)
+
+___
 ### STAR.py
 ##### Turtle Program that pops up extra dialog to start, stop or save the image generated, generates complex star turtle picture
 ![alt text](https://github.com/AK1R4S4T0H/Py_Programs/blob/main/images/STAR.png?raw=true)

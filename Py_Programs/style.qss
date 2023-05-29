@@ -106,6 +106,7 @@ QProgressBar {
     color: #bbddbb;
     border: 2px outset black;
     padding: 2px;
+    text-align: center;
 
 }
 QCheckBox {
