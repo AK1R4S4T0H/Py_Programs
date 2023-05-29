@@ -2,16 +2,22 @@
 """
 # master launcher for the Py_Programs PySide6 Version
 import os
+import sys
+import platform
+import psutil
 import subprocess
-from PySide6.QtWidgets import QApplication, QMainWindow, QTabWidget, QVBoxLayout, QLabel, QWidget, QPushButton, QGridLayout, QStyle, QStyleFactory, QDockWidget, QSizePolicy
+from PySide6.QtWidgets import QApplication, QMainWindow, QTabWidget, QVBoxLayout, QHBoxLayout, QLabel, QWidget, QPushButton, QGridLayout, QStyle, QStyleFactory, QDockWidget, QSizePolicy
 from PySide6.QtGui import QTextCursor
 from PySide6.QtCore import Slot, QFile, QProcess, Qt
-import sys
 from Py_Programs.PONKYDOCK import PonkyPy
 from Py_Programs.PYPAD import Notes
 from Py_Programs.AUDIO_V2 import Audio
+from Py_Programs.HEX import ColorViewer as CoVi
+from Py_Programs.PLOT import PlotGUI
+from Py_Programs.PASS import PasswordGenerator
 
 os.environ['QT_QPA_PLATFORM'] = 'xcb'
+
 class Master:
     def __init__(self):
         self.app = QApplication([])
@@ -111,6 +117,7 @@ class Master:
             ("PYTOEXE.py", "Py_Programs", "Py to EXE", "Utility"),
             ("SCRap.py", "Py_Programs", "Web Scraper", "Utility"),
             ("SCRAP_V2.py", "Py_Programs", "Web ScrapV2", "Utility"),
+            ("SCRAP.py", "Py_Programs", "Web ScrapV3", "Utility"),
             ("QR_GEN.py", "Py_Programs", "QR Code Gen", "Utility"),
             # Security -----------------------------------------|
             ("HIDE.py", "Py_Programs", "Steg Hide", "Security"),
@@ -158,6 +165,7 @@ class Master:
 
 
         # About -----------------------------------------------------------------|
+        
         about_tab = QWidget()
         tab_widget.addTab(about_tab, "About")
         about_layout = QVBoxLayout(about_tab)
@@ -165,30 +173,32 @@ class Master:
         about_label.setStyleSheet("font-size: 16px;")
         about_layout.addWidget(about_label)
 
-
         # PONKY2-0 ------------------------------------------------------------|
 
-        left_widget = QDockWidget("System Info", self.window)
+        left_widget = QDockWidget("System Information", self.window)
         left_widget.setFeatures(QDockWidget.DockWidgetVerticalTitleBar)
         left_widget.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Expanding)
         
-        ponky_program = PonkyPy()
-        left_widget.setWidget(ponky_program)
+        ponky = PonkyPy()
+        ponky.setMaximumHeight(640)
+        ponky.setMinimumHeight(640)
+        left_widget.setWidget(ponky)
 
         self.window.addDockWidget(Qt.LeftDockWidgetArea, left_widget)
 
         # Custom Dock Right ---------------------------------------------------|
 
-        dock_widget = QDockWidget("Notes and Stuff", self.window)
+        dock_widget = QDockWidget("Notes", self.window)
         dock_widget.setFeatures(QDockWidget.DockWidgetFloatable)
 
         custom_widget = QWidget(dock_widget)
         layout = QVBoxLayout(custom_widget)
 
+        # |---------- Dock Widgets ----------| #
 
-        # Dock Widgets
         pypad = Notes()
-        pypad.setMinimumHeight(400)
+        pypad.setMinimumHeight(300)
+        
         pypad.setMinimumWidth(200)
         layout.addWidget(pypad)
 
@@ -200,14 +210,42 @@ class Master:
         audio.setMinimumWidth(200)
         layout.addWidget(audio)
 
-        # Set the custom widget as the content of the dock widget
+        # Set custom widget to the dock
         dock_widget.setWidget(custom_widget)
 
-        # Add the dock widget to the main window
         self.window.addDockWidget(Qt.RightDockWidgetArea, dock_widget)
 
+        # Custom Dock Bottom ---------------------------------------------------|
 
+        bot_dock_widget = QDockWidget("Other", self.window)
+        bot_dock_widget.setFeatures(QDockWidget.DockWidgetFloatable)
 
+        bot_widget = QWidget(bot_dock_widget)
+        bot_layout = QHBoxLayout(bot_widget)
+
+        # |---------- Dock Widgets ----------| #
+
+        Hex = CoVi()
+        Hex.setMinimumWidth(200)
+        Hex.setMaximumHeight(150)
+        Hex.setMaximumWidth(200)
+        bot_layout.addWidget(Hex)
+
+        Plot = PlotGUI()
+        Plot.setMinimumWidth(200)
+        Plot.setMaximumHeight(150)
+        Plot.setMaximumWidth(200)
+        bot_layout.addWidget(Plot)
+
+        Pass = PasswordGenerator()
+        Pass.setMinimumWidth(200)
+        Pass.setMaximumHeight(150)
+        Pass.setMaximumWidth(200)
+        bot_layout.addWidget(Pass)
+
+        bot_dock_widget.setWidget(bot_widget)
+
+        self.window.addDockWidget(Qt.BottomDockWidgetArea, bot_dock_widget)
 
         # END TABS ----------------------------------------------------------|
         
@@ -236,5 +274,7 @@ class Master:
             sys.exit(1)
 
 if __name__ == "__main__":
+    
     program_launcher = Master()
-    program_launcher.run()
+    program_launcher.show()
+    sys.exit(app.exec())

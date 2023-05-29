@@ -1,16 +1,16 @@
 # Hex color picker and Color Picker with dropper
 import sys
 import random
-from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QVBoxLayout, QHBoxLayout, QPushButton, QLineEdit, QColorDialog
-from PyQt5.QtGui import QColor, QPalette, QLinearGradient
-from PyQt5.QtCore import Qt, QTimer, QFile
+from PySide6.QtWidgets import QApplication, QWidget, QLabel, QVBoxLayout, QHBoxLayout, QPushButton, QLineEdit, QColorDialog
+from PySide6.QtGui import QColor, QPalette
+from PySide6.QtCore import Qt, QTimer, QFile
 import os
 
 os.environ['QT_QPA_PLATFORM'] = 'xcb'
+
 class ColorViewer(QWidget):
     def __init__(self):
         super().__init__()
-
         self.setWindowTitle("HEX")
         self.setGeometry(200, 200, 300, 200)
         try:
@@ -39,13 +39,13 @@ class ColorViewer(QWidget):
         self.color_input = QLineEdit()
         self.color_input.setPlaceholderText("Enter color in hex")
 
-        self.random_button = QPushButton("Random Color")
+        self.random_button = QPushButton("Random")
         self.random_button.clicked.connect(self.generate_random_color)
 
         self.submit_button = QPushButton("Submit")
         self.submit_button.clicked.connect(self.show_color)
 
-        self.pick_color_button = QPushButton("Pick Color")
+        self.pick_color_button = QPushButton("Pick")
         self.pick_color_button.clicked.connect(self.pick_color)
 
         layout = QVBoxLayout()
@@ -73,9 +73,8 @@ class ColorViewer(QWidget):
 
         # Set background
         palette = self.palette()
-        palette.setColor(QPalette.Background, QColor(red, green, blue))
+        palette.setColor(QPalette.Window, QColor(red, green, blue))
         self.setPalette(palette)
-
 
     def generate_random_color(self):
         red = random.randint(0, 255)
@@ -93,7 +92,7 @@ class ColorViewer(QWidget):
         if color.isValid():
             self.set_color(color.red(), color.green(), color.blue())
         else:
-            self.set_color(0, 0, 0) 
+            self.set_color(0, 0, 0)
 
     def pick_color(self):
         color = QColorDialog.getColor()
@@ -108,8 +107,6 @@ class ColorViewer(QWidget):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-
     window = ColorViewer()
     window.show()
-
     sys.exit(app.exec())
