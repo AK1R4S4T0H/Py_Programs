@@ -30,6 +30,7 @@ class Master:
         self.window.setWindowTitle("My Programs")
         self.window.setGeometry(100, 200, 300, 450)
         
+        
         try:
             style_file = QFile("Py_Programs/style.qss")
             if style_file.open(QFile.ReadOnly | QFile.Text):
@@ -225,7 +226,7 @@ class Master:
 
         audio = Audio()
         audio.setMaximumHeight(300)
-        audio.setMinimumWidth(200)
+        audio.setMinimumWidth(220)
         layout.addWidget(audio)
 
         

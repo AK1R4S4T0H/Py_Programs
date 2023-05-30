@@ -15,7 +15,7 @@ class Waves(QObject):
         BLOCK_SIZE = 512
 
         # Visualization settings
-        SCREEN_WIDTH = 200
+        SCREEN_WIDTH = 220
         SCREEN_HEIGHT = 200
         BACKGROUND_COLOR = (0, 0, 0)
         NUM_WAVEFORMS = 7

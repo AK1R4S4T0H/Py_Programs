@@ -32,7 +32,7 @@ class Audio(QMainWindow):
         self.setCentralWidget(central_widget)
 
         layout = QGridLayout(central_widget)
-        layout.setContentsMargins(40, 20, 20, 40)
+        layout.setContentsMargins(10, 5, 5, 10)
 
         font = QFont("Helvetica", 13, QFont.Bold)
 
