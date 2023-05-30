@@ -1,6 +1,5 @@
 import os
 import sys
-import pygame
 from PySide6.QtCore import Qt, QDir
 from PySide6.QtGui import QIcon, QColor, QPalette, QFont
 from PySide6.QtWidgets import (
@@ -8,7 +7,8 @@ from PySide6.QtWidgets import (
     QPushButton, QFileDialog, QStyleFactory, QSlider,
     QMessageBox, QGridLayout, QLineEdit, QListWidget, QListWidgetItem
 )
-
+import pygame
+from OCEAN import Waves
 os.environ['QT_QPA_PLATFORM'] = 'xcb'
 
 class Audio(QMainWindow):
@@ -37,6 +37,11 @@ class Audio(QMainWindow):
 
         self.file_label = QLabel("Please choose a Song Folder:", self)
         self.file_label.setFont(font)
+        self.file_label.setStyleSheet("""
+            QLabel {
+                color: #00FFFF;
+            }
+        """)
 
         self.file_button = QPushButton("Browse", self)
         self.file_button.clicked.connect(self.browse_folder)
@@ -104,17 +109,22 @@ class Audio(QMainWindow):
         self.song_list_widget = QListWidget(self)
         self.song_list_widget.itemClicked.connect(self.select_song)
 
-        layout.addWidget(self.file_label, 0, 0, 1, 3)
-        layout.addWidget(self.file_button, 1, 0, 1, 3)
-        layout.addWidget(self.song_picker, 2, 0, 1, 3)
-        layout.addWidget(self.song_list_widget, 3, 0, 1, 3)
-        layout.addWidget(self.play_button, 4, 0)
-        layout.addWidget(self.pause_button, 4, 1)
-        layout.addWidget(self.stop_button, 4, 2)
-        layout.addWidget(self.back_button, 5, 1)
-        layout.addWidget(self.forward_button, 5, 2)
-        layout.addWidget(self.volume_label, 5, 0)
-        layout.addWidget(self.volume_slider, 6, 0, 2, 3)
+        self.waves = Waves.WaveformWidget()
+        self.waves.SCREEN_WIDTH = 500
+        self.waves.SCREEN_HEIGHT = 200
+
+        layout.addWidget(self.waves, 0, 0, 0, 0)
+        layout.addWidget(self.file_label, 1, 0, 1, 3)
+        layout.addWidget(self.file_button, 2, 0, 1, 3)
+        layout.addWidget(self.song_picker, 3, 0, 1, 3)
+        layout.addWidget(self.song_list_widget, 4, 0, 1, 3)
+        layout.addWidget(self.play_button, 5, 0)
+        layout.addWidget(self.pause_button, 5, 1)
+        layout.addWidget(self.stop_button, 5, 2)
+        layout.addWidget(self.back_button, 6, 1)
+        layout.addWidget(self.forward_button, 6, 2)
+        layout.addWidget(self.volume_label, 6, 0)
+        layout.addWidget(self.volume_slider, 7, 0, 2, 3)
 
         # Variables
         self.file_path = None
@@ -127,10 +137,9 @@ class Audio(QMainWindow):
         # Set colors
         palette = self.palette()
         palette.setColor(QPalette.Window, QColor("#7733EE"))
-        palette.setColor(QPalette.Button, QColor("#7777EE"))
         palette.setColor(QPalette.ButtonText, QColor("#FFFFFF"))
         palette.setColor(QPalette.Highlight, QColor("#DD33DD"))
-        palette.setColor(QPalette.HighlightedText, QColor("#FFFFFF"))
+        palette.setColor(QPalette.HighlightedText, QColor("#FF0000"))
         self.setPalette(palette)
 
     def browse_folder(self):
