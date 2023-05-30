@@ -1,5 +1,6 @@
 ### Py_Programs
 ___
+#### Same chart as page before, Just made sense to have it here too
 
 | Category     | Program                       | Path                          | Description         |
 |--------------|-------------------------------|-------------------------------|---------------------|
@@ -55,3 +56,6 @@ ___
 | Other        | test2.py                      | Py_Programs/other             | Ttk Test 2          |
 | Other        | PySide6Test.py                | Py_Programs/other             | PySide6 Test        |
 | Other        | pyside6test2.py               | Py_Programs/other             | Print PySide6       |
+
+
+___
