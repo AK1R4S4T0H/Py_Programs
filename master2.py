@@ -5,7 +5,7 @@ import os
 import sys
 import platform
 import psutil
-import subprocess
+from subprocess import Popen
 import functools
 from PySide6.QtWidgets import QApplication, QMainWindow, QTabWidget, QVBoxLayout, QHBoxLayout, QLabel, QWidget, QPushButton, QGridLayout, QStyle, QStyleFactory, QDockWidget, QSizePolicy
 from PySide6.QtGui import QTextCursor

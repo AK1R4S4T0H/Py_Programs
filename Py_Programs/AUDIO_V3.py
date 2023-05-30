@@ -111,9 +111,9 @@ class Audio(QMainWindow):
         layout.addWidget(self.play_button, 4, 0)
         layout.addWidget(self.pause_button, 4, 1)
         layout.addWidget(self.stop_button, 4, 2)
-        layout.addWidget(self.back_button, 5, 0)
-        layout.addWidget(self.forward_button, 5, 1)
-        layout.addWidget(self.volume_label, 5, 2)
+        layout.addWidget(self.back_button, 5, 1)
+        layout.addWidget(self.forward_button, 5, 2)
+        layout.addWidget(self.volume_label, 5, 0)
         layout.addWidget(self.volume_slider, 6, 0, 2, 3)
 
         # Variables
