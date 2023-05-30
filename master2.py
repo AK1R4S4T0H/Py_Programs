@@ -10,7 +10,9 @@ import functools
 from PySide6.QtWidgets import QApplication, QMainWindow, QTabWidget, QVBoxLayout, QHBoxLayout, QLabel, QWidget, QPushButton, QGridLayout, QStyle, QStyleFactory, QDockWidget, QSizePolicy
 from PySide6.QtGui import QTextCursor
 from PySide6.QtCore import Slot, QFile, QProcess, Qt
-from Py_Programs import *
+# ---------------------------------------|
+# My Py_Programs Imports for the Docks
+# from Py_Programs import *
 from Py_Programs.PONKYDOCK import PonkyPy
 from Py_Programs.PYPAD import Notes
 from Py_Programs.AUDIO_V3 import Audio
@@ -19,6 +21,7 @@ from Py_Programs.utility.PLOT import PlotGUI
 from Py_Programs.security.PASS import PasswordGenerator
 from Py_Programs.utility.ANYTOMP4 import VideoConv
 from Py_Programs.OCEAN import Waves
+# ----------------------------------------|
 
 
 os.environ['QT_QPA_PLATFORM'] = 'xcb'
@@ -160,7 +163,7 @@ class Master:
             tab_widget.addTab(category_tab, category)
             category_layout = QGridLayout(category_tab)
 
-            # Filter by category
+            # Filter by category ---------------------------------------|
             category_programs = [program for program in programs if program[3] == category]
 
             num_columns = 5
@@ -233,7 +236,7 @@ class Master:
 
         
 
-        # Set custom widget to the dock
+        # Set custom widget to the dock ------------------------------|
         dock_widget.setWidget(custom_widget)
 
         self.window.addDockWidget(Qt.RightDockWidgetArea, dock_widget)
@@ -300,7 +303,7 @@ class Master:
             program_launcher = Master()
             sys.exit(program_launcher.app.exec())
         except RecursionError:
-            print("RecursionError occurred. Closing the application.")
+            print("RecursionError: Closing the application.")
             sys.exit(1)
 
 if __name__ == "__main__":
