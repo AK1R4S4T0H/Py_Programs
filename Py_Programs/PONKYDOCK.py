@@ -22,19 +22,6 @@ class PonkyPy(QtWidgets.QWidget):
         self.uptime_info = QtWidgets.QLabel()
         self.layout.addWidget(self.uptime_info)
 
-        # SysInfo
-        self.system_info = QtWidgets.QLabel()
-        self.layout.addWidget(self.system_info)
-        system_details = []
-        system_details.append(f"OS: {platform.system()} {platform.release()}")
-        system_details.append(f"Machine: {platform.machine()}")
-        system_details.append(f"System Type: {platform.architecture()[0]}")
-        system_details.append(f"Memory: {round(psutil.virtual_memory().total / (1024 ** 3))} GB")
-        system_details.append(f"Hostname: {platform.node()}")
-        system_details.append(f"Python Version: {platform.python_version()}")
-
-        self.system_info.setText("\n".join(system_details))
-
         # CPU
         self.cpu_label = QtWidgets.QLabel("CPU Usage:")
         self.cpu_label.setContentsMargins(0, 0, 0, 0)
@@ -65,13 +52,6 @@ class PonkyPy(QtWidgets.QWidget):
         self.disk_meter.setTextVisible(False)
         self.layout.addWidget(self.disk_meter)
 
-        # Network
-        self.network_label = QtWidgets.QLabel("Network Usage:")
-        self.network_label.setContentsMargins(0, 0, 0, 0)
-        self.layout.addWidget(self.network_label)
-
-        self.network_info = QtWidgets.QLabel()
-        self.layout.addWidget(self.network_info)
 
         self.update_meter()
 
@@ -94,20 +74,6 @@ class PonkyPy(QtWidgets.QWidget):
         self.disk_meter.setFixedSize(200, 30)  # Set the minimum size of the disk progress bar
         self.disk_label.setText(f"Disk: {disk_percent}%")
 
-        # Network
-        network_counters = psutil.net_io_counters()
-        network_info = [
-            f"Bytes Sent: {network_counters.bytes_sent}",
-            f"Bytes Received: {network_counters.bytes_recv}",
-            f"Packets Sent: {network_counters.packets_sent}",
-            f"Packets Received: {network_counters.packets_recv}",
-            f"Error in Sent: {network_counters.errout}",
-            f"Error in Received: {network_counters.errin}",
-            f"Drop in Sent: {network_counters.dropout}",
-            f"Drop in Received: {network_counters.dropin}",
-        ]
-        self.network_info.setText("\n".join(network_info))
-
         # System Uptime
         uptime = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         self.uptime_info.setText(f"System Time: {uptime}")
@@ -129,7 +95,6 @@ class PonkyPy(QtWidgets.QWidget):
         system_details.append(f"Hostname: {platform.node()}")
         system_details.append(f"Python Version: {platform.python_version()}")
 
-        self.system_info.setText("\n".join(system_details))
 
         try:
             style_file = QtCore.QFile("Py_Programs/style.qss")

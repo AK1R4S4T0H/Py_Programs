@@ -5,24 +5,22 @@ import numpy as np
 import sounddevice as sd
 import pygame
 from scipy.fft import fft
-import tkinter as tk
-from tkinter import ttk
 
 
 
 # Audio settings
 CHANNELS = 7
 SAMPLE_RATE = 44100
-BLOCK_SIZE = 2048
+BLOCK_SIZE = 1024
 
 # Visualization settings
-SCREEN_WIDTH = 700
-SCREEN_HEIGHT = 500
+SCREEN_WIDTH = 400
+SCREEN_HEIGHT = 200
 BACKGROUND_COLOR = (0, 0, 0)
 NUM_WAVEFORMS = 7
 WAVEFORM_COLORS = [(255, 120, 0), (255, 200, 0), (0, 255, 100), (0, 150, 255), (0, 0, 255), (255, 0, 255), (255, 255, 255)]
 LINE_WIDTH = 2
-WAVEFORM_MOVEMENT = 99 # pronounced movement of the waveform
+WAVEFORM_MOVEMENT = 9 # pronounced movement of the waveform
 
 # Frequencies
 FREQUENCIES = [[60, 261.63], [262, 493.66], [494, 929.63], [930, 1449.23], [1450, 2292.00], [2293, 2640.00], [2641, 3193.88]]
@@ -51,12 +49,12 @@ def audio_capture_callback(indata, frames, time, status):
 
     waveform_height = SCREEN_HEIGHT / NUM_WAVEFORMS
     for i, waveform in enumerate(waveforms):
-        y_offset = int(i * waveform_height + waveform_height // 300000)
+        y_offset = int(i * waveform_height + waveform_height // WAVEFORM_MOVEMENT)
         scaled_waveform = waveform * (i + 15) / NUM_WAVEFORMS  # Adjust the scaling factor
         waveform_points = np.column_stack((np.arange(SCREEN_WIDTH), scaled_waveform + y_offset)).astype(int)
         pygame.draw.lines(screen, WAVEFORM_COLORS[i], False, waveform_points, LINE_WIDTH)
 
-        y_offset = int(i * waveform_height / 300 +  waveform_height // 300000)
+        y_offset = int(i * waveform_height / 300 +  waveform_height // WAVEFORM_MOVEMENT)
         scaled_waveform = waveform * (i + 15) / NUM_WAVEFORMS
         freq_range = list(waveform_freq_ranges)[i]
         waveform_points = np.column_stack((np.arange(SCREEN_WIDTH), scaled_waveform + y_offset)).astype(int)
@@ -79,3 +77,9 @@ while running:
 
 stream.stop()
 stream.close()
+
+
+
+
+
+

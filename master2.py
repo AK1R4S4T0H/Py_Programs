@@ -12,10 +12,13 @@ from PySide6.QtGui import QTextCursor
 from PySide6.QtCore import Slot, QFile, QProcess, Qt
 from Py_Programs.PONKYDOCK import PonkyPy
 from Py_Programs.PYPAD import Notes
-from Py_Programs.AUDIO_V2 import Audio
+from Py_Programs.AUDIO_V3 import Audio
 from Py_Programs.HEX import ColorViewer as CoVi
 from Py_Programs.PLOT import PlotGUI
 from Py_Programs.PASS import PasswordGenerator
+from Py_Programs.ANYTOMP4 import VideoConv
+from Py_Programs.OCEAN import Waves
+
 
 os.environ['QT_QPA_PLATFORM'] = 'xcb'
 
@@ -25,7 +28,7 @@ class Master:
         self.recursion_limit = 1000
         self.window = QMainWindow()
         self.window.setWindowTitle("My Programs")
-        self.window.setGeometry(100, 200, 300, 650)
+        self.window.setGeometry(100, 200, 300, 450)
         
         try:
             style_file = QFile("Py_Programs/style.qss")
@@ -48,6 +51,8 @@ class Master:
 
         central_widget = QWidget(self.window)
         self.window.setCentralWidget(central_widget)
+        central_widget.setMaximumHeight(500)
+        central_widget.setMaximumWidth(520)
 
         layout = QVBoxLayout(central_widget)
 
@@ -119,7 +124,8 @@ class Master:
             ("PYTOEXE.py", "Py_Programs", "Py to EXE", "Utility"),
             ("SCRap.py", "Py_Programs", "Web Scraper", "Utility"),
             ("SCRAP_V2.py", "Py_Programs", "Web ScrapV2", "Utility"),
-            ("SCRAP.py", "Py_Programs", "Web ScrapV3", "Utility"),
+            ("SCRAPE3.py", "Py_Programs", "Web ScrapV3", "Utility"),
+            ("web.py", "Py_Programs", "Simple HTML View", "Utility"),
             ("QR_GEN.py", "Py_Programs", "QR Code Gen", "Utility"),
             # Security -----------------------------------------|
             ("HIDE.py", "Py_Programs", "Steg Hide", "Security"),
@@ -181,19 +187,32 @@ class Master:
         # PONKY2-0 ------------------------------------------------------------|
 
         left_widget = QDockWidget("System Information", self.window)
-        left_widget.setFeatures(QDockWidget.DockWidgetVerticalTitleBar)
+        left_widget.setFeatures(QDockWidget.DockWidgetVerticalTitleBar | QDockWidget.DockWidgetFloatable)
         left_widget.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Expanding)
         
+        custom_left_widget = QWidget(left_widget)
+        left_layout = QVBoxLayout(custom_left_widget)
+        pypad = Notes()
+        pypad.setMinimumHeight(200)
+        pypad.setMaximumHeight(200)
+        pypad.setMinimumWidth(200)
+        left_layout.addWidget(pypad)
+
         ponky = PonkyPy()
-        ponky.setMaximumHeight(640)
-        ponky.setMinimumHeight(640)
-        left_widget.setWidget(ponky)
+        ponky.setMaximumHeight(300)
+        ponky.setMaximumWidth(250)
+        ponky.setMinimumHeight(300)
+        left_layout.addWidget(ponky)
+
+        
+
+        left_widget.setWidget(custom_left_widget)
 
         self.window.addDockWidget(Qt.LeftDockWidgetArea, left_widget)
 
         # Custom Dock Right ---------------------------------------------------|
 
-        dock_widget = QDockWidget("Notes", self.window)
+        dock_widget = QDockWidget("Visualizer", self.window)
         dock_widget.setFeatures(QDockWidget.DockWidgetFloatable)
 
         custom_widget = QWidget(dock_widget)
@@ -201,19 +220,15 @@ class Master:
 
         # |---------- Dock Widgets ----------| #
 
-        pypad = Notes()
-        pypad.setMinimumHeight(300)
-        
-        pypad.setMinimumWidth(200)
-        layout.addWidget(pypad)
+        waves = Waves.WaveformWidget()
+        layout.addWidget(waves)
 
-        dock_label = QLabel("Music Player", self.window)
-        layout.addWidget(dock_label)
-
-        
         audio = Audio()
+        audio.setMaximumHeight(300)
         audio.setMinimumWidth(200)
         layout.addWidget(audio)
+
+        
 
         # Set custom widget to the dock
         dock_widget.setWidget(custom_widget)
@@ -232,21 +247,27 @@ class Master:
 
         Hex = CoVi()
         Hex.setMinimumWidth(200)
-        Hex.setMaximumHeight(150)
+        Hex.setMaximumHeight(170)
         Hex.setMaximumWidth(200)
         bot_layout.addWidget(Hex)
 
         Plot = PlotGUI()
         Plot.setMinimumWidth(200)
-        Plot.setMaximumHeight(150)
+        Plot.setMaximumHeight(170)
         Plot.setMaximumWidth(200)
         bot_layout.addWidget(Plot)
 
         Pass = PasswordGenerator()
         Pass.setMinimumWidth(200)
-        Pass.setMaximumHeight(150)
+        Pass.setMaximumHeight(170)
         Pass.setMaximumWidth(200)
         bot_layout.addWidget(Pass)
+
+        Conv = VideoConv()
+        Conv.setMinimumWidth(200)
+        Conv.setMaximumHeight(170)
+        Conv.setMaximumWidth(200)
+        bot_layout.addWidget(Conv)
 
         bot_dock_widget.setWidget(bot_widget)
 

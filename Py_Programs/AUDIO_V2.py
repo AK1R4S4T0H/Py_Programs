@@ -20,7 +20,7 @@ class Audio(QMainWindow):
         self.setGeometry(100, 100, 333, 230)
         self.setStyleSheet("""
             QPushButton {
-                background-color: #7777EE;
+                background-color: #165753;
                 color: #FFFFFF;
             }
             QPushButton:hover {
@@ -84,6 +84,8 @@ class Audio(QMainWindow):
 
         # Variables
         self.file_path = None
+        self.paused = False
+        self.paused_pos = 0
 
         # Init pygame mixer
         pygame.mixer.init()
@@ -114,14 +116,22 @@ class Audio(QMainWindow):
             self.file_label.setText("Song: " + name)
 
     def play(self):
-        pygame.mixer.music.load(self.file_path)
-        pygame.mixer.music.play()
+        if self.paused:
+            pygame.mixer.music.unpause()
+            self.paused = False
+        else:
+            pygame.mixer.music.load(self.file_path)
+            pygame.mixer.music.play()
 
     def pause(self):
-        pygame.mixer.music.pause()
+        if pygame.mixer.music.get_busy() and not self.paused:
+            self.paused_pos = pygame.mixer.music.get_pos()
+            pygame.mixer.music.pause()
+            self.paused = True
 
     def stop(self):
         pygame.mixer.music.stop()
+        self.paused = False
 
     def set_volume(self, value):
         pygame.mixer.music.set_volume(value / 100)

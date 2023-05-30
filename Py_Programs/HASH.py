@@ -64,8 +64,8 @@ class RainbowTable:
 
 
 class HashCrackerThread(QThread):
-    progress_updated = Signal(int)  # Signal emitted when progress is updated
-    crack_finished = Signal(str)  # Signal emitted when hash cracking is finished
+    progress_updated = Signal(int)  
+    crack_finished = Signal(str)  
 
     def __init__(self, hash_value, selected_approaches, selected_algorithms, dictionary_file):
         super().__init__()
@@ -217,7 +217,7 @@ class HashCrackerApp(QMainWindow):
         layout.addWidget(self.algorithm_label)
 
         algorithm_grid = QGridLayout()
-        column_count = math.ceil(len(HASH_ALGORITHMS) / 2)  # Number of columns in the grid
+        column_count = math.ceil(len(HASH_ALGORITHMS) / 2) 
 
         row = 0
         column = 0
@@ -227,13 +227,11 @@ class HashCrackerApp(QMainWindow):
             self.algorithm_checkboxes[algorithm] = checkbox
             algorithm_grid.addWidget(checkbox, row, column)
 
-            # Move to the next row/column
             column += 1
             if column >= column_count:
                 column = 0
                 row += 1
 
-        # Set the grid layout as the layout for the central widget
         layout.addLayout(algorithm_grid)
 
         layout.addWidget(self.approach_label)

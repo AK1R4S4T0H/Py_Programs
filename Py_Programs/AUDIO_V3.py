@@ -1,167 +1,216 @@
 import os
 import sys
-import gi
+from PySide6.QtCore import Qt, QDir
+from PySide6.QtGui import QIcon, QColor, QPalette, QFont
+from PySide6.QtWidgets import (
+    QApplication, QMainWindow, QWidget, QVBoxLayout, QLabel,
+    QPushButton, QFileDialog, QStyleFactory, QSlider,
+    QMessageBox, QGridLayout, QLineEdit, QListWidget, QListWidgetItem
+)
 import pygame
 
-gi.require_version("Gtk", "3.0")
-from gi.repository import Gtk, Gio, Gdk, Pango
+os.environ['QT_QPA_PLATFORM'] = 'xcb'
 
-class Audio(Gtk.Window):
+class Audio(QMainWindow):
     def __init__(self):
-        Gtk.Window.__init__(self, title="Music")
-        self.set_opacity(0.75)
-        self.set_default_size(333, 230)
-
-        # CSS style provider
-        style_provider = Gtk.CssProvider()
-        style_provider.load_from_data(b"""
-            button {
-                background-color: #7777EE;
+        super().__init__()
+        self.setWindowTitle("Music")
+        self.setWindowIcon(QIcon("icon.png"))
+        self.setWindowOpacity(0.75)
+        self.setGeometry(100, 100, 500, 230)
+        self.setStyleSheet("""
+            QPushButton {
+                background-color: #165753;
                 color: #FFFFFF;
             }
-            button:hover {
+            QPushButton:hover {
                 background-color: #DD33DD;
             }
         """)
-        Gtk.StyleContext.add_provider_for_screen(
-            Gdk.Screen.get_default(),
-            style_provider,
-            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
-        )
 
-        # Main layout container
-        layout = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10)
-        layout.set_margin_top(40)
-        layout.set_margin_bottom(40)
-        layout.set_margin_start(20)
-        layout.set_margin_end(20)
-        self.add(layout)
+        central_widget = QWidget()
+        self.setCentralWidget(central_widget)
 
-        font_desc = Pango.FontDescription("Helvetica Bold 13")
+        layout = QGridLayout(central_widget)
+        layout.setContentsMargins(40, 20, 20, 40)
 
-        # File label
-        self.file_label = Gtk.Label(label="Please choose a song:")
-        self.file_label.override_font(font_desc)
-        layout.pack_start(self.file_label, False, False, 0)
+        font = QFont("Helvetica", 13, QFont.Bold)
 
-        # File browse button
-        self.file_button = Gtk.Button(label="Browse")
-        self.file_button.connect("clicked", self.choose_file)
-        self.file_button.override_font(font_desc)
-        layout.pack_start(self.file_button, False, False, 0)
+        self.file_label = QLabel("Please choose a song:", self)
+        self.file_label.setFont(font)
 
-        # Play button
-        self.play_button = Gtk.Button(label="Play")
-        self.play_button.connect("clicked", self.play)
-        self.play_button.override_font(font_desc)
-        self.play_button.get_style_context().add_class("play-button")
-        layout.pack_start(self.play_button, False, False, 0)
+        self.file_button = QPushButton("Browse", self)
+        self.file_button.clicked.connect(self.browse_folder)
+        self.file_button.setFont(font)
 
-        # Pause button
-        self.pause_button = Gtk.Button(label="Pause")
-        self.pause_button.connect("clicked", self.pause)
-        self.pause_button.override_font(font_desc)
-        self.pause_button.get_style_context().add_class("pause-button")
-        layout.pack_start(self.pause_button, False, False, 0)
+        self.play_button = QPushButton("Play", self)
+        self.play_button.clicked.connect(self.play)
+        self.play_button.setFont(font)
+        self.play_button.setStyleSheet("""
+            QPushButton:hover {
+                background-color:  #00DDAA;
+            }
+        """)
 
-        # Stop button
-        self.stop_button = Gtk.Button(label="Stop")
-        self.stop_button.connect("clicked", self.stop)
-        self.stop_button.override_font(font_desc)
-        self.stop_button.get_style_context().add_class("stop-button")
-        layout.pack_start(self.stop_button, False, False, 0)
+        self.pause_button = QPushButton("Pause", self)
+        self.pause_button.clicked.connect(self.pause)
+        self.pause_button.setFont(font)
+        self.pause_button.setStyleSheet("""
+            QPushButton:hover {
+                background-color: #BBDD00;
+            }
+        """)
 
-        # Volume label
-        self.volume_label = Gtk.Label(label="Volume:")
-        self.volume_label.override_font(font_desc)
-        layout.pack_start(self.volume_label, False, False, 0)
+        self.stop_button = QPushButton("Stop", self)
+        self.stop_button.clicked.connect(self.stop)
+        self.stop_button.setFont(font)
+        self.stop_button.setStyleSheet("""
+            QPushButton:hover {
+                background-color: #EE1100;
+            }
+        """)
 
-        # Volume slider
-        self.volume_slider = Gtk.Scale.new_with_range(
-            Gtk.Orientation.HORIZONTAL, 0, 100, 1
-        )
-        self.volume_slider.set_draw_value(False)
-        self.volume_slider.connect("value-changed", self.set_volume)
-        layout.pack_start(self.volume_slider, False, False, 0)
+        self.forward_button = QPushButton("➡️", self)
+        self.forward_button.clicked.connect(self.forward)
+        self.forward_button.setFont(font)
+        self.forward_button.setStyleSheet("""
+            QPushButton:hover {
+                background-color: #888888;
+            }
+        """)
+
+        self.back_button = QPushButton("⬅️", self)
+        self.back_button.clicked.connect(self.back)
+        self.back_button.setFont(font)
+        self.back_button.setStyleSheet("""
+            QPushButton:hover {
+                background-color: #888888;
+            }
+        """)
+
+        self.volume_label = QLabel("Volume:", self)
+        self.volume_label.setFont(font)
+
+        self.volume_slider = QSlider(Qt.Horizontal, self)
+        self.volume_slider.setMinimum(0)
+        self.volume_slider.setMaximum(100)
+        self.volume_slider.setTickInterval(1)
+        self.volume_slider.setTickPosition(QSlider.TicksBelow)
+        self.volume_slider.valueChanged.connect(self.set_volume)
+
+        self.song_picker = QLineEdit(self)
+        self.song_picker.setReadOnly(True)
+
+        self.song_list_widget = QListWidget(self)
+        self.song_list_widget.itemClicked.connect(self.select_song)
+
+        layout.addWidget(self.file_label, 0, 0, 1, 3)
+        layout.addWidget(self.file_button, 1, 0, 1, 3)
+        layout.addWidget(self.song_picker, 2, 0, 1, 3)
+        layout.addWidget(self.song_list_widget, 3, 0, 1, 3)
+        layout.addWidget(self.play_button, 4, 0)
+        layout.addWidget(self.pause_button, 4, 1)
+        layout.addWidget(self.stop_button, 4, 2)
+        layout.addWidget(self.back_button, 5, 0)
+        layout.addWidget(self.forward_button, 5, 1)
+        layout.addWidget(self.volume_label, 5, 2)
+        layout.addWidget(self.volume_slider, 6, 0, 2, 3)
 
         # Variables
         self.file_path = None
+        self.paused = False
+        self.paused_pos = 0
 
         # Init pygame mixer
         pygame.mixer.init()
 
-    def choose_file(self, widget):
-        dialog = Gtk.FileChooserDialog(
-            title="Choose a song",
-            action=Gtk.FileChooserAction.OPEN
-        )
-        dialog.add_buttons(
-            Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
-            Gtk.STOCK_OPEN, Gtk.ResponseType.OK
-        )
-        dialog.set_current_folder(os.path.expanduser("~"))
-        filter_audio = Gtk.FileFilter()
-        filter_audio.set_name("Audio files")
-        filter_audio.add_mime_type("audio/mpeg")
-        dialog.add_filter(filter_audio)
+        # Set colors
+        palette = self.palette()
+        palette.setColor(QPalette.Window, QColor("#7733EE"))
+        palette.setColor(QPalette.Button, QColor("#7777EE"))
+        palette.setColor(QPalette.ButtonText, QColor("#FFFFFF"))
+        palette.setColor(QPalette.Highlight, QColor("#DD33DD"))
+        palette.setColor(QPalette.HighlightedText, QColor("#FFFFFF"))
+        self.setPalette(palette)
 
-        response = dialog.run()
-        if response == Gtk.ResponseType.OK:
-            self.file_path = dialog.get_filename()
-            name = os.path.basename(self.file_path)
-            self.file_label.set_label("Song: " + name)
+    def browse_folder(self):
+        folder_path = QFileDialog.getExistingDirectory(self, "Select Folder")
+        if folder_path:
+            self.song_picker.setText(folder_path)
+            self.load_songs(folder_path)
 
-        dialog.destroy()
+    def load_songs(self, folder_path):
+        self.song_list_widget.clear()
+        files = QDir(folder_path).entryList(["*.mp3"], QDir.Files)
+        for file in files:
+            song_path = os.path.join(folder_path, file)
+            name = song_path.split("/")[-1]
+            item = QListWidgetItem(name)
+            item.setData(Qt.UserRole, song_path)
+            self.song_list_widget.addItem(item)
 
-    def play(self, widget):
-        if self.file_path:
-            pygame.mixer.music.load(self.file_path)
-            pygame.mixer.music.play()
+    def select_song(self, item):
+        self.file_path = item.data(Qt.UserRole)
+        self.file_label.setText("Song: " + item.text())
 
-    def pause(self, widget):
-        pygame.mixer.music.pause()
+    def play(self):
+        if self.paused:
+            pygame.mixer.music.unpause()
+            self.paused = False
+        else:
+            if self.file_path:
+                pygame.mixer.music.load(self.file_path)
+                pygame.mixer.music.play()
 
-    def stop(self, widget):
+    def pause(self):
+        if pygame.mixer.music.get_busy() and not self.paused:
+            self.paused_pos = pygame.mixer.music.get_pos()
+            pygame.mixer.music.pause()
+            self.paused = True
+
+    def stop(self):
         pygame.mixer.music.stop()
+        self.paused = False
 
-    def set_volume(self, widget):
-        value = self.volume_slider.get_value() / 100
-        pygame.mixer.music.set_volume(value)
+    def forward(self):
+        if pygame.mixer.music.get_busy() and not self.paused:
+            current_index = self.song_list_widget.currentRow()
+            next_index = current_index + 1
+            if next_index < self.song_list_widget.count():
+                next_item = self.song_list_widget.item(next_index)
+                self.song_list_widget.setCurrentItem(next_item)
+                self.file_path = next_item.data(Qt.UserRole)
+                self.file_label.setText("Song: " + next_item.text())
+                pygame.mixer.music.load(self.file_path)
+                pygame.mixer.music.play()
 
-    def on_delete_event(self, widget, event):
-        dialog = Gtk.MessageDialog(
-            parent=self,
-            flags=0,
-            message_type=Gtk.MessageType.QUESTION,
-            buttons=Gtk.ButtonsType.YES_NO,
-            text="Exit"
-        )
-        dialog.format_secondary_text("Are you sure you want to exit?")
-        response = dialog.run()
-        if response == Gtk.ResponseType.YES:
-            Gtk.main_quit()
-        dialog.destroy()
+    def back(self):
+        if pygame.mixer.music.get_busy() and not self.paused:
+            current_index = self.song_list_widget.currentRow()
+            prev_index = current_index - 1
+            if prev_index >= 0:
+                prev_item = self.song_list_widget.item(prev_index)
+                self.song_list_widget.setCurrentItem(prev_item)
+                self.file_path = prev_item.data(Qt.UserRole)
+                self.file_label.setText("Song: " + prev_item.text())
+                pygame.mixer.music.load(self.file_path)
+                pygame.mixer.music.play()
+    def set_volume(self, value):
+        pygame.mixer.music.set_volume(value / 100)
+
+    def closeEvent(self, event):
+        reply = QMessageBox.question(self, "Exit", "Are you sure you want to exit?", QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+        if reply == QMessageBox.Yes:
+            event.accept()
+        else:
+            event.ignore()
+
 
 if __name__ == "__main__":
-    style_provider = Gtk.CssProvider()
-    style_provider.load_from_data(b"""
-        button.play-button:hover {
-            background-color: #00DDAA;
-        }
-        button.pause-button:hover {
-            background-color: #BBDD00;
-        }
-        button.stop-button:hover {
-            background-color: #EE1100;
-        }
-    """)
-    Gtk.StyleContext.add_provider_for_screen(
-        Gdk.Screen.get_default(),
-        style_provider,
-        Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
-    )
+    app = QApplication(sys.argv)
+    app.setStyle(QStyleFactory.create("Fusion"))
 
     window = Audio()
-    window.connect("delete-event", Gtk.main_quit)
-    window.show_all()
-    Gtk.main()
+    window.show()
+
+    sys.exit(app.exec())
