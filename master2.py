@@ -5,7 +5,7 @@ import os
 import sys
 import platform
 import psutil
-from subprocess import Popen
+import subprocess
 import functools
 from PySide6.QtWidgets import QApplication, QMainWindow, QTabWidget, QVBoxLayout, QHBoxLayout, QLabel, QWidget, QPushButton, QGridLayout, QStyle, QStyleFactory, QDockWidget, QSizePolicy
 from PySide6.QtGui import QTextCursor
@@ -14,9 +14,9 @@ from Py_Programs.PONKYDOCK import PonkyPy
 from Py_Programs.PYPAD import Notes
 from Py_Programs.AUDIO_V3 import Audio
 from Py_Programs.HEX import ColorViewer as CoVi
-from Py_Programs.PLOT import PlotGUI
-from Py_Programs.PASS import PasswordGenerator
-from Py_Programs.ANYTOMP4 import VideoConv
+from Py_Programs.utility.PLOT import PlotGUI
+from Py_Programs.security.PASS import PasswordGenerator
+from Py_Programs.utility.ANYTOMP4 import VideoConv
 from Py_Programs.OCEAN import Waves
 
 
@@ -93,62 +93,62 @@ class Master:
         programs = [
             # START CATEGORIES ------------------------------------------|
             # Entertainment ---------------------------------------------|
-            ("DODGE.py", "Py_Programs", "Dodge the Dots", "Entertainment"),
-            ("MIDIPLAYER.py", "Py_Programs", "Midi Player", "Entertainment"),
-            ("AUDIO.py", "Py_Programs", "TTK Audio Player", "Entertainment"),
-            ("BROWSE.py", "Py_Programs", "Web Browser", "Entertainment"),
-            ("STAR.py", "Py_Programs", "Turtle Star", "Entertainment"),
-            ("VIDEO.py", "Py_Programs", "Video Player", "Entertainment"),
-            ("KEYS.py", "Py_Programs", "Music Visual", "Entertainment"),
-            ("WAVES.py", "Py_Programs", "Visualizer", "Entertainment"),
+            ("DODGE.py", "Py_Programs/entertainment", "Dodge the Dots", "Entertainment"),
+            ("MIDIPLAYER.py", "Py_Programs/entertainment", "Midi Player", "Entertainment"),
+            ("AUDIO.py", "Py_Programs/entertainment", "TTK Audio Player", "Entertainment"),
+            ("BROWSE.py", "Py_Programs/entertainment", "Web Browser", "Entertainment"),
+            ("STAR.py", "Py_Programs/entertainment", "Turtle Star", "Entertainment"),
+            ("VIDEO.py", "Py_Programs/entertainment", "Video Player", "Entertainment"),
+            ("KEYS.py", "Py_Programs/entertainment", "Music Visual", "Entertainment"),
+            ("WAVES.py", "Py_Programs/entertainment", "Visualizer", "Entertainment"),
             # Education -------------------------------------------|
-            ("JAP.py", "Py_Programs", "Japanese Flash", "Education"),
-            ("ABCs.py", "Py_Programs", "ABC Flashcards", "Education"),
-            ("COLORS.py", "Py_Programs", "Color Learn", "Education"),
-            ("SHAPES.py", "Py_Programs", "Shapes Learn", "Education"),
+            ("JAP.py", "Py_Programs/education", "Japanese Flash", "Education"),
+            ("ABCs.py", "Py_Programs/education", "ABC Flashcards", "Education"),
+            ("COLORS.py", "Py_Programs/education", "Color Learn", "Education"),
+            ("SHAPES.py", "Py_Programs/education", "Shapes Learn", "Education"),
             ("HEX.py", "Py_Programs", "Color/HEX View", "Education"),
-            ("scan.py", "Py_Programs", "Nmap GUI", "Education"),
-            ("test3.py", "Py_Programs", "Print TTK", "Education"),
+            ("scan.py", "Py_Programs/education", "Nmap GUI", "Education"),
+            ("test3.py", "Py_Programs/education", "Print TTK", "Education"),
             # Utility ---------------------------------------------|
-            ("AUDIO_V2.py", "Py_Programs", "PyQt Audio", "Utility"),
-            ("Calculator.py", "Py_Programs", "Calculator", "Utility"),
-            ("PONKY.py", "Py_Programs", "Ponky", "Utility"),
-            ("PONKY2.py", "Py_Programs", "Ponky V2", "Utility"),
-            ("PLOT.py", "Py_Programs", "Plot", "Utility"),
-            ("ANYTOMP4.py", "Py_Programs", "Any to Mp4", "Utility"),
-            ("IMAGE.py", "Py_Programs", "Image Viewer", "Utility"),
-            ("form.py", "Py_Programs", "Register Form", "Other"),
-            ("MILES.py", "Py_Programs", "Miles to Kilos", "Utility"),
-            ("Notepad.py", "Py_Programs", "Notepad", "Utility"),
+            ("AUDIO_V2.py", "Py_Programs/utility", "PyQt Audio", "Utility"),
+            ("Calculator.py", "Py_Programs/utility", "Calculator", "Utility"),
+            ("PONKY.py", "Py_Programs/utility", "Ponky", "Utility"),
+            ("PONKY2.py", "Py_Programs/utility", "Ponky V2", "Utility"),
+            ("PLOT.py", "Py_Programs/utility", "Plot", "Utility"),
+            ("ANYTOMP4.py", "Py_Programs/utility", "Any to Mp4", "Utility"),
+            ("IMAGE.py", "Py_Programs/utility", "Image Viewer", "Utility"),
+            ("form.py", "Py_Programs/utility", "Register Form", "Other"),
+            ("MILES.py", "Py_Programs/utility", "Miles to Kilos", "Utility"),
+            ("Notepad.py", "Py_Programs/utility", "Notepad", "Utility"),
             ("PYPAD.py", "Py_Programs", "PyPad", "Utility"),
-            ("PATTERN_GEN.py", "Py_Programs", "Pattern Generator", "Utility"),
-            ("PYTOEXE.py", "Py_Programs", "Py to EXE", "Utility"),
-            ("SCRap.py", "Py_Programs", "Web Scraper", "Utility"),
-            ("SCRAP_V2.py", "Py_Programs", "Web ScrapV2", "Utility"),
-            ("SCRAPE3.py", "Py_Programs", "Web ScrapV3", "Utility"),
-            ("web.py", "Py_Programs", "Simple HTML View", "Utility"),
-            ("QR_GEN.py", "Py_Programs", "QR Code Gen", "Utility"),
+            ("PATTERN_GEN.py", "Py_Programs/utility", "Pattern Generator", "Utility"),
+            ("PYTOEXE.py", "Py_Programs/utility", "Py to EXE", "Utility"),
+            ("SCRap.py", "Py_Programs/utility", "Web Scraper", "Utility"),
+            ("SCRAP_V2.py", "Py_Programs/utility", "Web ScrapV2", "Utility"),
+            ("SCRAPE3.py", "Py_Programs/utility", "Web ScrapV3", "Utility"),
+            ("web.py", "Py_Programs/utility", "Simple HTML View", "Utility"),
+            ("QR_GEN.py", "Py_Programs/utility", "QR Code Gen", "Utility"),
             # Security -----------------------------------------|
-            ("HIDE.py", "Py_Programs", "Steg Hide", "Security"),
-            ("SEEK.py", "Py_Programs", "Steg Seek", "Security"),
-            ("HASH.py", "Py_Programs", "Hash Cracker", "Security"),
-            ("HIDE_V2.py", "Py_Programs", "Steg Hide V2", "Security"),
-            ("SEEK_V2.py", "Py_Programs", "Steg Seek V2", "Security"),
-            ("META.py", "Py_Programs", "Image Metadata", "Security"),
-            ("PORT.py", "Py_Programs", "Py_PortScanner", "Security"),
-            ("PASS.py", "Py_Programs", "Pass Generator", "Security"),
-            ("scan_V2.py", "Py_Programs", "Qt Nmap GUI", "Security"),
-            ("LOGS.py", "Py_Programs", "Key-Logger", "Security"),
-            ("LOGS_V2.py", "Py_Programs", "Key-Log V2", "Security"),
+            ("HIDE.py", "Py_Programs/security", "Steg Hide", "Security"),
+            ("SEEK.py", "Py_Programs/security", "Steg Seek", "Security"),
+            ("HASH.py", "Py_Programs/security", "Hash Cracker", "Security"),
+            ("HIDE_V2.py", "Py_Programs/security", "Steg Hide V2", "Security"),
+            ("SEEK_V2.py", "Py_Programs/security", "Steg Seek V2", "Security"),
+            ("META.py", "Py_Programs/security", "Image Metadata", "Security"),
+            ("PORT.py", "Py_Programs/security", "Py_PortScanner", "Security"),
+            ("PASS.py", "Py_Programs/security", "Pass Generator", "Security"),
+            ("scan_V2.py", "Py_Programs/security", "Qt Nmap GUI", "Security"),
+            ("LOGS.py", "Py_Programs/security", "Key-Logger", "Security"),
+            ("LOGS_V2.py", "Py_Programs/security", "Key-Log V2", "Security"),
             # Other ------------------------------------------------|
-            ("installer.py", "Py_Programs", "Fake Install", "Other"),
-            ("CSVMERGE.py", "Py_Programs", "Merge CSVs", "Other"),
-            ("CSVPLOT.py", "Py_Programs", "CSV Plot", "Other"),
-            ("popup.py", "Py_Programs", "Popup Test", "Other"),
-            ("test.py", "Py_Programs", "Ttk Test", "Other"),
-            ("test2.py", "Py_Programs", "Ttk Test 2", "Other"),
-            ("PySide6Test.py", "Py_Programs", "PySide6 Test", "Other"),
-            ("pyside6test2.py", "Py_Programs", "Print PySide6", "Other")
+            ("installer.py", "Py_Programs/other", "Fake Install", "Other"),
+            ("CSVMERGE.py", "Py_Programs/other", "Merge CSVs", "Other"),
+            ("CSVPLOT.py", "Py_Programs/other", "CSV Plot", "Other"),
+            ("popup.py", "Py_Programs/other", "Popup Test", "Other"),
+            ("test.py", "Py_Programs/other", "Ttk Test", "Other"),
+            ("test2.py", "Py_Programs/other", "Ttk Test 2", "Other"),
+            ("PySide6Test.py", "Py_Programs/other", "PySide6 Test", "Other"),
+            ("pyside6test2.py", "Py_Programs/other", "Print PySide6", "Other")
             # END CATEGORIES --------------------------------------|
         ]
 
@@ -215,6 +215,7 @@ class Master:
 
         dock_widget = QDockWidget("Visualizer", self.window)
         dock_widget.setFeatures(QDockWidget.DockWidgetFloatable)
+        dock_widget.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Expanding)
 
         custom_widget = QWidget(dock_widget)
         layout = QVBoxLayout(custom_widget)
@@ -240,6 +241,7 @@ class Master:
 
         bot_dock_widget = QDockWidget("Other", self.window)
         bot_dock_widget.setFeatures(QDockWidget.DockWidgetFloatable)
+        bot_dock_widget.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Expanding)
 
         bot_widget = QWidget(bot_dock_widget)
         bot_layout = QHBoxLayout(bot_widget)
