@@ -1,11 +1,16 @@
 ### Py_Programs
 ___
+### General Purpose Software Swiss Army Knife written in Python
+___
+#### "its like a general purpose, software swiss army knife"
+##### [Sbmsr](https://github.com/sbmsr)
+___
 ### master2.py
 ___
 ##### Gui for Launching my Py_Programs
 ![alt text](https://github.com/AK1R4S4T0H/Py_Programs/blob/main/images/master7.png?raw=true)
 ___
-##### Below is a Table With a List of the Programs insdie the Launcher, Based on Category of the Program, The Program itself, the Path to the program in the repo, and a Short Description of the Programs
+##### Below is a Table With a List of the Programs inside the Launcher, Based on Category of the Program, The Program itself, the Path to the program in the repo, and a Short Description of the Programs
 ___
 ##### Below the Chart is a list of carious programs along with several screenshots of the programs.
 ___

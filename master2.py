@@ -15,7 +15,7 @@ from PySide6.QtCore import Slot, QFile, QProcess, Qt
 # from Py_Programs import *
 from Py_Programs.PONKYDOCK import PonkyPy
 from Py_Programs.PYPAD import Notes
-from Py_ProgramsAUDIO_V3 import Audio
+from Py_Programs.AUDIO_V3 import Audio
 from Py_Programs.HEX import ColorViewer as CoVi
 from Py_Programs.utility.PLOT import PlotGUI
 from Py_Programs.security.PASS import PasswordGenerator
