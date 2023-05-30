@@ -7,7 +7,7 @@ ___
 ___
 ### master2.py
 ##### PySide6 GUI Program Launcher for a Lot of my Py Programs, with Tabs for each Program type
-![alt text](https://github.com/AK1R4S4T0H/Py_Programs/blob/main/images/master3.png?raw=true)
+![alt text](https://github.com/AK1R4S4T0H/Py_Programs/blob/main/images/master7.png?raw=true)
 ___
 ### ABC's.py
 ##### ABCs and 1-20, flash card like thing for learning
