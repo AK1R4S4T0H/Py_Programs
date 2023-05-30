@@ -10,6 +10,7 @@ import functools
 from PySide6.QtWidgets import QApplication, QMainWindow, QTabWidget, QVBoxLayout, QHBoxLayout, QLabel, QWidget, QPushButton, QGridLayout, QStyle, QStyleFactory, QDockWidget, QSizePolicy
 from PySide6.QtGui import QTextCursor
 from PySide6.QtCore import Slot, QFile, QProcess, Qt
+from Py_Programs import *
 from Py_Programs.PONKYDOCK import PonkyPy
 from Py_Programs.PYPAD import Notes
 from Py_Programs.AUDIO_V3 import Audio
