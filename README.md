@@ -20,6 +20,8 @@ __
 ### Feel Free to Leave Feedback on ANYTHING
 ### Use SECURITY TOOLS at your OWN RISK, Be Safe and Legal with what security tools are inside Py_Programs, DO NOT USE THEM FOR ANYTHING MALICIOUS IF YOU DO I AM NOT AT FAULT FOR YOUR ACTIONS
 ___
+### Py_Programs has a GNU license so remember, do what you want, but FREE SOFTWARE should always be FREE
+___
 
 | Category     | Program                       | Path                          | Description         |
 |--------------|-------------------------------|-------------------------------|---------------------|
