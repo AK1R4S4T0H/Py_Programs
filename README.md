@@ -12,7 +12,7 @@ ___
 ___
 ##### Below is a Table With a List of the Programs inside the Launcher, Based on Category of the Program, The Program itself, the Path to the program in the repo, and a Short Description of the Programs
 ___
-##### Below the Chart is a list of carious programs along with several screenshots of the programs.
+##### Below the Chart is a list of various programs along with several screenshots of the programs.
 ___
 ##### These are always being updated because It is Something I Love and have put a lot of time into, All of my Python Learning so far is this and all its Associated Programs, as well as my Other Repositories.
 __
