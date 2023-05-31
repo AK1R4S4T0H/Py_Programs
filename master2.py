@@ -12,7 +12,7 @@ from PySide6.QtGui import QTextCursor
 from PySide6.QtCore import Slot, QFile, QProcess, Qt
 # ---------------------------------------|
 # My Py_Programs Imports for the Docks
-# from Py_Programs import *
+from Py_Programs import *
 from Py_Programs.PONKYDOCK import PonkyPy
 from Py_Programs.PYPAD import Notes
 from Py_Programs.AUDIO_V3 import Audio
@@ -201,12 +201,12 @@ class Master:
         pypad = Notes()
         pypad.setMinimumHeight(200)
         pypad.setMaximumHeight(200)
-        pypad.setMinimumWidth(200)
+        pypad.setMinimumWidth(150)
         left_layout.addWidget(pypad)
 
         ponky = PonkyPy()
-        ponky.setMaximumHeight(300)
-        ponky.setMaximumWidth(250)
+        ponky.setMaximumHeight(330)
+        ponky.setMinimumWidth(150)
         ponky.setMinimumHeight(300)
         left_layout.addWidget(ponky)
 

@@ -7,8 +7,8 @@ import tkinter as tk
 import tkinter.ttk as ttk
 import random
 
-WIDTH = 500
-HEIGHT = 500
+WIDTH = 200
+HEIGHT = 150
 
 def generate_and_draw(canvas):
     pattern = []

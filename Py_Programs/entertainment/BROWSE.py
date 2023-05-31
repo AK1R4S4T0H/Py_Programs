@@ -1,5 +1,6 @@
 import gi
 gi.require_version('Gtk', '3.0')
+gi.require_version('WebKit2', '4.0')
 from gi.repository import Gtk, WebKit2, Gdk
 
 class BrowserWindow(Gtk.Window):
@@ -126,7 +127,7 @@ class BrowserWindow(Gtk.Window):
         
 
         # Connect the title changed signal
-        webview.connect("notify::title", self.on_title_changed)
+        webview.connect("load-changed", self.on_title_changed)
 
     def create_tab(self):
         # Create a new web view for the tab
@@ -172,7 +173,7 @@ class BrowserWindow(Gtk.Window):
         self.notebook.insert_page(vbox, Gtk.Label(label="New Tab"), +1)
 
         # Connect the title changed signal
-        webview.connect("notify::title", self.on_title_changed)
+        webview.connect("load-changed", self.on_title_changed)
 
 
     def on_tab_switched(self, notebook, current_page, _):
@@ -218,7 +219,7 @@ class BrowserWindow(Gtk.Window):
         url = entry.get_text()
         webview.load_uri(url)
 
-    def on_title_changed(self, webview, gparam):
+    def on_title_changed(self, webview, event):
         # Get the active tab's label and update it with the website title
         page_num = self.notebook.get_current_page()
         label = self.notebook.get_tab_label(self.notebook.get_nth_page(page_num))
