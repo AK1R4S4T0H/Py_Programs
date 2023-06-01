@@ -105,8 +105,8 @@ class Master:
             ("VIDEO.py", "Py_Programs/entertainment", "Video Player", "Entertainment"),
             ("KEYS.py", "Py_Programs/entertainment", "Music Visual", "Entertainment"),
             ("WAVES.py", "Py_Programs/entertainment", "Visualizer", "Entertainment"),
-            ("AUDIO_V4.py", "Py_Programs", "Audio & Visual", "Entertainment"),
-            ("AUDIO_V5.py", "Py_Programs", "Audio V5", "Entertainment"),
+            ("AUDIO_V4.py", "Py_Programs/entertainment", "Audio & Visual", "Entertainment"),
+            ("AUDIO_V5.py", "Py_Programs/entertainment", "Audio V5", "Entertainment"),
             # Education -------------------------------------------|
             ("JAP.py", "Py_Programs/education", "Japanese Flash", "Education"),
             ("ABCs.py", "Py_Programs/education", "ABC Flashcards", "Education"),
