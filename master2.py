@@ -106,11 +106,13 @@ class Master:
             ("KEYS.py", "Py_Programs/entertainment", "Music Visual", "Entertainment"),
             ("WAVES.py", "Py_Programs/entertainment", "Visualizer", "Entertainment"),
             ("AUDIO_V4.py", "Py_Programs", "Audio & Visual", "Entertainment"),
+            ("AUDIO_V5.py", "Py_Programs", "Audio V5", "Entertainment"),
             # Education -------------------------------------------|
             ("JAP.py", "Py_Programs/education", "Japanese Flash", "Education"),
             ("ABCs.py", "Py_Programs/education", "ABC Flashcards", "Education"),
             ("COLORS.py", "Py_Programs/education", "Color Learn", "Education"),
             ("SHAPES.py", "Py_Programs/education", "Shapes Learn", "Education"),
+            ("OSCIL.py", "Py_Programs/education", "Oscilloscope", "Education"),
             ("HEX.py", "Py_Programs", "Color/HEX View", "Education"),
             ("scan.py", "Py_Programs/education", "Nmap GUI", "Education"),
             ("test3.py", "Py_Programs/education", "Print TTK", "Education"),
