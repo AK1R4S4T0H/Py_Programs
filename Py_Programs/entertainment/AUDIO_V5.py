@@ -9,7 +9,7 @@ from PySide6.QtGui import QIcon, QColor, QPalette, QFont
 from PySide6.QtWidgets import (
     QApplication, QMainWindow, QWidget, QVBoxLayout, QLabel,
     QPushButton, QFileDialog, QStyleFactory, QSlider,
-    QMessageBox, QGridLayout, QLineEdit, QListWidget, QListWidgetItem
+    QMessageBox, QGridLayout, QLineEdit, QListWidget, QListWidgetItem,QProgressDialog
 )
 
 os.environ['QT_QPA_PLATFORM'] = 'xcb'
@@ -114,6 +114,7 @@ class Audio(QMainWindow):
         self.position_slider.setMinimum(0)
         self.position_slider.setTickInterval(1)
         self.position_slider.setTickPosition(QSlider.TicksBelow)
+        
         self.position_slider.sliderMoved.connect(self.set_position)
 
         layout.addWidget(self.file_label, 0, 0, 1, 3)
@@ -169,7 +170,18 @@ class Audio(QMainWindow):
         self.song_list_widget.clear()
         self.song_durations = {}
         files = QDir(folder_path).entryList(["*.mp3"], QDir.Files)
-        for file in files:
+        num_files = len(files)
+
+        progress_dialog = QProgressDialog("Loading Songs...", "Cancel", 0, num_files, self)
+        progress_dialog.setWindowModality(Qt.WindowModal)
+        progress_dialog.setCancelButton(None)
+        progress_dialog.setAutoClose(False)
+        progress_dialog.setAutoReset(False)
+
+        for i, file in enumerate(files):
+            if progress_dialog.wasCanceled():
+                break
+
             song_path = os.path.join(folder_path, file)
             name = song_path.split("/")[-1]
             item = QListWidgetItem(name)
@@ -182,6 +194,14 @@ class Audio(QMainWindow):
             seconds = duration % 60
             duration_str = f"{minutes:02d}:{seconds:02d}"
             self.song_durations[song_path] = duration_str
+
+            progress_dialog.setLabelText(f"Loading {i+1}/{num_files} songs...")
+            progress_dialog.setValue(i+1)
+
+            # Allow the event loop to process events and update the progress dialog
+            QApplication.processEvents()
+
+        progress_dialog.close()
 
     def select_song(self, item):
         self.file_path = item.data(Qt.UserRole)
@@ -246,8 +266,14 @@ class Audio(QMainWindow):
         if pygame.mixer.music.get_busy() and not self.paused:
             current_pos = pygame.mixer.music.get_pos() // 1000
             total_pos = self.song_durations.get(self.file_path, "00:00")
-            self.timer_label.setText(f"{self.format_time(current_pos)} / {total_pos}")
-            self.position_slider.setValue(current_pos * 1000)
+            
+            if not self.position_slider.isSliderDown():
+                self.position_slider.setValue(current_pos * 1000)
+                self.timer_label.setText(f"{self.format_time(current_pos)} / {total_pos}")
+
+        self.timer_label.setText(f"{self.format_time(current_pos)} / {total_pos}")
+        self.position_slider.setValue(current_pos * 1000)
+
 
     def format_time(self, duration):
         minutes = duration // 60
@@ -257,9 +283,16 @@ class Audio(QMainWindow):
     def set_position(self, value):
         if pygame.mixer.music.get_busy() and not self.paused:
             pygame.mixer.music.pause()
-            pygame.mixer.music.set_pos(value)
+            pygame.mixer.music.set_pos(value / 1000)
             pygame.mixer.music.unpause()
 
+            current_pos = int(value / 1000)
+            total_pos = self.song_durations.get(self.file_path, "00:00")
+            self.timer_label.setText(f"{self.format_time(current_pos)} / {total_pos}")
+            
+            self.position_slider.setValue(value)
+
+    
     def closeEvent(self, event):
         reply = QMessageBox.question(
             self,

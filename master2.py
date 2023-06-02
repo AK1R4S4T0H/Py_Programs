@@ -7,7 +7,7 @@ import platform
 import psutil
 import subprocess
 import functools
-from PySide6.QtWidgets import QApplication, QMainWindow, QTabWidget, QVBoxLayout, QHBoxLayout, QLabel, QWidget, QPushButton, QGridLayout, QStyle, QStyleFactory, QDockWidget, QSizePolicy
+from PySide6.QtWidgets import QApplication,QMessageBox, QMainWindow, QTabWidget, QVBoxLayout, QHBoxLayout, QLabel, QWidget, QPushButton, QGridLayout, QStyle, QStyleFactory, QDockWidget, QSizePolicy
 from PySide6.QtGui import QTextCursor
 from PySide6.QtCore import Slot, QFile, QProcess, Qt
 # ---------------------------------------|
@@ -298,7 +298,18 @@ class Master:
         os.chdir(initial_directory)
 
     def close_application(self):
-        self.app.quit()
+        reply = QMessageBox.question(
+            self.window,
+            "Exit",
+            "Are you sure you want to exit?",
+            QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+
+        if reply == QMessageBox.No:
+            self.app.quit()
+        else:
+            pass
+        
+        
 
     def run(self):
         sys.setrecursionlimit(self.recursion_limit)

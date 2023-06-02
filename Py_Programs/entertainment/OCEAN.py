@@ -141,7 +141,7 @@ class Waves(QObject):
         def __init__(self):
             super().__init__()
 
-            self.setWindowTitle("Waveform Visualization")
+            self.setWindowTitle("OCEAN")
 
             self.waveform_widget = Waves.WaveformWidget()
             layout = QVBoxLayout()

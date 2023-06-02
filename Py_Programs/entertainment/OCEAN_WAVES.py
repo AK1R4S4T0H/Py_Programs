@@ -120,7 +120,7 @@ class MainWindow(QMainWindow):
         settings_dock.widget().settingsChanged.connect(self.update_settings)
 
         self.setWindowTitle("OCEAN.Waves")
-        self.setGeometry(100, 100, 800, 600)
+        self.setGeometry(100, 100, 770, 500)
 
     def update_settings(self):
         print("Settings Updated!")
