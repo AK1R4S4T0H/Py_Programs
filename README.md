@@ -5,6 +5,8 @@ ___
 #### "its like a general purpose, software swiss army knife"
 ##### [Sbmsr](https://github.com/sbmsr)
 ___
+### Py_Programs, and all other works contained in this Repository are Licensed under the GNU 3.0 License
+___
 ### master2.py
 ___
 ##### Gui for Launching my Py_Programs
