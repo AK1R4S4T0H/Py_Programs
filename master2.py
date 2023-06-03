@@ -1,6 +1,7 @@
 """ Created by: AK1R4S4T0H
 """
 # master launcher for the Py_Programs PySide6 Version
+# Py_Programs and all Works related are Licensed under the GNU 3.0 license 
 import os
 import sys
 import platform
