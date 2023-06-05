@@ -1,3 +1,4 @@
+import os
 import sys
 import numpy as np
 import sounddevice as sd
@@ -6,7 +7,7 @@ from PySide6.QtCore import Qt, QThread, Signal, QPointF, QObject
 from PySide6.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout
 from PySide6.QtGui import QPainter, QColor, QPen, QPaintEvent
 
-
+os.environ['QT_QPA_PLATFORM'] = 'xcb'
 class Waves(QObject):
     class WaveformWidget(QWidget):
         # Audio settings

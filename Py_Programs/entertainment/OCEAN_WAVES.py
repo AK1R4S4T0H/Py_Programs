@@ -1,10 +1,12 @@
 """ Created by: AK1R4S4T0H
 """
+import os
 from PySide6.QtCore import Qt, Signal
 from PySide6.QtWidgets import QDialog, QDockWidget, QLabel, QSpinBox, QPushButton, QVBoxLayout, QApplication, QMainWindow, QWidget
 from OCEAN import Waves
 import numpy as np
 
+os.environ['QT_QPA_PLATFORM'] = 'xcb'
 class SettingsDialog(QDialog):
     settingsChanged = Signal()
 
@@ -124,6 +126,7 @@ class MainWindow(QMainWindow):
 
     def update_settings(self):
         print("Settings Updated!")
+        print("")
 
 
 if __name__ == "__main__":
