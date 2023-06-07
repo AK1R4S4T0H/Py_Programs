@@ -12,7 +12,7 @@ class Waves(QObject):
         # Audio settings
         CHANNELS = 7
         SAMPLE_RATE = 44100
-        BLOCK_SIZE = 124
+        BLOCK_SIZE = 256
 
         # Visualization settings
         SCREEN_WIDTH = 600
