@@ -1,5 +1,4 @@
 beautifulsoup4==4.12.2
-functools==0.5
 matplotlib==3.7.1
 moviepy==1.0.3
 nltk==3.8.1
