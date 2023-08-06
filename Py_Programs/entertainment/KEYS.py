@@ -1,4 +1,4 @@
-# waveform visualizer for music, lags about 7 second behind
+
 """ Created by: AK1R4S4T0H
 """
 import numpy as np

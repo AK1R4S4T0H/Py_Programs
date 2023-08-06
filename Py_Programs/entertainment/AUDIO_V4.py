@@ -110,8 +110,8 @@ class Audio(QMainWindow):
         self.song_list_widget.itemClicked.connect(self.select_song)
 
         self.waves = Waves.WaveformWidget()
-        self.waves.SCREEN_WIDTH = 500
-        self.waves.SCREEN_HEIGHT = 200
+        self.waves.SCREEN_WIDTH = 1000
+        self.waves.SCREEN_HEIGHT = 400
 
         layout.addWidget(self.waves, 0, 0, 0, 0)
         layout.addWidget(self.file_label, 1, 0, 1, 3)
