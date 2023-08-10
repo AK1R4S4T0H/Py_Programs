@@ -20,7 +20,7 @@ BACKGROUND_COLOR = (0, 0, 0)
 NUM_WAVEFORMS = 7
 WAVEFORM_COLORS = [(255, 120, 0), (255, 200, 0), (0, 255, 100), (0, 150, 255), (0, 0, 255), (255, 0, 255), (255, 255, 255)]
 LINE_WIDTH = 2
-WAVEFORM_MOVEMENT = 9 # pronounced movement of the waveform
+WAVEFORM_MOVEMENT = 90 # pronounced movement of the waveform
 
 # Frequencies
 FREQUENCIES = [[60, 261.63], [262, 493.66], [494, 929.63], [930, 1449.23], [1450, 2292.00], [2293, 2640.00], [2641, 3193.88]]

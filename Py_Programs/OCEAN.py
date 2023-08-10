@@ -19,10 +19,10 @@ class Waves(QObject):
         SCREEN_WIDTH = 220
         SCREEN_HEIGHT = 200
         BACKGROUND_COLOR = (0, 0, 0)
-        NUM_WAVEFORMS = 7
+        NUM_WAVEFORMS = 4
         WAVEFORM_COLORS = [(255, 120, 0), (255, 200, 0), (0, 255, 100), (0, 150, 255), (0, 0, 255), (255, 0, 255),
                            (255, 255, 255)]
-        LINE_WIDTH = 2
+        LINE_WIDTH = 1
 
         # Frequencies
         FREQUENCIES = [[60, 261.63], [262, 493.66], [494, 929.63], [930, 1449.23], [1450, 2292.00], [2293, 2640.00],
