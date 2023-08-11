@@ -64,24 +64,24 @@ class ColorViewer(QWidget):
         # background color-changing
         self.background_timer = QTimer(self)
         self.background_timer.timeout.connect(self.change_background_color)
-        self.background_timer.start(1500)  # 1.5 seconds
+        self.background_timer.start(150)  # 1.5 seconds
 
     def change_background_color(self):
-        red = random.randint(0, 255)
-        green = random.randint(0, 255)
-        blue = random.randint(0, 255)
-
         # Set background
         palette = self.palette()
         palette.setColor(QPalette.Window, QColor(red, green, blue))
         self.setPalette(palette)
 
     def generate_random_color(self):
+        global red
+        global green
+        global blue
+        global rand_color
         red = random.randint(0, 255)
         green = random.randint(0, 255)
         blue = random.randint(0, 255)
 
-        self.set_color(red, green, blue)
+        rand_color = self.set_color(red, green, blue)
 
     def show_color(self):
         color_hex = self.color_input.text()
