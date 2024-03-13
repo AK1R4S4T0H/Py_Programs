@@ -22,28 +22,28 @@ class SettingsDialog(QDialog):
         self.sample_rate_spinbox.setRange(1, 100000)
         self.sample_rate_spinbox.setValue(Waves.WaveformWidget.SAMPLE_RATE)
 
-        # self.block_size_spinbox = QSpinBox()
-        # self.block_size_spinbox.setRange(1, 4096)
-        # self.block_size_spinbox.setValue(Waves.WaveformWidget.BLOCK_SIZE)
+        self.block_size_spinbox = QSpinBox()
+        self.block_size_spinbox.setRange(1, 40096)
+        self.block_size_spinbox.setValue(Waves.WaveformWidget.BLOCK_SIZE)
 
         self.num_waveforms_spinbox = QSpinBox()
         self.num_waveforms_spinbox.setRange(1, 20)
         self.num_waveforms_spinbox.setValue(Waves.WaveformWidget.NUM_WAVEFORMS)
 
         self.line_width_spinbox = QSpinBox()
-        self.line_width_spinbox.setRange(1, 10)
+        self.line_width_spinbox.setRange(1, 50)
         self.line_width_spinbox.setValue(Waves.WaveformWidget.LINE_WIDTH)
 
         self.low_freq_spinbox = QSpinBox()
-        self.low_freq_spinbox.setRange(1, 10000)
+        self.low_freq_spinbox.setRange(1, 99999)
         self.low_freq_spinbox.setValue(Waves.WaveformWidget.LOW_FREQ)
 
         self.high_freq_spinbox = QSpinBox()
-        self.high_freq_spinbox.setRange(1, 10000)
+        self.high_freq_spinbox.setRange(1, 99999)
         self.high_freq_spinbox.setValue(Waves.WaveformWidget.HIGH_FREQ)
 
         self.num_freq_bins_spinbox = QSpinBox()
-        self.num_freq_bins_spinbox.setRange(1, 10000)
+        self.num_freq_bins_spinbox.setRange(1, 99999)
         self.num_freq_bins_spinbox.setValue(Waves.WaveformWidget.NUM_FREQ_BINS)
 
         self.save_button = QPushButton("Update")
@@ -54,8 +54,8 @@ class SettingsDialog(QDialog):
         layout.addWidget(self.channels_spinbox)
         layout.addWidget(QLabel("Sample Rate:"))
         layout.addWidget(self.sample_rate_spinbox)
-        # layout.addWidget(QLabel("Block Size:"))
-        # layout.addWidget(self.block_size_spinbox)
+        layout.addWidget(QLabel("Block Size:"))
+        layout.addWidget(self.block_size_spinbox)
         layout.addWidget(QLabel("Number of Waveforms:"))
         layout.addWidget(self.num_waveforms_spinbox)
         layout.addWidget(QLabel("Line Width:"))
@@ -73,7 +73,7 @@ class SettingsDialog(QDialog):
     def save_settings(self):
         channels = self.channels_spinbox.value()
         sample_rate = self.sample_rate_spinbox.value()
-        # block_size = self.block_size_spinbox.value()
+        block_size = self.block_size_spinbox.value()
         num_waveforms = self.num_waveforms_spinbox.value()
         line_width = self.line_width_spinbox.value()
         low_freq = self.low_freq_spinbox.value()
@@ -82,7 +82,7 @@ class SettingsDialog(QDialog):
 
         Waves.WaveformWidget.CHANNELS = channels
         Waves.WaveformWidget.SAMPLE_RATE = sample_rate
-        # Waves.WaveformWidget.BLOCK_SIZE = block_size
+        Waves.WaveformWidget.BLOCK_SIZE = block_size
         Waves.WaveformWidget.NUM_WAVEFORMS = num_waveforms
         Waves.WaveformWidget.LINE_WIDTH = line_width
         Waves.WaveformWidget.LOW_FREQ = low_freq
@@ -122,7 +122,7 @@ class MainWindow(QMainWindow):
         settings_dock.widget().settingsChanged.connect(self.update_settings)
 
         self.setWindowTitle("OCEAN.Waves")
-        self.setGeometry(100, 100, 770, 500)
+        self.setGeometry(100, 100, 970, 700)
 
     def update_settings(self):
         print("Settings Updated!")

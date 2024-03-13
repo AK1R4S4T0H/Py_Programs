@@ -112,15 +112,4 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     window = MainWindow()
     window.show()
-
-    while window.centralWidget().is_running:
-        window.centralWidget().update_oscilloscope()
-        for event in pygame.event.get():
-            if event.type == QUIT:
-                window.close()
-            elif event.type == KEYDOWN and event.key == K_ESCAPE:
-                window.close()
-
-        window.centralWidget().clock.tick(60)
-
     sys.exit(app.exec())

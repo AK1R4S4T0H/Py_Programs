@@ -40,7 +40,7 @@ def butt_add():
     global f_num
     f_num = float(fi_num)
     e.delete(-1100000, 11100000)
-    e.insert(0, '+ ')
+    e.insert(0,' + ')
     return
 # Subtract button
 def butt_sub():
