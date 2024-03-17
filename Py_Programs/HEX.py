@@ -61,16 +61,6 @@ class ColorViewer(QWidget):
 
         self.setLayout(layout)
 
-        # background color-changing
-        self.background_timer = QTimer(self)
-        self.background_timer.timeout.connect(self.change_background_color)
-        self.background_timer.start(150)  # 1.5 seconds
-
-    def change_background_color(self):
-        # Set background
-        palette = self.palette()
-        palette.setColor(QPalette.Window, QColor(red, green, blue))
-        self.setPalette(palette)
 
     def generate_random_color(self):
         global red
