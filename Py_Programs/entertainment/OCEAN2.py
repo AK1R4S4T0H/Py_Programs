@@ -1,4 +1,3 @@
-import os
 import sys
 import numpy as np
 import sounddevice as sd
@@ -7,13 +6,13 @@ from PySide6.QtCore import Qt, QThread, Signal, QPointF, QObject
 from PySide6.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout
 from PySide6.QtGui import QPainter, QColor, QPen, QPaintEvent
 
-os.environ['QT_QPA_PLATFORM'] = 'xcb'
+
 class Waves(QObject):
     class WaveformWidget(QWidget):
         # Audio settings
         CHANNELS = 7
         SAMPLE_RATE = 44100
-        BLOCK_SIZE = 512
+        BLOCK_SIZE = 256
 
         # Visualization settings
         SCREEN_WIDTH = 300
@@ -23,10 +22,28 @@ class Waves(QObject):
         WAVEFORM_COLORS = [(255, 120, 0), (255, 200, 0), (0, 255, 100), (0, 150, 255), (0, 0, 255), (255, 0, 255),
                            (255, 255, 255)]
         LINE_WIDTH = 1
+        WAVEFORM_COLORS = [   
+            (0, 102, 255),    # Royal Blue
+            (0, 255, 0),    # Green
+            (255, 87, 34),    # Deep Orange
+            (255, 186, 168),  # Pale Pink
+            (240, 128, 128),  # Light Coral
+            (214, 103, 89),   # Terracotta
+            (0, 102, 255),    # Royal Blue
+            ]
 
-        # Frequencies
-        FREQUENCIES = [[60, 261.63], [262, 493.66], [494, 929.63], [930, 1449.23], [1450, 2292.00], [2293, 2640.00],
-                       [2641, 3193.88]]
+        WAVEFORM_COLORS2 = [(255, 255, 255),
+            (255, 0, 255), (0, 0, 255), (0, 150, 255),
+            (0, 255, 100), (255, 200, 0), (255, 120, 0)]
+
+        WAVEFORM_COLORS3 = [    (255, 0, 0),      # Red
+            (255, 127, 0),    # Orange
+            (255, 255, 0),    # Yellow
+            (0, 255, 0),      # Green
+            (0, 128, 255),    # Blue
+            (75, 0, 130),     # Indigo
+            (148, 0, 211),    # Violet
+            ]
 
         # Frequency settings
         LOW_FREQ = 60
@@ -53,16 +70,17 @@ class Waves(QObject):
         def audio_capture_callback(self, indata, frames, time, status):
             audio_data = indata.mean(axis=1)
             audio_data = np.interp(np.linspace(0, len(audio_data) + 1 / 1, self.SCREEN_WIDTH),
-                                   np.arange(len(audio_data)), audio_data)
+                                np.arange(len(audio_data)), audio_data)
             scaled_data = audio_data * (self.SCREEN_HEIGHT / 1) + (self.SCREEN_HEIGHT / 20)
 
             waveforms = [scaled_data * (i + 1) / self.NUM_WAVEFORMS for i in range(self.NUM_WAVEFORMS)]
 
             waveform_height = self.SCREEN_HEIGHT / self.NUM_WAVEFORMS
 
-            self.waveforms = waveforms  # Store the waveforms as an instance variable
+            self.waveforms = waveforms  
 
             self.update()
+
 
         def paintEvent(self, event: QPaintEvent):
             painter = QPainter(self)
@@ -85,7 +103,7 @@ class Waves(QObject):
                 painter.drawPolyline(waveform_points)
 
                 y_offset = int(i * waveform_height / 300 + waveform_height // 300000)
-                scaled_waveform = waveform * (i + 15) / self.NUM_WAVEFORMS
+                scaled_waveform = waveform * (i + 65) / self.NUM_WAVEFORMS
                 freq_range = list(self.waveform_freq_ranges)[i]
 
                 waveform_points = [QPointF(x, y + y_offset) for x, y in enumerate(scaled_waveform)]
@@ -98,21 +116,28 @@ class Waves(QObject):
                 waveform_points = [QPointF(x, y + y_offset) for x, y in enumerate(scaled_waveform)]
                 painter.drawPolyline(waveform_points)
 
+                color = QColor(*self.WAVEFORM_COLORS2[i % len(self.WAVEFORM_COLORS2)])
+                painter.setPen(QPen(color, self.LINE_WIDTH))
+
+
                 y_offset = int(i * waveform_height / 300 + waveform_height // 300000)
                 scaled_waveform = waveform * (i + 75) / self.NUM_WAVEFORMS
                 freq_range = list(self.waveform_freq_ranges)[i]
 
                 waveform_points = [QPointF(x, y + y_offset) for x, y in enumerate(scaled_waveform)]
                 painter.drawPolyline(waveform_points)
-
+   
                 y_offset = int(i * waveform_height / 300 + waveform_height // 300000)
-                scaled_waveform = waveform * (i + 95) / self.NUM_WAVEFORMS
+                scaled_waveform = waveform * (i + 55) / self.NUM_WAVEFORMS
                 freq_range = list(self.waveform_freq_ranges)[i]
+
+                color = QColor(*self.WAVEFORM_COLORS3[i % len(self.WAVEFORM_COLORS3)])
+                painter.setPen(QPen(color, self.LINE_WIDTH))
 
                 waveform_points = [QPointF(x, y + y_offset) for x, y in enumerate(scaled_waveform)]
                 painter.drawPolyline(waveform_points)
 
-                y_offset = int(i * waveform_height + waveform_height // 300000)
+                y_offset = int(i * waveform_height / 300 + waveform_height // 300000)
                 scaled_waveform = waveform * (i + 25) / self.NUM_WAVEFORMS  # Adjust the scaling factor
 
                 waveform_points = [QPointF(x, y + y_offset) for x, y in enumerate(scaled_waveform)]
@@ -139,7 +164,7 @@ class Waves(QObject):
         def __init__(self):
             super().__init__()
 
-            self.setWindowTitle("Waveform Visualization")
+            self.setWindowTitle("OCEAN")
 
             self.waveform_widget = Waves.WaveformWidget()
             layout = QVBoxLayout()
