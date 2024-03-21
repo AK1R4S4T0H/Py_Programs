@@ -141,7 +141,7 @@ class Audio(QMainWindow):
 
     def load_songs(self, folder_path):
         self.song_list_widget.clear()
-        files = QDir(folder_path).entryList(["*.mp3", "*.wav", "*.ogg"], QDir.Files)
+        files = QDir(folder_path).entryList(["*.mp3", "*.wav", "*.ogg", "*.mod", "*.xm", "*.it"], QDir.Files)
         for file in files:
             song_path = os.path.join(folder_path, file)
             name = song_path.split("/")[-1]
