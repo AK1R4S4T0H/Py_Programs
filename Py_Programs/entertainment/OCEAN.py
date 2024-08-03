@@ -16,10 +16,10 @@ class Waves(QObject):
         BLOCK_SIZE = 512
 
         # Visualization settings
-        SCREEN_WIDTH = 300
+        SCREEN_WIDTH = 1400
         SCREEN_HEIGHT = 200
         BACKGROUND_COLOR = (0, 0, 0)
-        NUM_WAVEFORMS = 7
+        NUM_WAVEFORMS = 3
         WAVEFORM_COLORS = [(255, 120, 0), (255, 200, 0), (0, 255, 100), (0, 150, 255), (0, 0, 255), (255, 0, 255),
                            (255, 255, 255)]
         LINE_WIDTH = 1
@@ -78,42 +78,19 @@ class Waves(QObject):
                 color = QColor(*self.WAVEFORM_COLORS[i % len(self.WAVEFORM_COLORS)])
                 painter.setPen(QPen(color, self.LINE_WIDTH))
 
-                y_offset = int(i * waveform_height + waveform_height // 300000)
-                scaled_waveform = waveform * (i + 15) / self.NUM_WAVEFORMS  # Adjust the scaling factor
 
-                waveform_points = [QPointF(x, y + y_offset) for x, y in enumerate(scaled_waveform)]
-                painter.drawPolyline(waveform_points)
 
-                y_offset = int(i * waveform_height / 300 + waveform_height // 300000)
-                scaled_waveform = waveform * (i + 15) / self.NUM_WAVEFORMS
-                freq_range = list(self.waveform_freq_ranges)[i]
-
-                waveform_points = [QPointF(x, y + y_offset) for x, y in enumerate(scaled_waveform)]
-                painter.drawPolyline(waveform_points)
-
-                y_offset = int(i * waveform_height / 300 + waveform_height // 300000)
+                y_offset = int(i * waveform_height / 300 + waveform_height // 40000)
                 scaled_waveform = waveform * (i + 45) / self.NUM_WAVEFORMS
                 freq_range = list(self.waveform_freq_ranges)[i]
 
                 waveform_points = [QPointF(x, y + y_offset) for x, y in enumerate(scaled_waveform)]
                 painter.drawPolyline(waveform_points)
 
-                y_offset = int(i * waveform_height / 300 + waveform_height // 300000)
+                y_offset = int(i * waveform_height / 300 + waveform_height // 30000)
                 scaled_waveform = waveform * (i + 75) / self.NUM_WAVEFORMS
                 freq_range = list(self.waveform_freq_ranges)[i]
 
-                waveform_points = [QPointF(x, y + y_offset) for x, y in enumerate(scaled_waveform)]
-                painter.drawPolyline(waveform_points)
-
-                y_offset = int(i * waveform_height / 300 + waveform_height // 300000)
-                scaled_waveform = waveform * (i + 95) / self.NUM_WAVEFORMS
-                freq_range = list(self.waveform_freq_ranges)[i]
-
-                waveform_points = [QPointF(x, y + y_offset) for x, y in enumerate(scaled_waveform)]
-                painter.drawPolyline(waveform_points)
-
-                y_offset = int(i * waveform_height + waveform_height // 300000)
-                scaled_waveform = waveform * (i + 25) / self.NUM_WAVEFORMS  # Adjust the scaling factor
 
                 waveform_points = [QPointF(x, y + y_offset) for x, y in enumerate(scaled_waveform)]
                 painter.drawPolyline(waveform_points)
