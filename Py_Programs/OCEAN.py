@@ -4,10 +4,11 @@ import numpy as np
 import sounddevice as sd
 import pygame
 from PySide6.QtCore import Qt, QThread, Signal, QPointF, QObject
-from PySide6.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout
+from PySide6.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QComboBox, QLabel
 from PySide6.QtGui import QPainter, QColor, QPen, QPaintEvent
 
 os.environ['QT_QPA_PLATFORM'] = 'xcb'
+
 class Waves(QObject):
     class WaveformWidget(QWidget):
         # Audio settings
@@ -16,20 +17,21 @@ class Waves(QObject):
         BLOCK_SIZE = 512
 
         # Visualization settings
-        SCREEN_WIDTH = 220
+        SCREEN_WIDTH = 400
         SCREEN_HEIGHT = 200
         BACKGROUND_COLOR = (0, 0, 0)
         NUM_WAVEFORMS = 7
         WAVEFORM_COLORS = [(255, 120, 0), (255, 200, 0), (0, 255, 100), (0, 150, 255), (0, 0, 255), (255, 0, 255),
                            (255, 255, 255)]
         LINE_WIDTH = 1
+        INTENSITY = 20
 
         # Frequencies
-        FREQUENCIES = [[60, 261.63], [262, 493.66], [494, 929.63], [930, 1449.23], [1450, 2292.00], [2293, 2640.00],
+        FREQUENCIES = [[20, 221.63], [222, 493.66], [494, 929.63], [930, 1449.23], [1450, 2292.00], [2293, 2640.00],
                        [2641, 3193.88]]
 
         # Frequency settings
-        LOW_FREQ = 60
+        LOW_FREQ = 20
         HIGH_FREQ = 3000
         NUM_FREQ_BINS = 1700
 
@@ -40,21 +42,22 @@ class Waves(QObject):
 
         pygame.init()
 
-        def __init__(self, parent=None):
+        def __init__(self, parent=None, input_device=None):
             super().__init__(parent)
 
             self.setMinimumSize(self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
 
+            self.device = input_device
             self.stream = sd.InputStream(callback=self.audio_capture_callback, channels=self.CHANNELS,
                                          samplerate=self.SAMPLE_RATE,
-                                         blocksize=self.BLOCK_SIZE, device="pulse")
+                                         blocksize=self.BLOCK_SIZE, device=self.device)
             self.stream.start()
 
         def audio_capture_callback(self, indata, frames, time, status):
             audio_data = indata.mean(axis=1)
             audio_data = np.interp(np.linspace(0, len(audio_data) + 1 / 1, self.SCREEN_WIDTH),
                                    np.arange(len(audio_data)), audio_data)
-            scaled_data = audio_data * (self.SCREEN_HEIGHT / 1) + (self.SCREEN_HEIGHT / 20)
+            scaled_data = audio_data * (self.SCREEN_HEIGHT / 1) + (self.SCREEN_HEIGHT / 5)
 
             waveforms = [scaled_data * (i + 1) / self.NUM_WAVEFORMS for i in range(self.NUM_WAVEFORMS)]
 
@@ -119,6 +122,7 @@ class Waves(QObject):
                 painter.drawPolyline(waveform_points)
 
 
+
         def closeEvent(self, event):
             self.stream.stop()
             self.stream.close()
@@ -142,7 +146,16 @@ class Waves(QObject):
             self.setWindowTitle("Waveform Visualization")
 
             self.waveform_widget = Waves.WaveformWidget()
+
+            # Audio device selection
+            self.device_label = QLabel("Select Audio Device:")
+            self.device_combo = QComboBox()
+            self.device_combo.addItems(self.get_audio_devices())
+            self.device_combo.currentIndexChanged.connect(self.device_changed)
+
             layout = QVBoxLayout()
+            layout.addWidget(self.device_label)
+            layout.addWidget(self.device_combo)
             layout.addWidget(self.waveform_widget)
 
             central_widget = QWidget()
@@ -154,6 +167,24 @@ class Waves(QObject):
             self.audio_capture_thread.capture_stopped.connect(self.capture_stopped)
             self.audio_capture_thread.start()
 
+        def get_audio_devices(self):
+            # Get a list of available audio input devices
+            devices = sd.query_devices()
+            input_devices = [device['name'] for device in devices if device['max_input_channels'] > 0]
+            return input_devices
+
+        def device_changed(self):
+            # When device selection changes, restart the stream with the selected device
+            selected_device = self.device_combo.currentText()
+            self.waveform_widget.stream.stop()
+            self.waveform_widget.stream.close()
+            self.waveform_widget.stream = sd.InputStream(callback=self.waveform_widget.audio_capture_callback,
+                                                        channels=self.waveform_widget.CHANNELS,
+                                                        samplerate=self.waveform_widget.SAMPLE_RATE,
+                                                        blocksize=self.waveform_widget.BLOCK_SIZE,
+                                                        device=selected_device)
+            self.waveform_widget.stream.start()
+
         def capture_started(self):
             print("Audio capture started.")
 
@@ -163,7 +194,6 @@ class Waves(QObject):
         def closeEvent(self, event):
             self.audio_capture_thread.quit()
             self.audio_capture_thread.wait()
-
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
