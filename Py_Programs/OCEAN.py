@@ -17,7 +17,7 @@ class Waves(QObject):
         BLOCK_SIZE = 512
 
         # Visualization settings
-        SCREEN_WIDTH = 400
+        SCREEN_WIDTH = 250
         SCREEN_HEIGHT = 200
         BACKGROUND_COLOR = (0, 0, 0)
         NUM_WAVEFORMS = 7
@@ -88,7 +88,7 @@ class Waves(QObject):
                 painter.drawPolyline(waveform_points)
 
                 y_offset = int(i * waveform_height / 300 + waveform_height // 300000)
-                scaled_waveform = waveform * (i + 15) / self.NUM_WAVEFORMS
+                scaled_waveform = waveform * (i + self.INTENSITY) / self.NUM_WAVEFORMS
                 freq_range = list(self.waveform_freq_ranges)[i]
 
                 waveform_points = [QPointF(x, y + y_offset) for x, y in enumerate(scaled_waveform)]
@@ -154,9 +154,10 @@ class Waves(QObject):
             self.device_combo.currentIndexChanged.connect(self.device_changed)
 
             layout = QVBoxLayout()
+            layout.addWidget(self.waveform_widget)
             layout.addWidget(self.device_label)
             layout.addWidget(self.device_combo)
-            layout.addWidget(self.waveform_widget)
+            
 
             central_widget = QWidget()
             central_widget.setLayout(layout)
